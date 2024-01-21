@@ -2,6 +2,7 @@
     "name": "qossmic/deptrac",
     "description": "Deptrac is a static code analysis tool that helps to enforce rules for dependencies between software layers.",
     "license": "MIT",
+    "keywords": ["dev", "static analysis"],
     "authors": [
         {
             "name": "Tim Glabisch"
