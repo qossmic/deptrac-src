@@ -3,15 +3,22 @@
     "description": "Deptrac is a static code analysis tool that helps to enforce rules for dependencies between software layers.",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^8.1",
         "ext-json": "*"
     },
+    "bin": [
+        "bin/deptrac",
+        "deptrac.phar"
+    ],
     "suggest": {
         "ext-dom": "For using the JUnit output formatter"
     },
     "autoload": {
         "psr-4": {
             "Qossmic\\Deptrac\\": "src/"
-        }
+        },
+        "files": [
+            "bootstrap.php"
+        ]
     }
 }
