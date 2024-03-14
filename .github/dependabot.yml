@@ -1,6 +1,5 @@
 # https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates#target-branch
 version: 2
-
 updates:
   - allow:
       - dependency-type: "direct"
@@ -13,14 +12,13 @@ updates:
       interval: weekly
     versioning-strategy: "lockfile-only"
     groups:
-      applies-to: version-updates
       symfony:
         dependency-type: "production"
-        pattern:
-          - "symfony/*"
+        patterns:
+        - "symfony/*"
       prod-dependencies:
         dependency-type: "production"
-        exclude-pattern:
-          - "symfony/*"
+        exclude-patterns:
+        - "symfony/*"
       dev-dependencies:
         dependency-type: "development"
