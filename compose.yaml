@@ -1,0 +1,18 @@
+services:
+  deptrac:
+    build:
+      dockerfile: docker/php/Dockerfile
+      context: ./
+    container_name: deptrac
+    tty: true
+    environment:
+      - PHP_IDE_CONFIG=serverName=deptrac
+    userns_mode: keep-id
+    volumes:
+      - ./:/var/www/deptrac:z
+      - composer-data:/var/www/deptrac/.composer
+    extra_hosts:
+      - host.docker.internal:${HOST_IP:-172.17.0.1}
+
+volumes:
+  composer-data:

@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: deptrac.phar
-          path: deptrac.phar
+          path: build/deptrac-build/deptrac.phar
 
   e2e-tests:
     name: "Run e2e tests on PHP ${{ matrix.php-version }}"
