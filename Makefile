@@ -1,4 +1,4 @@
-BOX_BIN := ./build/box.phar
+BOX_BIN := build/box.phar
 COMPOSER_BIN := composer
 COMPOSER_DEPENDENCY_ANALYSER_BIN := ./vendor/bin/composer-dependency-analyser
 PHP_BIN := php
@@ -19,7 +19,7 @@ build: tests ## Runs tests and creates the phar-binary
 
 .PHONY: composer-install
 composer-install: ## Installs dependencies
-	$(COMPOSER_BIN) install --no-interaction --no-progress --optimize-autoloader --ansi
+	$(COMPOSER_BIN) install --no-interaction --no-progress -a --ansi
 
 .PHONY: composer-dependency-analyser
 composer-dependency-analyser: ## Performs static code analysis using composer-dependency-analyser
@@ -27,15 +27,15 @@ composer-dependency-analyser: ## Performs static code analysis using composer-de
 
 .PHONY: deptrac
 deptrac: ## Analyses own architecture using the default config confile
-	./deptrac analyse -c deptrac.config.php --cache-file=./.cache/deptrac.cache --no-progress --ansi
+	bin/deptrac analyse -c deptrac.config.php --cache-file=./.cache/deptrac.cache --no-progress --ansi
 
 #generate-changelog: ## Generates a changelog file based on changes compared to remote origin
 #	gem install github_changelog_generator
 #	github_changelog_generator -u qossmic -p deptrac --no-issues --future-release <version>
 
 .PHONY: gpg
-gpg: ## Signs release with default GPG key "4AB1782E"
-	gpg --detach-sign --armor --default-key 41DDE07547459FAECFA17813B8F640134AB1782E --output deptrac.phar.asc deptrac.phar
+gpg: ## Signs release with local key
+	gpg --detach-sign --armor --local-user ${USER} --output deptrac.phar.asc deptrac.phar
 	gpg --verify deptrac.phar.asc deptrac.phar
 
 .PHONY: infection
@@ -65,4 +65,4 @@ tests-coverage: composer-install ## Runs tests and generate an html coverage rep
 .PHONY: tests
 tests: composer-install ## Runs tests followed by a very basic e2e-test
 	$(PHPUNIT_BIN) -c .
-	./deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml --no-cache
+	bin/deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml --no-cache

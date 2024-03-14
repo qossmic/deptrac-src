@@ -1,11 +1,12 @@
 {
+  "output": "build/deptrac-build/deptrac.phar",
   "files": [
     "config/cache.php",
     "config/services.php",
     "config/deptrac_template.yaml"
   ],
   "compression": "GZ",
-  "main": "deptrac.php",
+  "main": "bin/deptrac",
   "git-version": "git-version",
   "compactors" : [
       "KevinGH\\Box\\Compactor\\PhpScoper"
