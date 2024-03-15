@@ -27,18 +27,29 @@ use Qossmic\Deptrac\Core\Ast\AstLoader;
 use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceCacheInterface;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\CatchExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassLikeExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionCallExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\GroupUseExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\InstanceofExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\InterfaceExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\NewExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticCallExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticPropertyFetchExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\TraitUseExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\UseExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanTypeResolver;
 use Qossmic\Deptrac\Core\Dependency\DependencyResolver;
 use Qossmic\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
 use Qossmic\Deptrac\Core\Dependency\Emitter\ClassSuperglobalDependencyEmitter;
@@ -121,6 +132,13 @@ return static function (ContainerConfigurator $container): void {
         ->defaults()
         ->autowire();
 
+    $services
+        ->set(PhpStanContainerDecorator::class)
+        ->args([
+            '$basePath' => param('projectDirectory'),
+            '$paths' => param('paths'),
+        ]);
+
     /*
      * Utilities
      */
@@ -162,37 +180,64 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             '$extractors' => tagged_iterator('reference_extractors'),
         ]);
-    $services->alias(ParserInterface::class, NikicPhpParser::class);
-    $services->set(TypeResolver::class);
     $services
-        ->set(AnnotationReferenceExtractor::class)
-        ->tag('reference_extractors');
+        ->set(PhpStanParser::class)
+        ->args([
+            '$extractors' => tagged_iterator('reference_extractors'),
+        ]);
+    $services->alias(ParserInterface::class, PhpStanParser::class);
+    $services->set(NikicTypeResolver::class);
+    $services->set(PhpStanTypeResolver::class);
     $services
         ->set(AnonymousClassExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(CatchExtractor::class)
         ->tag('reference_extractors');
     $services
         ->set(ClassConstantExtractor::class)
         ->tag('reference_extractors');
     $services
+        ->set(ClassExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(ClassLikeExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(FunctionCallExtractor::class)
+        ->tag('reference_extractors');
+    $services
         ->set(FunctionLikeExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(GroupUseExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(InstanceofExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(InterfaceExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(NewExtractor::class)
         ->tag('reference_extractors');
     $services
         ->set(PropertyExtractor::class)
         ->tag('reference_extractors');
     $services
-        ->set(KeywordExtractor::class)
+        ->set(StaticCallExtractor::class)
         ->tag('reference_extractors');
     $services
-        ->set(StaticExtractor::class)
+        ->set(StaticPropertyFetchExtractor::class)
         ->tag('reference_extractors');
     $services
-        ->set(FunctionLikeExtractor::class)
+        ->set(TraitUseExtractor::class)
+        ->tag('reference_extractors');
+    $services
+        ->set(UseExtractor::class)
         ->tag('reference_extractors');
     $services
         ->set(VariableExtractor::class)
-        ->tag('reference_extractors');
-    $services
-        ->set(FunctionCallResolver::class)
         ->tag('reference_extractors');
 
     /*

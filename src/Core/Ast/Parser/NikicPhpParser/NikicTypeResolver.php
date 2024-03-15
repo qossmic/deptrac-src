@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\Parser;
+namespace Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\FqsenResolver;
@@ -34,7 +34,7 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Throwable;
 
-class TypeResolver
+class NikicTypeResolver
 {
     private readonly phpDocumentorTypeResolver $typeResolver;
 

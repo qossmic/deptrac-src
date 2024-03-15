@@ -13,12 +13,15 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\DependencyToken;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\GroupUseExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\TraitUseExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\UseExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassB;
 use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassC;
@@ -30,34 +33,38 @@ use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTrait
 
 final class AstMapGeneratorTest extends TestCase
 {
-    use ArrayAssertionTrait;
-
-    private function getAstMap(string $fixture): AstMap
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
     {
-        $typeResolver = new TypeResolver();
-        $astRunner = new AstLoader(
-            new NikicPhpParser(
-                (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
-                new AstFileReferenceInMemoryCache(),
-                $typeResolver,
-                [
-                    new AnnotationReferenceExtractor($typeResolver),
-                    new AnonymousClassExtractor(),
-                    new ClassConstantExtractor(),
-                    new KeywordExtractor($typeResolver),
-                ]
-            ),
-            new EventDispatcher()
+        $typeResolver = new NikicTypeResolver();
+        $parser = new NikicPhpParser(
+            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+            new AstFileReferenceInMemoryCache(),
+            [
+                new AnonymousClassExtractor(),
+                new ClassConstantExtractor(),
+                new ClassExtractor(),
+                new UseExtractor(),
+                new GroupUseExtractor(),
+                new TraitUseExtractor($typeResolver),
+            ]
         );
 
-        return $astRunner->createAstMap([$fixture]);
+        return [
+            'Nikic Parser' => [$parser],
+        ];
     }
 
-    public function testBasicDependencyClass(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testBasicDependencyClass(ParserInterface $parser): void
     {
-        $astMap = $this->getAstMap(__DIR__.'/Fixtures/BasicDependency/BasicDependencyClass.php');
+        $astMap = $this->getAstMap($parser, __DIR__.'/Fixtures/BasicDependency/BasicDependencyClass.php');
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassA::9 (Extends)',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::9 (Implements)',
@@ -65,7 +72,7 @@ final class AstMapGeneratorTest extends TestCase
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyClassB::class)))
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::13 (Implements)',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceB::13 (Implements)',
@@ -74,26 +81,29 @@ final class AstMapGeneratorTest extends TestCase
         );
     }
 
-    public function testBasicTraitsClass(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testBasicTraitsClass(ParserInterface $parser): void
     {
-        $astMap = $this->getAstMap(__DIR__.'/Fixtures/BasicDependency/BasicDependencyTraits.php');
+        $astMap = $this->getAstMap($parser, __DIR__.'/Fixtures/BasicDependency/BasicDependencyTraits.php');
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitA::class)))
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitB::class)))
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::7 (Uses)'],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitC::class)))
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::10 (Uses)',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::11 (Uses)',
@@ -101,15 +111,18 @@ final class AstMapGeneratorTest extends TestCase
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitD::class)))
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::15 (Uses)'],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitClass::class)))
         );
     }
 
-    public function testIssue319(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testIssue319(ParserInterface $parser): void
     {
-        $astMap = $this->getAstMap(__DIR__.'/Fixtures/Issue319.php');
+        $astMap = $this->getAstMap($parser, __DIR__.'/Fixtures/Issue319.php');
 
         self::assertSame(
             [
@@ -124,6 +137,16 @@ final class AstMapGeneratorTest extends TestCase
                 $astMap->getFileReferences()[__DIR__.'/Fixtures/Issue319.php']->dependencies
             )
         );
+    }
+
+    private function getAstMap(ParserInterface $parser, string $fixture): AstMap
+    {
+        $astRunner = new AstLoader(
+            $parser,
+            new EventDispatcher()
+        );
+
+        return $astRunner->createAstMap([$fixture]);
     }
 
     /**

@@ -8,26 +8,23 @@ use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassMethodExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\NewExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
 
 final class AnnotationReferenceExtractorTest extends TestCase
 {
-    public function testPropertyDependencyResolving(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testPropertyDependencyResolving(ParserInterface $parser): void
     {
-        $typeResolver = new TypeResolver();
-        $parser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
-            new AstFileReferenceInMemoryCache(),
-            new TypeResolver(),
-            [
-                new AnnotationReferenceExtractor($typeResolver),
-                new KeywordExtractor($typeResolver),
-            ]
-        );
-
         $filePath = __DIR__.'/Fixtures/AnnotationDependency.php';
         $astFileReference = $parser->parseFile($filePath);
 
@@ -85,5 +82,31 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertSame($filePath, $annotationDependency[5]->fileOccurrence->filepath);
         self::assertSame(14, $annotationDependency[5]->fileOccurrence->line);
         self::assertSame('returntype', $annotationDependency[5]->type->value);
+    }
+
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
+    {
+        $typeResolver = new NikicTypeResolver();
+        $phpStanContainer = new PhpStanContainerDecorator('', []);
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new PropertyExtractor($phpStanContainer, $typeResolver),
+            new VariableExtractor($phpStanContainer, $typeResolver),
+            new ClassMethodExtractor($phpStanContainer, $typeResolver),
+            new NewExtractor($typeResolver),
+        ];
+        $nikicPhpParser = new NikicPhpParser(
+            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()), $cache, $extractors
+        );
+
+        $phpstanParser = new PhpStanParser($phpStanContainer, $cache, $extractors);
+
+        return [
+            'Nikic Parser' => [$nikicPhpParser],
+            'PHPStan Parser' => [$phpstanParser],
+        ];
     }
 }

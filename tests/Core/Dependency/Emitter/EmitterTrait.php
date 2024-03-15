@@ -10,14 +10,21 @@ use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
 use Qossmic\Deptrac\Core\Ast\AstLoader;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionCallExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\InstanceofExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\NewExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticCallExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticPropertyFetchExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\TraitUseExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\UseExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanTypeResolver;
 use Qossmic\Deptrac\Core\Dependency\DependencyList;
 use Qossmic\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -31,19 +38,25 @@ trait EmitterTrait
     {
         $files = (array) $files;
 
-        $typeResolver = new TypeResolver();
+        $nikicTypeResolver = new NikicTypeResolver();
+        $phpstanTypeResolver = new PhpStanTypeResolver();
+        $phpStanConstructorDecorator = new PhpStanContainerDecorator('', []);
         $parser = new NikicPhpParser(
             (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
             new AstFileReferenceInMemoryCache(),
-            $typeResolver,
             [
                 new AnonymousClassExtractor(),
-                new FunctionLikeExtractor($typeResolver),
-                new PropertyExtractor($typeResolver),
-                new KeywordExtractor($typeResolver),
-                new StaticExtractor($typeResolver),
-                new FunctionCallResolver($typeResolver),
-                new VariableExtractor(),
+                new FunctionLikeExtractor($nikicTypeResolver, $phpstanTypeResolver),
+                new PropertyExtractor($phpStanConstructorDecorator, $nikicTypeResolver),
+                new FunctionCallExtractor($nikicTypeResolver, $phpstanTypeResolver),
+                new VariableExtractor($phpStanConstructorDecorator, $nikicTypeResolver),
+                new ClassExtractor(),
+                new UseExtractor(),
+                new InstanceofExtractor($nikicTypeResolver),
+                new StaticCallExtractor($nikicTypeResolver),
+                new StaticPropertyFetchExtractor($nikicTypeResolver),
+                new NewExtractor($nikicTypeResolver),
+                new TraitUseExtractor($nikicTypeResolver),
             ]
         );
         $astMap = (new AstLoader($parser, new EventDispatcher()))->createAstMap($files);

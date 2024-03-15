@@ -20,7 +20,6 @@ use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceCacheInterface;
 use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ReferenceExtractorInterface;
 use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 use Qossmic\Deptrac\Supportive\File\Exception\CouldNotReadFileException;
 use Qossmic\Deptrac\Supportive\File\FileReader;
 
@@ -34,12 +33,11 @@ class NikicPhpParser implements ParserInterface
     private readonly NodeTraverser $traverser;
 
     /**
-     * @param ReferenceExtractorInterface[] $extractors
+     * @param ReferenceExtractorInterface<\PhpParser\Node>[] $extractors
      */
     public function __construct(
         private readonly Parser $parser,
         private readonly AstFileReferenceCacheInterface $cache,
-        private readonly TypeResolver $typeResolver,
         private readonly iterable $extractors
     ) {
         $this->traverser = new NodeTraverser();
@@ -53,7 +51,7 @@ class NikicPhpParser implements ParserInterface
         }
 
         $fileReferenceBuilder = FileReferenceBuilder::create($file);
-        $visitor = new FileReferenceVisitor($fileReferenceBuilder, $this->typeResolver, ...$this->extractors);
+        $visitor = new FileReferenceVisitor($fileReferenceBuilder, ...$this->extractors);
         $nodes = $this->loadNodesFromFile($file);
         $this->traverser->addVisitor($visitor);
         $this->traverser->traverse($nodes);

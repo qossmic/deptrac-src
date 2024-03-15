@@ -17,9 +17,12 @@ use Qossmic\Deptrac\Core\Ast\AstLoader;
 use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassExtractor;
+use Qossmic\Deptrac\Core\Ast\Parser\Extractors\InterfaceExtractor;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
 use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -44,28 +47,45 @@ use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceC;
 
 final class AstMapFlattenGeneratorTest extends TestCase
 {
-    use ArrayAssertionTrait;
-
     private TraceableEventDispatcher $eventDispatcher;
     private AstLoader $astLoader;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $parser = $this->providedData()[0];
 
         $this->eventDispatcher = new TraceableEventDispatcher(
             new EventDispatcher(),
             new Stopwatch()
         );
         $this->astLoader = new AstLoader(
-            new NikicPhpParser(
-                (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
-                new AstFileReferenceInMemoryCache(),
-                new TypeResolver(),
-                []
-            ),
+            $parser,
             $this->eventDispatcher
         );
+    }
+
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
+    {
+        $phpStanContainer = new PhpStanContainerDecorator('', []);
+        $extractors = [
+            new ClassExtractor(),
+            new InterfaceExtractor(),
+        ];
+        $cache = new AstFileReferenceInMemoryCache();
+        $parser = new NikicPhpParser(
+            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()), $cache, $extractors
+        );
+
+        $phpstanParser = new PhpStanParser($phpStanContainer, $cache, $extractors);
+
+        return [
+            'Nikic Parser' => [$parser],
+            'PHPStan Parser' => [$phpstanParser],
+        ];
     }
 
     protected function tearDown(): void
@@ -93,6 +113,9 @@ final class AstMapFlattenGeneratorTest extends TestCase
         return $inherits;
     }
 
+    /**
+     * @dataProvider createParser
+     */
     public function testBasicInheritance(): void
     {
         $expectedEvents = [
@@ -106,22 +129,22 @@ final class AstMapFlattenGeneratorTest extends TestCase
         $dispatchedEvents = $this->eventDispatcher->getOrphanedEvents();
         self::assertSame($expectedEvents, $dispatchedEvents);
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceA::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceB::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))'],
             $this->getInheritedInherits(FixtureBasicInheritanceC::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
@@ -129,7 +152,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
             $this->getInheritedInherits(FixtureBasicInheritanceD::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
@@ -139,6 +162,9 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider createParser
+     */
     public function testBasicInheritanceInterfaces(): void
     {
         $expectedEvents = [
@@ -152,22 +178,22 @@ final class AstMapFlattenGeneratorTest extends TestCase
         $dispatchedEvents = $this->eventDispatcher->getOrphanedEvents();
         self::assertSame($expectedEvents, $dispatchedEvents);
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceA::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceB::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))'],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceC::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
@@ -175,7 +201,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceD::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
@@ -185,6 +211,9 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider createParser
+     */
     public function testBasicMultipleInheritanceInterfaces(): void
     {
         $expectedEvents = [
@@ -198,22 +227,22 @@ final class AstMapFlattenGeneratorTest extends TestCase
         $dispatchedEvents = $this->eventDispatcher->getOrphanedEvents();
         self::assertSame($expectedEvents, $dispatchedEvents);
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(MultipleInteritanceA1::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(MultipleInteritanceA2::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(MultipleInteritanceA::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
@@ -221,7 +250,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
             $this->getInheritedInherits(MultipleInteritanceB::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
                 'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::8 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements))',
@@ -232,6 +261,9 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider createParser
+     */
     public function testBasicMultipleInheritanceWithNoise(): void
     {
         $expectedEvents = [
@@ -245,23 +277,26 @@ final class AstMapFlattenGeneratorTest extends TestCase
         $dispatchedEvents = $this->eventDispatcher->getOrphanedEvents();
         self::assertSame($expectedEvents, $dispatchedEvents);
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceWithNoiseA::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             [],
             $this->getInheritedInherits(FixtureBasicInheritanceWithNoiseB::class, $astMap)
         );
 
-        self::assertArrayValuesEquals(
+        self::assertEqualsCanonicalizing(
             ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseA::18 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseB::19 (Extends))'],
             $this->getInheritedInherits(FixtureBasicInheritanceWithNoiseC::class, $astMap)
         );
     }
 
-    public function testSkipsErrorsAndDisptachesErrorEventAndReturnsEmptyAstMap(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testSkipsErrorsAndDispatchesErrorEventAndReturnsEmptyAstMap(): void
     {
         $expectedEvents = [
             PreCreateAstMapEvent::class,
@@ -283,6 +318,9 @@ final class AstMapFlattenGeneratorTest extends TestCase
         self::assertSame($expectedEvents, $dispatchedEvents);
     }
 
+    /**
+     * @dataProvider createParser
+     */
     public function testThrowsOtherExceptions(): void
     {
         $parser = $this->createMock(ParserInterface::class);
