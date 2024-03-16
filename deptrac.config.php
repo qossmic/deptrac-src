@@ -19,6 +19,7 @@ return static function (DeptracConfig $config, ContainerConfigurator $containerC
 
     $config
         ->paths('src')
+        ->cacheFile('.cache/deptrac.cache')
         ->analyser(
             AnalyserConfig::create()
                 ->internalTag( '@internal' )

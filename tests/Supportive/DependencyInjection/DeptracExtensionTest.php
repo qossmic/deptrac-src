@@ -65,6 +65,7 @@ final class DeptracExtensionTest extends TestCase
         self::assertSame(self::FORMATTER_DEFAULTS, $this->container->getParameter('formatters'));
         self::assertSame(self::ANALYSER_DEFAULTS, $this->container->getParameter('analyser'));
         self::assertSame(true, $this->container->getParameter('ignore_uncovered_internal_classes'));
+        self::assertSame('.deptrac.cache', $this->container->getParameter('cache_file'));
     }
 
     public function testDefaultsWithEmptyRoot(): void
@@ -83,6 +84,7 @@ final class DeptracExtensionTest extends TestCase
         self::assertSame(self::FORMATTER_DEFAULTS, $this->container->getParameter('formatters'));
         self::assertSame(self::ANALYSER_DEFAULTS, $this->container->getParameter('analyser'));
         self::assertSame(true, $this->container->getParameter('ignore_uncovered_internal_classes'));
+        self::assertSame('.deptrac.cache', $this->container->getParameter('cache_file'));
     }
 
     public function testPathsWithMultipleElements(): void
@@ -424,6 +426,19 @@ final class DeptracExtensionTest extends TestCase
         $this->extension->load($configs, $this->container);
 
         self::assertSame(false, $this->container->getParameter('ignore_uncovered_internal_classes'));
+    }
+
+    public function testCacheFile(): void
+    {
+        $configs = [
+            'deptrac' => [
+                'cache_file' => 'test.path',
+            ],
+        ];
+
+        $this->extension->load($configs, $this->container);
+
+        self::assertSame('test.path', $this->container->getParameter('cache_file'));
     }
 
     public function testGraphvizFormatterWithEmptyNodes(): void
