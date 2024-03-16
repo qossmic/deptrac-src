@@ -11,6 +11,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
 use Qossmic\Deptrac\Core\Layer\Collector\MethodCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 use stdClass;
 
 final class MethodCollectorTest extends TestCase
@@ -75,6 +76,7 @@ final class MethodCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             $configuration,
             $astClassReference,
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);
@@ -91,6 +93,7 @@ final class MethodCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             ['value' => 'abc'],
             $astClassReference,
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertFalse($actual);
@@ -106,6 +109,7 @@ final class MethodCollectorTest extends TestCase
         $this->collector->satisfy(
             [],
             $astClassReference,
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 
@@ -118,6 +122,7 @@ final class MethodCollectorTest extends TestCase
         $this->collector->satisfy(
             ['value' => '/'],
             $astClassReference,
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 

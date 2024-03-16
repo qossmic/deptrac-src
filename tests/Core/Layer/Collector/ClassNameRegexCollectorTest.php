@@ -9,6 +9,7 @@ use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Layer\Collector\ClassNameRegexCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class ClassNameRegexCollectorTest extends TestCase
 {
@@ -34,7 +35,8 @@ final class ClassNameRegexCollectorTest extends TestCase
     {
         $actual = $this->collector->satisfy(
             $configuration,
-            new ClassLikeReference(ClassLikeToken::fromFQCN($className))
+            new ClassLikeReference(ClassLikeToken::fromFQCN($className)),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);
@@ -46,7 +48,8 @@ final class ClassNameRegexCollectorTest extends TestCase
 
         $this->collector->satisfy(
             ['Foo' => 'a'],
-            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo'))
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 
@@ -57,6 +60,7 @@ final class ClassNameRegexCollectorTest extends TestCase
         $this->collector->satisfy(
             ['regex' => '/'],
             new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

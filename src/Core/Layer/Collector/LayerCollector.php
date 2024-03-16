@@ -21,16 +21,14 @@ final class LayerCollector implements CollectorInterface
      */
     private array $resolved = [];
 
-    public function __construct(private readonly LayerResolverInterface $resolver) {}
-
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!isset($config['value']) || !is_string($config['value'])) {
             throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('LayerCollector needs the layer configuration.');
         }
         $layer = $config['value'];
 
-        if (!$this->resolver->has($layer)) {
+        if (!$resolver->has($layer)) {
             throw InvalidCollectorDefinitionException::invalidCollectorConfiguration(sprintf('Unknown layer "%s" specified in collector.', $config['value']));
         }
         $token = $reference->getToken()->toString();
@@ -46,6 +44,6 @@ final class LayerCollector implements CollectorInterface
         // Set resolved for current token to null in case resolver comes back to it (circular reference)
         $this->resolved[$token][$layer] = null;
 
-        return $this->resolved[$token][$layer] = $this->resolver->isReferenceInLayer($config['value'], $reference);
+        return $this->resolved[$token][$layer] = $resolver->isReferenceInLayer($config['value'], $reference);
     }
 }

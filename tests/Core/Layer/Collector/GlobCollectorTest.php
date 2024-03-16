@@ -7,6 +7,7 @@ namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Layer\Collector\GlobCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class GlobCollectorTest extends TestCase
 {
@@ -40,6 +41,7 @@ final class GlobCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             $configuration,
             $fileReference->classLikeReferences[0],
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);

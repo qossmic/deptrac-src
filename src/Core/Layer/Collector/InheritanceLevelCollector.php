@@ -11,6 +11,7 @@ use Qossmic\Deptrac\Core\Ast\AstException;
 use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class InheritanceLevelCollector implements CollectorInterface
 {
@@ -24,7 +25,7 @@ final class InheritanceLevelCollector implements CollectorInterface
         $this->astMap = $this->astMapExtractor->extract();
     }
 
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof ClassLikeReference) {
             return false;

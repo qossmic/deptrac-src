@@ -11,6 +11,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 use Qossmic\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class TagValueRegexCollectorTest extends TestCase
 {
@@ -53,7 +54,8 @@ final class TagValueRegexCollectorTest extends TestCase
     {
         $actual = $this->collector->satisfy(
             $configuration->toArray(),
-            new ClassLikeReference(ClassLikeToken::fromFQCN('Dummy'), ClassLikeType::TYPE_CLASS, [], [], $tags)
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Dummy'), ClassLikeType::TYPE_CLASS, [], [], $tags),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertTrue($actual);
@@ -83,7 +85,8 @@ final class TagValueRegexCollectorTest extends TestCase
     {
         $actual = $this->collector->satisfy(
             $configuration->toArray(),
-            new ClassLikeReference(ClassLikeToken::fromFQCN('Dummy'), ClassLikeType::TYPE_CLASS, [], [], $tags)
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Dummy'), ClassLikeType::TYPE_CLASS, [], [], $tags),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertFalse($actual);
@@ -117,7 +120,8 @@ final class TagValueRegexCollectorTest extends TestCase
 
         $this->collector->satisfy(
             $config,
-            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo'))
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

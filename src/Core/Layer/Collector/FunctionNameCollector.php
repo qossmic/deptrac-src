@@ -9,10 +9,11 @@ use Qossmic\Deptrac\Contract\Layer\CollectorInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class FunctionNameCollector implements CollectorInterface
 {
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof FunctionReference) {
             return false;

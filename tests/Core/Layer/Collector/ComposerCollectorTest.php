@@ -10,6 +10,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 use Qossmic\Deptrac\Core\Layer\Collector\ComposerCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class ComposerCollectorTest extends TestCase
 {
@@ -50,6 +51,7 @@ final class ComposerCollectorTest extends TestCase
         $stat = $this->sut->satisfy(
             $configuration,
             new ClassLikeReference(ClassLikeToken::fromFQCN($className), ClassLikeType::TYPE_CLASS),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $stat);
@@ -66,6 +68,7 @@ final class ComposerCollectorTest extends TestCase
                 'packages' => ['fake_package'],
             ],
             new ClassLikeReference(ClassLikeToken::fromFQCN(''), ClassLikeType::TYPE_CLASS),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

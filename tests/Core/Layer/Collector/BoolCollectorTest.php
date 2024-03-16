@@ -12,6 +12,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Layer\Collector\BoolCollector;
 use Qossmic\Deptrac\Core\Layer\Collector\Collectable;
 use Qossmic\Deptrac\Core\Layer\Collector\CollectorResolverInterface;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class BoolCollectorTest extends TestCase
 {
@@ -191,7 +192,7 @@ final class BoolCollectorTest extends TestCase
     public function testSatisfy(array $config, bool $expectedOutcome): void
     {
         $reference = new ClassLikeReference(ClassLikeToken::fromFQCN('App\\Foo'));
-        $actualOutcome = $this->collector->satisfy($config, $reference);
+        $actualOutcome = $this->collector->satisfy($config, $reference, $this->createMock(LayerResolverInterface::class));
 
         self::assertSame($expectedOutcome, $actualOutcome);
     }
@@ -226,6 +227,6 @@ final class BoolCollectorTest extends TestCase
         $this->expectException(InvalidCollectorDefinitionException::class);
         $this->expectExceptionMessage('"bool" collector must have a "must" or a "must_not" attribute.');
 
-        $this->collector->satisfy($config, $reference);
+        $this->collector->satisfy($config, $reference, $this->createMock(LayerResolverInterface::class));
     }
 }

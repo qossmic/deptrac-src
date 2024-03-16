@@ -9,6 +9,7 @@ use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
 use Qossmic\Deptrac\Core\Layer\Collector\FunctionNameCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class FunctionNameCollectorTest extends TestCase
 {
@@ -35,6 +36,7 @@ final class FunctionNameCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             $configuration,
             new FunctionReference(FunctionToken::fromFQCN($functionName)),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);
@@ -47,6 +49,7 @@ final class FunctionNameCollectorTest extends TestCase
         $this->collector->satisfy(
             ['Foo' => 'a'],
             new FunctionReference(FunctionToken::fromFQCN('Foo')),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

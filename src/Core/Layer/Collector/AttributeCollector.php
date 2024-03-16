@@ -11,12 +11,13 @@ use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 use function str_contains;
 
 class AttributeCollector implements CollectorInterface
 {
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof FileReference
             && !$reference instanceof ClassLikeReference

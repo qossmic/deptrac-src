@@ -7,6 +7,7 @@ namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Layer\Collector\AttributeCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class AttributeCollectorTest extends TestCase
 {
@@ -45,7 +46,7 @@ final class AttributeCollectorTest extends TestCase
             ->attribute('App\MyAttribute', 2)
             ->attribute('MyAttribute', 3)
             ->build();
-        $actual = $this->collector->satisfy($config, $classLikeReference);
+        $actual = $this->collector->satisfy($config, $classLikeReference, $this->createMock(LayerResolverInterface::class));
 
         self::assertSame($expected, $actual);
     }

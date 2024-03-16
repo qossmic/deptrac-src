@@ -13,10 +13,11 @@ use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 class PhpInternalCollector implements CollectorInterface
 {
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if ($reference instanceof FileReference || $reference instanceof VariableReference) {
             return false;

@@ -10,6 +10,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 use Qossmic\Deptrac\Core\Layer\Collector\TraitCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class TraitCollectorTest extends TestCase
 {
@@ -34,6 +35,7 @@ final class TraitCollectorTest extends TestCase
         $stat = $this->sut->satisfy(
             $configuration,
             new ClassLikeReference(ClassLikeToken::fromFQCN($className), ClassLikeType::TYPE_TRAIT),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertEquals($expected, $stat);
@@ -55,6 +57,7 @@ final class TraitCollectorTest extends TestCase
         $stat = $this->sut->satisfy(
             ['value' => '^Foo\\\\Bar$'],
             new ClassLikeReference(ClassLikeToken::fromFQCN('Foo\\Bar'), $classLikeType),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($matches, $stat);
@@ -67,6 +70,7 @@ final class TraitCollectorTest extends TestCase
         $this->sut->satisfy(
             ['Foo' => 'a'],
             new ClassLikeReference(ClassLikeToken::fromFQCN('Foo'), ClassLikeType::TYPE_TRAIT),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

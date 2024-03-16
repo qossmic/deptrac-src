@@ -7,13 +7,14 @@ namespace Qossmic\Deptrac\Core\Layer\Collector;
 use Qossmic\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class TagValueRegexCollector extends RegexCollector
 {
     /**
      * @param array<string, bool|string|array<string, string>> $config
      */
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof TaggedTokenReferenceInterface) {
             return false;

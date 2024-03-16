@@ -11,6 +11,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
 use Qossmic\Deptrac\Core\Layer\Collector\PhpInternalCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class PHPInternalCollectorTest extends TestCase
 {
@@ -36,6 +37,7 @@ final class PHPInternalCollectorTest extends TestCase
         $actual = $collector->satisfy(
             $config,
             $reference,
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);

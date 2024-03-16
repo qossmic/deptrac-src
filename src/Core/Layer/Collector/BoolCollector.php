@@ -7,12 +7,13 @@ namespace Qossmic\Deptrac\Core\Layer\Collector;
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\CollectorInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class BoolCollector implements CollectorInterface
 {
     public function __construct(private readonly CollectorResolverInterface $collectorResolver) {}
 
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         $configuration = $this->normalizeConfiguration($config);
 
@@ -20,7 +21,7 @@ final class BoolCollector implements CollectorInterface
         foreach ((array) $configuration['must'] as $v) {
             $collectable = $this->collectorResolver->resolve($v);
 
-            $satisfied = $collectable->collector->satisfy($collectable->attributes, $reference);
+            $satisfied = $collectable->collector->satisfy($collectable->attributes, $reference, $resolver);
             if (!$satisfied) {
                 return false;
             }
@@ -30,7 +31,7 @@ final class BoolCollector implements CollectorInterface
         foreach ((array) $configuration['must_not'] as $v) {
             $collectable = $this->collectorResolver->resolve($v);
 
-            $satisfied = $collectable->collector->satisfy($collectable->attributes, $reference);
+            $satisfied = $collectable->collector->satisfy($collectable->attributes, $reference, $resolver);
             if ($satisfied) {
                 return false;
             }

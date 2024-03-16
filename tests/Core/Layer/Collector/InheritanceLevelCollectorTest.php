@@ -11,6 +11,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
 use Qossmic\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class InheritanceLevelCollectorTest extends TestCase
 {
@@ -48,6 +49,7 @@ final class InheritanceLevelCollectorTest extends TestCase
         $actual = $collector->satisfy(
             ['value' => $levelConfig],
             new ClassLikeReference(ClassLikeToken::fromFQCN(AstInherit::class)),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);

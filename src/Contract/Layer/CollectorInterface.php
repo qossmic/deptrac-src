@@ -6,6 +6,7 @@ namespace Qossmic\Deptrac\Contract\Layer;
 
 use Qossmic\Deptrac\Contract\Ast\CouldNotParseFileException;
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 /**
  * A collector is responsible to tell whether an AST node (e.g. a specific class) is part of a layer.
@@ -19,5 +20,5 @@ interface CollectorInterface
      * @throws InvalidCollectorDefinitionException
      * @throws CouldNotParseFileException
      */
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool;
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool;
 }

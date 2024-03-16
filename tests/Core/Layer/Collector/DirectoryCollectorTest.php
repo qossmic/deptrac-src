@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Layer\Collector\DirectoryCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class DirectoryCollectorTest extends TestCase
 {
@@ -40,6 +41,7 @@ final class DirectoryCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             $configuration,
             $fileReference->classLikeReferences[0],
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);
@@ -57,6 +59,7 @@ final class DirectoryCollectorTest extends TestCase
         $this->collector->satisfy(
             [],
             $fileReference->classLikeReferences[0],
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 
@@ -71,6 +74,7 @@ final class DirectoryCollectorTest extends TestCase
         $this->collector->satisfy(
             ['value' => '\\'],
             $fileReference->classLikeReferences[0],
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

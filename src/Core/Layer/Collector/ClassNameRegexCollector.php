@@ -7,10 +7,11 @@ namespace Qossmic\Deptrac\Core\Layer\Collector;
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class ClassNameRegexCollector extends RegexCollector
 {
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof ClassLikeReference) {
             return false;

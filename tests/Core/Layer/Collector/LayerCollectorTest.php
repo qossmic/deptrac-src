@@ -23,7 +23,7 @@ final class LayerCollectorTest extends TestCase
 
         $this->resolver = $this->createMock(LayerResolverInterface::class);
 
-        $this->collector = new LayerCollector($this->resolver);
+        $this->collector = new LayerCollector();
     }
 
     public function testConfig(): void
@@ -34,6 +34,7 @@ final class LayerCollectorTest extends TestCase
         $this->collector->satisfy(
             [],
             new ClassLikeReference(ClassLikeToken::fromFQCN('App\\Foo')),
+            $this->resolver
         );
     }
 
@@ -51,6 +52,7 @@ final class LayerCollectorTest extends TestCase
         $this->collector->satisfy(
             ['value' => 'test'],
             new ClassLikeReference(ClassLikeToken::fromFQCN('App\\Foo')),
+            $this->resolver
         );
     }
 
@@ -65,7 +67,7 @@ final class LayerCollectorTest extends TestCase
             ->method('isReferenceInLayer')
             ->with('FooLayer', $reference)
             ->willReturnCallback(function (string $layerName, ClassLikeReference $reference) {
-                return $this->collector->satisfy(['value' => 'FooLayer'], $reference);
+                return $this->collector->satisfy(['value' => 'FooLayer'], $reference, $this->resolver);
             });
 
         $this->expectException(InvalidLayerDefinitionException::class);
@@ -74,6 +76,7 @@ final class LayerCollectorTest extends TestCase
         $this->collector->satisfy(
             ['value' => 'FooLayer'],
             $reference,
+            $this->resolver
         );
     }
 
@@ -92,6 +95,7 @@ final class LayerCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             ['value' => 'AppLayer'],
             $reference,
+            $this->resolver
         );
 
         self::assertTrue($actual);
@@ -112,6 +116,7 @@ final class LayerCollectorTest extends TestCase
         $actual = $this->collector->satisfy(
             ['value' => 'AppLayer'],
             $reference,
+            $this->resolver
         );
 
         self::assertFalse($actual);

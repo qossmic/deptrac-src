@@ -8,6 +8,7 @@ use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 use function is_string;
 
@@ -15,7 +16,7 @@ abstract class AbstractTypeCollector extends RegexCollector
 {
     abstract protected function getType(): ClassLikeType;
 
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!$reference instanceof ClassLikeReference) {
             return false;

@@ -9,6 +9,7 @@ use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
 use Qossmic\Deptrac\Core\Layer\Collector\ImplementsCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class ImplementsCollectorTest extends TestCase
 {
@@ -64,7 +65,8 @@ final class ImplementsCollectorTest extends TestCase
         $collector = new ImplementsCollector($astMapExtractor);
         $actual = $collector->satisfy(
             $configuration,
-            $fooBarFileReference->classLikeReferences[0]
+            $fooBarFileReference->classLikeReferences[0],
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);

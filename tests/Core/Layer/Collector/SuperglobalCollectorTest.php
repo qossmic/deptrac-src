@@ -9,6 +9,7 @@ use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Qossmic\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
 use Qossmic\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
 use Qossmic\Deptrac\Core\Layer\Collector\SuperglobalCollector;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class SuperglobalCollectorTest extends TestCase
 {
@@ -34,7 +35,8 @@ final class SuperglobalCollectorTest extends TestCase
     {
         $actual = $this->collector->satisfy(
             $configuration,
-            new VariableReference(SuperGlobalToken::from($name))
+            new VariableReference(SuperGlobalToken::from($name)),
+            $this->createMock(LayerResolverInterface::class),
         );
 
         self::assertSame($expected, $actual);
@@ -46,7 +48,8 @@ final class SuperglobalCollectorTest extends TestCase
 
         $this->collector->satisfy(
             ['Foo' => 'a'],
-            new VariableReference(SuperGlobalToken::from('_POST'))
+            new VariableReference(SuperGlobalToken::from('_POST')),
+            $this->createMock(LayerResolverInterface::class),
         );
     }
 }

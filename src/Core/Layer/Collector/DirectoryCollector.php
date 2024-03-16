@@ -6,11 +6,12 @@ namespace Qossmic\Deptrac\Core\Layer\Collector;
 
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 use Symfony\Component\Filesystem\Path;
 
 final class DirectoryCollector extends RegexCollector
 {
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         $filepath = $reference->getFilepath();
 

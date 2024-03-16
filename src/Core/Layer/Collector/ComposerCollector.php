@@ -8,6 +8,7 @@ use Qossmic\Deptrac\Contract\Ast\CouldNotParseFileException;
 use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
 use Qossmic\Deptrac\Contract\Layer\CollectorInterface;
 use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 use RuntimeException;
 
 final class ComposerCollector implements CollectorInterface
@@ -17,7 +18,7 @@ final class ComposerCollector implements CollectorInterface
      */
     private array $parser = [];
 
-    public function satisfy(array $config, TokenReferenceInterface $reference): bool
+    public function satisfy(array $config, TokenReferenceInterface $reference, LayerResolverInterface $resolver): bool
     {
         if (!isset($config['composerPath']) || !is_string($config['composerPath'])) {
             throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('ComposerCollector needs the path to the composer.json file as string.');
