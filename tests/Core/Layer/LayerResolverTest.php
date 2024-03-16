@@ -78,10 +78,12 @@ final class LayerResolverTest extends TestCase
         $this->expectException($exception);
         $this->expectExceptionMessage($expectedMessage);
 
-        new LayerResolver(
+        $resolver = new LayerResolver(
             $this->createMock(CollectorResolverInterface::class),
             $layers
         );
+
+        $resolver->has('Anything');
     }
 
     public function testHas(): void
