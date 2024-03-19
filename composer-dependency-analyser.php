@@ -6,5 +6,5 @@ use ShipMonk\ComposerDependencyAnalyser\Config\ErrorType;
 $config = new Configuration();
 
 return $config
-    ->addPathToScan(__DIR__ . '/deptrac.php', isDev: false)
+    ->addPathToScan(__DIR__ . '/bin/deptrac', isDev: false)
     ->ignoreErrorsOnPath(__DIR__ . '/tests', [ErrorType::UNKNOWN_CLASS]); // keep ability to test invalid symbols
