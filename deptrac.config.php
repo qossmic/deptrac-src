@@ -8,6 +8,7 @@ use Qossmic\Deptrac\Contract\Config\Collector\DirectoryConfig;
 use Qossmic\Deptrac\Contract\Config\DeptracConfig;
 use Qossmic\Deptrac\Contract\Config\EmitterType;
 use Qossmic\Deptrac\Contract\Config\Formatter\GraphvizConfig;
+use Qossmic\Deptrac\Contract\Config\Formatter\MermaidJsConfig;
 use Qossmic\Deptrac\Contract\Config\Layer;
 use Qossmic\Deptrac\Contract\Config\Ruleset;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -104,6 +105,11 @@ return static function (DeptracConfig $config, ContainerConfigurator $containerC
         ->formatters(
             GraphvizConfig::create()
                 ->pointsToGroup(true)
+                ->groups('Contract', $contract)
+                ->groups('Supportive', $supportive, $file, $symfony, $console, $dependencyInjection, $outputFormatter, $time)
+                ->groups('Core', $analyser, $ast, $dependency, $inputCollector, $layer),
+            MermaidJsConfig::create()
+                ->direction('TD')
                 ->groups('Contract', $contract)
                 ->groups('Supportive', $supportive, $file, $symfony, $console, $dependencyInjection, $outputFormatter, $time)
                 ->groups('Core', $analyser, $ast, $dependency, $inputCollector, $layer)
