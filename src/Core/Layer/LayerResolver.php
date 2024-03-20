@@ -16,7 +16,9 @@ class LayerResolver implements LayerResolverInterface
     /**
      * @var array<string, Collectable[]>
      */
-    private array $layers;
+    private array $layers = [];
+
+    private bool $initialized = false;
 
     /**
      * @var array<string, array<string, bool>>
@@ -24,17 +26,19 @@ class LayerResolver implements LayerResolverInterface
     private array $resolved = [];
 
     /**
-     * @param array<array{name?: string, collectors: array<array<string, string|array<string, string>>>}> $layers
-     *
-     * @throws InvalidLayerDefinitionException
+     * @param array<array{name?: string, collectors?: array<array<string, string|array<string, string>>>}> $layersConfig
      */
-    public function __construct(private readonly CollectorResolverInterface $collectorResolver, array $layers)
-    {
-        $this->initializeLayers($layers);
-    }
+    public function __construct(
+        private readonly CollectorResolverInterface $collectorResolver,
+        private readonly array $layersConfig,
+    ) {}
 
     public function getLayersForReference(TokenReferenceInterface $reference): array
     {
+        if (false === $this->initialized) {
+            $this->initializeLayers();
+        }
+
         $tokenName = $reference->getToken()->toString();
         if (array_key_exists($tokenName, $this->resolved)) {
             return $this->resolved[$tokenName];
@@ -64,6 +68,10 @@ class LayerResolver implements LayerResolverInterface
 
     public function isReferenceInLayer(string $layer, TokenReferenceInterface $reference): bool
     {
+        if (false === $this->initialized) {
+            $this->initializeLayers();
+        }
+
         $tokenName = $reference->getToken()->toString();
         if (array_key_exists($tokenName, $this->resolved) && [] !== $this->resolved[$tokenName]) {
             return array_key_exists($layer, $this->resolved[$tokenName]);
@@ -86,18 +94,20 @@ class LayerResolver implements LayerResolverInterface
 
     public function has(string $layer): bool
     {
+        if (false === $this->initialized) {
+            $this->initializeLayers();
+        }
+
         return array_key_exists($layer, $this->layers);
     }
 
     /**
-     * @param array<array{name?: string, collectors?: array<array<string, string|array<string, string>>>}> $layers
-     *
      * @throws InvalidLayerDefinitionException
      */
-    private function initializeLayers(array $layers): void
+    private function initializeLayers(): void
     {
         $this->layers = [];
-        foreach ($layers as $layer) {
+        foreach ($this->layersConfig as $layer) {
             if (!array_key_exists('name', $layer)) {
                 throw InvalidLayerDefinitionException::missingName();
             }
@@ -120,5 +130,7 @@ class LayerResolver implements LayerResolverInterface
         if ([] === $this->layers) {
             throw InvalidLayerDefinitionException::layerRequired();
         }
+
+        $this->initialized = true;
     }
 }

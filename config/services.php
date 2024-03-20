@@ -237,7 +237,7 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->set(LayerResolver::class)
         ->args([
-            '$layers' => param('layers'),
+            '$layersConfig' => param('layers'),
         ]);
     $services->alias(LayerResolverInterface::class, LayerResolver::class);
     $services
