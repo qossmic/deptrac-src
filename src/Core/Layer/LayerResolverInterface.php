@@ -27,5 +27,8 @@ interface LayerResolverInterface
      */
     public function isReferenceInLayer(string $layer, TokenReferenceInterface $reference): bool;
 
+    /**
+     * @throws InvalidLayerDefinitionException
+     */
     public function has(string $layer): bool;
 }
