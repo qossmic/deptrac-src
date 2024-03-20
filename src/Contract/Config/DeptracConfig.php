@@ -27,6 +27,8 @@ final class DeptracConfig implements ConfigBuilderInterface
     /** @var array<string> */
     private array $excludeFiles = [];
 
+    private ?string $cacheFile = null;
+
     /**
      * @deprecated use analyser(AnalyserConfig::create()) instead
      */
@@ -105,6 +107,13 @@ final class DeptracConfig implements ConfigBuilderInterface
         return $this;
     }
 
+    public function cacheFile(string $path): self
+    {
+        $this->cacheFile = $path;
+
+        return $this;
+    }
+
     /** @return array<mixed> */
     public function toArray(): array
     {
@@ -139,6 +148,7 @@ final class DeptracConfig implements ConfigBuilderInterface
         }
 
         $config['ignore_uncovered_internal_classes'] = $this->ignoreUncoveredInternalClasses;
+        $config['cache_file'] = $this->cacheFile;
 
         return $config;
     }

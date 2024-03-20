@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
         $this->appendFormatters($rootNode);
         $this->appendEmitterTypes($rootNode);
         $this->appendIgnoreUncoveredInternalClasses($rootNode);
+        $this->appendCacheFile($rootNode);
 
         return $builder;
     }
@@ -248,6 +249,16 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('ignore_uncovered_internal_classes')
                     ->defaultTrue()
+                ->end()
+            ->end();
+    }
+
+    private function appendCacheFile(ArrayNodeDefinition $node): void
+    {
+        $node
+            ->children()
+                ->scalarNode('cache_file')
+                    ->defaultValue('.deptrac.cache')
                 ->end()
             ->end();
     }

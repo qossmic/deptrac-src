@@ -13,7 +13,7 @@ final class ServiceContainerBuilderTest extends TestCase
     {
         $builder = new ServiceContainerBuilder(__DIR__);
 
-        $container = $builder->build();
+        $container = $builder->build(null, false);
 
         self::assertTrue($container->getParameter('ignore_uncovered_internal_classes'));
         self::assertSame(
@@ -40,5 +40,6 @@ final class ServiceContainerBuilderTest extends TestCase
             [],
             $container->getParameter('skip_violations')
         );
+        self::assertSame(__DIR__.'/.deptrac.cache', $container->getParameter('cache_file'));
     }
 }
