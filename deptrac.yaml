@@ -6,6 +6,7 @@ services:
 deptrac:
   paths:
     - ./src
+  cache_file: .cache/deptrac.cache
 
   analyser:
     internal_tag: "@internal"
