@@ -10,7 +10,6 @@ services:
     userns_mode: keep-id
     volumes:
       - ./:/var/www/deptrac:z
-      - composer-data:/var/www/deptrac/.composer
     extra_hosts:
       - host.docker.internal:${HOST_IP:-172.17.0.1}
 

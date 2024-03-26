@@ -19,7 +19,6 @@ return [
             'vendor',
         ])->append([
             'bin/deptrac',
-            'deptrac.config.php',
             'composer.json',
         ])->exclude([
             'bin',

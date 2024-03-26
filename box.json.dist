@@ -11,15 +11,7 @@
   "compactors" : [
       "KevinGH\\Box\\Compactor\\PhpScoper"
   ],
-  "finder": [
-    {
-      "in": ["src", "vendor"],
-      "notPath": "#jetbrains/phpstorm-stubs/.*/.*\\.php#",
-      "exclude": [
-        "examples",
-        "test",
-        "tests"
-      ]
-    }
-  ]
+  "banner": false,
+  "alias": "deptrac",
+  "timestamp": "1711457183"
 }

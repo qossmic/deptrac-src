@@ -17,20 +17,20 @@ info "Start build deptrac"
 rm -rf $BUILD_TMP
 
 info "Install composer"
-$PHP /usr/bin/composer install -a --no-dev
+# $PHP /usr/bin/composer install -a --no-dev
 
 info "Scope deptrac"
-$PHP $SCOPER add-prefix --force --config scoper.inc.php --working-dir . --output-dir $BUILD_TMP
+# $PHP $SCOPER add-prefix --force --config scoper.inc.php --working-dir . --output-dir $BUILD_TMP
 
 # info "build phar"
-$PHP $BOX compile
+COMPOSER_ROOT_VERSION=2.0.0-dev $PHP $BOX compile --debug
 
 # info "sign phar"
 gpg --detach-sign --armor --local-user ${USER} --output $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
 gpg --verify $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
 
 info "Dump Composer Autoloader"
-$PHP /usr/bin/composer dump-autoload --working-dir $BUILD_TMP -a --no-dev
+# $PHP /usr/bin/composer dump-autoload --working-dir $BUILD_TMP -a --no-dev
 
 info "Copy package templates"
 cp -R $BUILD_DIR/template/* *.md mkdocs.yml docs -t $BUILD_TMP
