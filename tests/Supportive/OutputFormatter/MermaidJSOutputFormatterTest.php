@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter;
 
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Contract\Analyser\AnalysisResult;
+use Qossmic\Deptrac\Contract\Ast\DependencyContext;
 use Qossmic\Deptrac\Contract\Ast\DependencyType;
 use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
 use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
@@ -21,13 +24,19 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Tests\Qossmic\Deptrac\Supportive\OutputFormatter\data\DummyViolationCreatingRule;
 
-class MermaidJSOutputFormatterTest extends TestCase
+final class MermaidJSOutputFormatterTest extends TestCase
 {
     public function testFinish(): void
     {
+        $dependencyContext = new DependencyContext(
+            new FileOccurrence('classA.php', 0),
+            DependencyType::PARAMETER,
+        );
+
         $dependency = new Dependency(
             ClassLikeToken::fromFQCN('ClassA'),
-            ClassLikeToken::fromFQCN('ClassC'), new FileOccurrence('classA.php', 0), DependencyType::PARAMETER
+            ClassLikeToken::fromFQCN('ClassC'),
+            $dependencyContext,
         );
 
         $analysisResult = new AnalysisResult();
