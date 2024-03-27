@@ -10,6 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitor\FindingVisitor;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
@@ -35,15 +36,20 @@ class NikicPhpParser implements ParserInterface
 
     /**
      * @param ReferenceExtractorInterface[] $extractors
+     * @param NodeVisitor[] $visitors
      */
     public function __construct(
         private readonly Parser $parser,
         private readonly AstFileReferenceCacheInterface $cache,
         private readonly TypeResolver $typeResolver,
-        private readonly iterable $extractors
+        private readonly iterable $extractors,
+        private readonly iterable $visitors
     ) {
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new NameResolver());
+        foreach ($this->visitors as $visitor) {
+            $this->traverser->addVisitor($visitor);
+        }
     }
 
     public function parseFile(string $file): FileReference
