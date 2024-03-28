@@ -15,6 +15,7 @@ use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
 use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
 use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanTypeResolver;
 
 final class ClassDocBlockExtractorTest extends TestCase
 {
@@ -52,7 +53,7 @@ final class ClassDocBlockExtractorTest extends TestCase
         $typeResolver = new NikicTypeResolver();
         $phpStanContainer = new PhpStanContainerDecorator('', []);
         $extractors = [
-            new ClassLikeExtractor($typeResolver),
+            new ClassLikeExtractor($phpStanContainer, new PhpStanTypeResolver(), $typeResolver),
         ];
         $cache = new AstFileReferenceInMemoryCache();
         $parser = new NikicPhpParser(

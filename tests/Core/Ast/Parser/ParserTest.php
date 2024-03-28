@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
 
+use Closure;
 use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
@@ -15,6 +16,7 @@ use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
 use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
 use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanTypeResolver;
 use stdClass;
 use TypeError;
 
@@ -23,8 +25,9 @@ final class ParserTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testParseWithInvalidData(ParserInterface $parser): void
+    public function testParseWithInvalidData(Closure $parserBuilder): void
     {
+        $parser = $parserBuilder('');
         $this->expectException(TypeError::class);
         $parser->parseFile(new stdClass());
     }
@@ -32,9 +35,10 @@ final class ParserTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testParseDoesNotIgnoreUsesByDefault(ParserInterface $parser): void
+    public function testParseDoesNotIgnoreUsesByDefault(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/CountingUseStatements.php';
+        $parser = $parserBuilder($filePath);
         self::assertCount(1, $parser->parseFile($filePath)->dependencies);
     }
 
@@ -43,9 +47,10 @@ final class ParserTest extends TestCase
      *
      * @dataProvider createParser
      */
-    public function testParseAttributes(ParserInterface $parser): void
+    public function testParseAttributes(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/Attributes.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
         $astClassReferences = $astFileReference->classLikeReferences;
         self::assertCount(7, $astClassReferences[0]->dependencies);
@@ -56,9 +61,10 @@ final class ParserTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testParseTemplateTypes(ParserInterface $parser): void
+    public function testParseTemplateTypes(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/TemplateTypes.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
         $astClassReferences = $astFileReference->classLikeReferences;
         self::assertCount(0, $astClassReferences[0]->dependencies);
@@ -67,9 +73,10 @@ final class ParserTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testParseClassDocTags(ParserInterface $parser): void
+    public function testParseClassDocTags(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/DocTags.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         self::assertCount(2, $astFileReference->classLikeReferences);
@@ -88,9 +95,10 @@ final class ParserTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testParseFunctionDocTags(ParserInterface $parser): void
+    public function testParseFunctionDocTags(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/Functions.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         self::assertCount(2, $astFileReference->functionReferences);
@@ -120,26 +128,42 @@ final class ParserTest extends TestCase
      */
     public static function createParser(): array
     {
+        return [
+            'Nikic Parser' => [self::createNikicParser(...)],
+            'PHPStan Parser' => [self::createPhpStanParser(...)],
+        ];
+    }
+
+    public static function createPhpStanParser(string $filePath): PhpStanParser
+    {
         $typeResolver = new NikicTypeResolver();
-        $phpStanContainer = new PhpStanContainerDecorator('', []);
+        $phpStanContainer = new PhpStanContainerDecorator(__DIR__, [$filePath]);
 
         $cache = new AstFileReferenceInMemoryCache();
         $extractors = [
             new UseExtractor(),
-            new ClassLikeExtractor($typeResolver),
+            new ClassLikeExtractor($phpStanContainer, new PhpStanTypeResolver(), $typeResolver),
         ];
-        $nikicPhpParser = new NikicPhpParser(
+
+        return new PhpStanParser($phpStanContainer, $cache, $extractors);
+    }
+
+    public static function createNikicParser(string $filePath): NikicPhpParser
+    {
+        $typeResolver = new NikicTypeResolver();
+        $phpStanContainer = new PhpStanContainerDecorator(__DIR__, [$filePath]);
+
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new UseExtractor(),
+            new ClassLikeExtractor($phpStanContainer, new PhpStanTypeResolver(), $typeResolver),
+        ];
+
+        return new NikicPhpParser(
             (new ParserFactory())->create(
                 ParserFactory::ONLY_PHP7,
                 new Lexer()
             ), $cache, $extractors
         );
-
-        $phpstanParser = new PhpStanParser($phpStanContainer, $cache, $extractors);
-
-        return [
-            'Nikic Parser' => [$nikicPhpParser],
-            'PHPStan Parser' => [$phpstanParser],
-        ];
     }
 }

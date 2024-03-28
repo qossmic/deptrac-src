@@ -18,6 +18,8 @@ use PHPStan\PhpDocParser\Parser\TypeParser;
 use Qossmic\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\TypeScope;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanContainerDecorator;
+use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanTypeResolver;
 
 /**
  * @implements ReferenceExtractorInterface<ClassLike>
@@ -28,6 +30,8 @@ class ClassLikeExtractor implements ReferenceExtractorInterface
     private readonly PhpDocParser $docParser;
 
     public function __construct(
+        private readonly PhpStanContainerDecorator $phpStanContainer,
+        private readonly PhpStanTypeResolver $phpStanTypeResolver,
         private readonly NikicTypeResolver $typeResolver
     ) {
         $this->lexer = new Lexer();
@@ -92,7 +96,52 @@ class ClassLikeExtractor implements ReferenceExtractorInterface
 
     public function processNodeWithPhpStanScope(Node $node, ReferenceBuilder $referenceBuilder, Scope $scope): void
     {
-        // TODO: @Incomplete (Patrick Kusebauch @ 04.03.24)
+        foreach ($node->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attribute) {
+                foreach ($this->phpStanTypeResolver->resolveType($attribute->name, $scope) as $classLikeName) {
+                    $referenceBuilder->attribute($classLikeName, $attribute->getLine());
+                }
+            }
+        }
+
+        $docComment = $node->getDocComment();
+        if (!$docComment instanceof Doc) {
+            return;
+        }
+
+        $fileTypeMapper = $this->phpStanContainer->createFileTypeMapper();
+        $classReflection = $scope->getClassReflection();
+        assert(null !== $classReflection);
+
+        $resolvedPhpDoc = $fileTypeMapper->getResolvedPhpDoc(
+            $scope->getFile(),
+            $classReflection->getName(),
+            $scope->getTraitReflection()?->getName(),
+            $scope->getFunction()?->getName(),
+            $docComment->getText(),
+        );
+
+        foreach ($resolvedPhpDoc->getMethodTags() as $methodTag) {
+            foreach ($methodTag->getParameters() as $methodTagParameter) {
+                foreach ($methodTagParameter->getType()->getReferencedClasses() as $referencedClass) {
+                    $referenceBuilder->parameter($referencedClass, $node->getStartLine());
+                }
+            }
+            foreach ($methodTag->getReturnType()->getReferencedClasses() as $referencedClass) {
+                $referenceBuilder->returnType($referencedClass, $node->getStartLine());
+            }
+        }
+
+        foreach ($resolvedPhpDoc->getPropertyTags() as $propertyTag) {
+
+            $referencedClasses = array_merge(
+                $propertyTag->getReadableType()?->getReferencedClasses() ?? [],
+                $propertyTag->getWritableType()?->getReferencedClasses() ?? [],
+            );
+            foreach (array_unique($referencedClasses) as $referencedClass) {
+                $referenceBuilder->variable($referencedClass, $node->getStartLine());
+            }
+        }
     }
 
     public function getNodeType(): string

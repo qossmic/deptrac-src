@@ -14,6 +14,11 @@ use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\ScopeContext;
 use PHPStan\Analyser\ScopeFactory;
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\ConstExprParser;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
+use PHPStan\PhpDocParser\Parser\TypeParser;
 use PHPStan\Reflection\ReflectionProvider;
 use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
 use Qossmic\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
@@ -28,6 +33,10 @@ class FileReferenceVisitor extends NodeVisitorAbstract
 
     private Scope $scope;
 
+    private Lexer $lexer;
+
+    private PhpDocParser $docParser;
+
     /**
      * @param ReferenceExtractorInterface<\PhpParser\Node> ...$dependencyResolvers
      */
@@ -41,6 +50,8 @@ class FileReferenceVisitor extends NodeVisitorAbstract
         $this->dependencyResolvers = $dependencyResolvers;
         $this->currentReference = $fileReferenceBuilder;
         $this->scope = $this->scopeFactory->create(ScopeContext::create($this->file));
+        $this->lexer = new Lexer();
+        $this->docParser = new PhpDocParser(new TypeParser(), new ConstExprParser());
     }
 
     public function enterNode(Node $node)
@@ -77,12 +88,13 @@ class FileReferenceVisitor extends NodeVisitorAbstract
         assert(null !== $name);
         $context = ScopeContext::create($this->file)->enterClass($this->reflectionProvider->getClass($name));
         $this->scope = $this->scopeFactory->create($context);
+        $tags = $this->getTags($node);
 
         $this->currentReference = match (true) {
-            $node instanceof Interface_ => $this->fileReferenceBuilder->newInterface($name, [], []),
-            $node instanceof Class_ => $this->fileReferenceBuilder->newClass($name, [], []),
-            $node instanceof Trait_ => $this->fileReferenceBuilder->newTrait($name, [], []),
-            default => $this->fileReferenceBuilder->newClassLike($name, [], [])
+            $node instanceof Interface_ => $this->fileReferenceBuilder->newInterface($name, [], $tags),
+            $node instanceof Class_ => $this->fileReferenceBuilder->newClass($name, [], $tags),
+            $node instanceof Trait_ => $this->fileReferenceBuilder->newTrait($name, [], $tags),
+            default => $this->fileReferenceBuilder->newClassLike($name, [], $tags)
         };
     }
 
@@ -91,7 +103,7 @@ class FileReferenceVisitor extends NodeVisitorAbstract
         $name = $this->getReferenceName($node);
         assert(null !== $name);
 
-        $this->currentReference = $this->fileReferenceBuilder->newFunction($name);
+        $this->currentReference = $this->fileReferenceBuilder->newFunction($name, [], $this->getTags($node));
     }
 
     private function getReferenceName(Node\Stmt\Function_|ClassLike $node): ?string
@@ -105,5 +117,26 @@ class FileReferenceVisitor extends NodeVisitorAbstract
         }
 
         return null;
+    }
+
+    /**
+     * @return array<string,list<string>>
+     */
+    private function getTags(ClassLike|Node\Stmt\Function_ $node): array
+    {
+        $docComment = $node->getDocComment();
+        if (null === $docComment) {
+            return [];
+        }
+
+        $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
+        $docNodeCrate = $this->docParser->parse($tokens);
+
+        $tags = [];
+        foreach ($docNodeCrate->getTags() as $tag) {
+            $tags[$tag->name][] = (string) $tag->value;
+        }
+
+        return $tags;
     }
 }

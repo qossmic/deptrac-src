@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
 
+use Closure;
 use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
@@ -19,9 +20,10 @@ final class ClassConstantExtractorTest extends TestCase
     /**
      * @dataProvider createParser
      */
-    public function testPropertyDependencyResolving(ParserInterface $parser): void
+    public function testPropertyDependencyResolving(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/ClassConst.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         $astClassReferences = $astFileReference->classLikeReferences;
@@ -45,19 +47,36 @@ final class ClassConstantExtractorTest extends TestCase
      */
     public static function createParser(): array
     {
-        $phpStanContainer = new PhpStanContainerDecorator('', []);
+        return [
+            'Nikic Parser' => [self::createNikicParser(...)],
+            'PHPStan Parser' => [self::createPhpStanParser(...)],
+        ];
+    }
+
+    public static function createPhpStanParser(string $filePath): PhpStanParser
+    {
+        $phpStanContainer = new PhpStanContainerDecorator(__DIR__, [$filePath]);
+
+        $cache = new AstFileReferenceInMemoryCache();
         $extractors = [
             new ClassConstantExtractor(),
         ];
-        $cache = new AstFileReferenceInMemoryCache();
-        $parser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()), $cache, $extractors
-        );
-        $phpstanParser = new PhpStanParser($phpStanContainer, $cache, $extractors);
 
-        return [
-            'Nikic Parser' => [$parser],
-            'PHPStan Parser' => [$phpstanParser],
+        return new PhpStanParser($phpStanContainer, $cache, $extractors);
+    }
+
+    public static function createNikicParser(string $filePath): NikicPhpParser
+    {
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new ClassConstantExtractor(),
         ];
+
+        return new NikicPhpParser(
+            (new ParserFactory())->create(
+                ParserFactory::ONLY_PHP7,
+                new Lexer()
+            ), $cache, $extractors
+        );
     }
 }

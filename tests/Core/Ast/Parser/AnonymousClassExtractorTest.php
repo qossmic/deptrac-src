@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
 
+use Closure;
 use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
@@ -17,32 +18,12 @@ use Qossmic\Deptrac\Core\Ast\Parser\PhpStanParser\PhpStanParser;
 final class AnonymousClassExtractorTest extends TestCase
 {
     /**
-     * @return list<array{ParserInterface}>
-     */
-    public static function createParser(): array
-    {
-        $phpStanContainer = new PhpStanContainerDecorator('', []);
-        $cache = new AstFileReferenceInMemoryCache();
-        $extractors = [
-            new AnonymousClassExtractor(),
-        ];
-        $nikicPhpParser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()), $cache, $extractors
-        );
-        $phpstanParser = new PhpStanParser($phpStanContainer, $cache, $extractors);
-
-        return [
-            'Nikic Parser' => [$nikicPhpParser],
-            'PHPStan Parser' => [$phpstanParser],
-        ];
-    }
-
-    /**
      * @dataProvider createParser
      */
-    public function testPropertyDependencyResolving(ParserInterface $parser): void
+    public function testPropertyDependencyResolving(Closure $parserBuilder): void
     {
         $filePath = __DIR__.'/Fixtures/AnonymousClass.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         $astClassReferences = $astFileReference->classLikeReferences;
@@ -69,5 +50,43 @@ final class AnonymousClassExtractorTest extends TestCase
         self::assertSame($filePath, $dependencies[1]->fileOccurrence->filepath);
         self::assertSame(19, $dependencies[1]->fileOccurrence->line);
         self::assertSame('anonymous_class_implements', $dependencies[1]->type->value);
+    }
+
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
+    {
+        return [
+            'Nikic Parser' => [self::createNikicParser(...)],
+            'PHPStan Parser' => [self::createPhpStanParser(...)],
+        ];
+    }
+
+    public static function createPhpStanParser(string $filePath): PhpStanParser
+    {
+        $phpStanContainer = new PhpStanContainerDecorator(__DIR__, [$filePath]);
+
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new AnonymousClassExtractor(),
+        ];
+
+        return new PhpStanParser($phpStanContainer, $cache, $extractors);
+    }
+
+    public static function createNikicParser(string $filePath): NikicPhpParser
+    {
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new AnonymousClassExtractor(),
+        ];
+
+        return new NikicPhpParser(
+            (new ParserFactory())->create(
+                ParserFactory::ONLY_PHP7,
+                new Lexer()
+            ), $cache, $extractors
+        );
     }
 }
