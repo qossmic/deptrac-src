@@ -16,7 +16,6 @@ use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 use function array_values;
 use function in_array;
-use function natcasesort;
 
 class TokenInLayerAnalyser
 {
@@ -43,7 +42,7 @@ class TokenInLayerAnalyser
     }
 
     /**
-     * @return string[]
+     * @return list<array{string, string}>
      *
      * @throws AnalyserException
      */
@@ -58,8 +57,7 @@ class TokenInLayerAnalyser
                 foreach ($astMap->getClassLikeReferences() as $classReference) {
                     $classToken = $this->tokenResolver->resolve($classReference->getToken(), $astMap);
                     if (array_key_exists($layer, $this->layerResolver->getLayersForReference($classToken))) {
-                        $matchingTokens[] = $classToken->getToken()
-                            ->toString();
+                        $matchingTokens[] = [$classToken->getToken()->toString(), TokenType::CLASS_LIKE->value];
                     }
                 }
             }
@@ -68,8 +66,7 @@ class TokenInLayerAnalyser
                 foreach ($astMap->getFunctionReferences() as $functionReference) {
                     $functionToken = $this->tokenResolver->resolve($functionReference->getToken(), $astMap);
                     if (array_key_exists($layer, $this->layerResolver->getLayersForReference($functionToken))) {
-                        $matchingTokens[] = $functionToken->getToken()
-                            ->toString();
+                        $matchingTokens[] = [$functionToken->getToken()->toString(), TokenType::FUNCTION->value];
                     }
                 }
             }
@@ -78,13 +75,12 @@ class TokenInLayerAnalyser
                 foreach ($astMap->getFileReferences() as $fileReference) {
                     $fileToken = $this->tokenResolver->resolve($fileReference->getToken(), $astMap);
                     if (array_key_exists($layer, $this->layerResolver->getLayersForReference($fileToken))) {
-                        $matchingTokens[] = $fileToken->getToken()
-                            ->toString();
+                        $matchingTokens[] = [$fileToken->getToken()->toString(), TokenType::FILE->value];
                     }
                 }
             }
 
-            natcasesort($matchingTokens);
+            uasort($matchingTokens, static fn (array $a, array $b): int => $a[0] <=> $b[0]);
 
             return array_values($matchingTokens);
         } catch (UnrecognizedTokenException $e) {

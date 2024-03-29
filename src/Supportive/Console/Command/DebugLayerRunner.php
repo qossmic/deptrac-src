@@ -31,12 +31,7 @@ final class DebugLayerRunner
 
         try {
             foreach ($debugLayers as $debugLayer) {
-                $matchedLayers = array_map(
-                    static fn (string $token) => (array) $token,
-                    $this->analyser->findTokensInLayer($debugLayer)
-                );
-
-                $output->getStyle()->table([$debugLayer], $matchedLayers);
+                $output->getStyle()->table([$debugLayer, 'Token Type'], $this->analyser->findTokensInLayer($debugLayer));
             }
         } catch (AnalyserException $e) {
             throw CommandRunException::analyserException($e);

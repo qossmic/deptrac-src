@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
         $this->appendFormatters($rootNode);
         $this->appendEmitterTypes($rootNode);
         $this->appendIgnoreUncoveredInternalClasses($rootNode);
+        $this->appendCacheFile($rootNode);
 
         return $builder;
     }
@@ -176,6 +177,21 @@ class Configuration implements ConfigurationInterface
                                 })
                             ->end()
                         ->end()
+                        ->arrayNode('mermaidjs')
+                            ->info('Configure MermaidJS output formatter')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('direction')->defaultValue('TD')
+                                ->end()
+                                ->arrayNode('groups')
+                                ->info('Combine multiple layers to a group')
+                                    ->useAttributeAsKey('name')
+                                    ->arrayPrototype()
+                                        ->scalarPrototype()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('codeclimate')
                             ->addDefaultsIfNotSet()
                             ->info('Configure Codeclimate output formatters')
@@ -233,6 +249,16 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('ignore_uncovered_internal_classes')
                     ->defaultTrue()
+                ->end()
+            ->end();
+    }
+
+    private function appendCacheFile(ArrayNodeDefinition $node): void
+    {
+        $node
+            ->children()
+                ->scalarNode('cache_file')
+                    ->defaultValue('.deptrac.cache')
                 ->end()
             ->end();
     }

@@ -79,6 +79,8 @@ use Qossmic\Deptrac\Core\Layer\LayerResolver;
 use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 use Qossmic\Deptrac\Supportive\Console\Command\AnalyseCommand;
 use Qossmic\Deptrac\Supportive\Console\Command\AnalyseRunner;
+use Qossmic\Deptrac\Supportive\Console\Command\ChangedFilesCommand;
+use Qossmic\Deptrac\Supportive\Console\Command\ChangedFilesRunner;
 use Qossmic\Deptrac\Supportive\Console\Command\DebugDependenciesCommand;
 use Qossmic\Deptrac\Supportive\Console\Command\DebugDependenciesRunner;
 use Qossmic\Deptrac\Supportive\Console\Command\DebugLayerCommand;
@@ -104,6 +106,7 @@ use Qossmic\Deptrac\Supportive\OutputFormatter\GraphVizOutputHtmlFormatter;
 use Qossmic\Deptrac\Supportive\OutputFormatter\GraphVizOutputImageFormatter;
 use Qossmic\Deptrac\Supportive\OutputFormatter\JsonOutputFormatter;
 use Qossmic\Deptrac\Supportive\OutputFormatter\JUnitOutputFormatter;
+use Qossmic\Deptrac\Supportive\OutputFormatter\MermaidJSOutputFormatter;
 use Qossmic\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use Qossmic\Deptrac\Supportive\OutputFormatter\XMLOutputFormatter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -234,7 +237,7 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->set(LayerResolver::class)
         ->args([
-            '$layers' => param('layers'),
+            '$layersConfig' => param('layers'),
         ]);
     $services->alias(LayerResolverInterface::class, LayerResolver::class);
     $services
@@ -417,6 +420,9 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->set(CodeclimateOutputFormatter::class)
         ->tag('output_formatter');
+    $services
+        ->set(MermaidJSOutputFormatter::class)
+        ->tag('output_formatter');
 
     /*
      * Console
@@ -430,6 +436,13 @@ return static function (ContainerConfigurator $container): void {
         ->autowire();
     $services
         ->set(AnalyseCommand::class)
+        ->autowire()
+        ->tag('console.command');
+    $services
+        ->set(ChangedFilesRunner::class)
+        ->autowire();
+    $services
+        ->set(ChangedFilesCommand::class)
         ->autowire()
         ->tag('console.command');
     $services

@@ -6,6 +6,7 @@ services:
 deptrac:
   paths:
     - ./src
+  cache_file: .cache/deptrac.cache
 
   analyser:
     internal_tag: "@internal"
@@ -30,6 +31,24 @@ deptrac:
           - DependencyInjection
           - OutputFormatter
           - Symfony
+        Core:
+          - Analyser
+          - Ast
+          - Dependency
+          - InputCollector
+          - Layer
+    mermaidjs:
+      direction: TD
+      groups:
+        Contract:
+          - Contract
+        Supportive:
+          - Supportive
+          - File
+        Symfony:
+          - Console
+          - DependencyInjection
+          - OutputFormatter
         Core:
           - Analyser
           - Ast

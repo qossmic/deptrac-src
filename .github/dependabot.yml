@@ -12,13 +12,7 @@ updates:
       interval: weekly
     versioning-strategy: "lockfile-only"
     groups:
-      symfony:
-        dependency-type: "production"
-        patterns:
-        - "symfony/*"
       prod-dependencies:
         dependency-type: "production"
-        exclude-patterns:
-        - "symfony/*"
       dev-dependencies:
         dependency-type: "development"
