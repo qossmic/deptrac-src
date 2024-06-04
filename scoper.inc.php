@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
-$datePrefix = (new DateTimeImmutable('now'))->format('Ym');
 $polyfillsBootstrap = Finder::create()
     ->files()
     ->in(__DIR__.'/vendor/symfony/polyfill-*')
     ->name('*.php');
 
 return [
-    'prefix' => 'DEPTRAC_'.$datePrefix,
+    'prefix' => 'DEPTRAC_INTERNAL',
     'finders' => [
         Finder::create()->files()->in([
             'config',
@@ -19,13 +18,12 @@ return [
             'vendor',
         ])->append([
             'bin/deptrac',
-            'deptrac.config.php',
             'composer.json',
         ])->exclude([
             'bin',
             'tests',
             'test',
-        ])->notName('/.*\\.(xml|md|dist|neon)|Makefile|composer\\.json|composer\\.lock/'),
+        ])->notName('/.*\\.(xml|md|dist|neon|zip)|Makefile|composer\\.json|composer\\.lock/'),
     ],
     'patchers' => [],
     'tag-declarations-as-internal' => false,

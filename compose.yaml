@@ -7,6 +7,7 @@ services:
     tty: true
     environment:
       - PHP_IDE_CONFIG=serverName=deptrac
+      - COMPOSER_CACHE_DIR=/var/www/deptrac/.composer
     userns_mode: keep-id
     volumes:
       - ./:/var/www/deptrac:z
