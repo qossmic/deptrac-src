@@ -43,7 +43,24 @@ class AstFileReferenceFileCache implements AstFileReferenceDeferredCacheInterfac
     /** @var array<string, bool> */
     private array $parsedFiles = [];
 
-    public function __construct(private readonly string $cacheFile, private readonly string $cacheVersion) {}
+    private const ALLOWED_CLASSES = [
+        FileReference::class,
+        ClassLikeReference::class,
+        FunctionReference::class,
+        VariableReference::class,
+        AstInherit::class,
+        DependencyToken::class,
+        DependencyType::class,
+        FileToken::class,
+        ClassLikeToken::class,
+        ClassLikeType::class,
+        FunctionToken::class,
+        SuperGlobalToken::class,
+        FileOccurrence::class,
+        DependencyContext::class,
+    ];
+
+    public function __construct(private readonly string $cacheFile) {}
 
     public function get(string $filepath): ?FileReference
     {
@@ -98,7 +115,7 @@ class AstFileReferenceFileCache implements AstFileReferenceDeferredCacheInterfac
 
         $this->loaded = true;
 
-        if (null === $cache || $this->cacheVersion !== $cache['version']) {
+        if (null === $cache || $this->generateVersionHash() !== $cache['version']) {
             return;
         }
 
@@ -107,25 +124,9 @@ class AstFileReferenceFileCache implements AstFileReferenceDeferredCacheInterfac
             static function (array $data): array {
                 $reference = unserialize(
                     $data['reference'],
-                    [
-                        'allowed_classes' => [
-                            FileReference::class,
-                            ClassLikeReference::class,
-                            FunctionReference::class,
-                            VariableReference::class,
-                            AstInherit::class,
-                            DependencyToken::class,
-                            DependencyType::class,
-                            FileToken::class,
-                            ClassLikeToken::class,
-                            ClassLikeType::class,
-                            FunctionToken::class,
-                            SuperGlobalToken::class,
-                            FileOccurrence::class,
-                            DependencyContext::class,
-                        ],
-                    ]
+                    ['allowed_classes' => self::ALLOWED_CLASSES]
                 );
+
                 assert($reference instanceof FileReference);
 
                 return [
@@ -162,11 +163,16 @@ class AstFileReferenceFileCache implements AstFileReferenceDeferredCacheInterfac
             $this->cacheFile,
             json_encode(
                 [
-                    'version' => $this->cacheVersion,
+                    'version' => $this->generateVersionHash(),
                     'payload' => $payload,
                 ]
             )
         );
+    }
+
+    private function generateVersionHash(): string
+    {
+        return hash('sha1', implode(', ', self::ALLOWED_CLASSES));
     }
 
     /**

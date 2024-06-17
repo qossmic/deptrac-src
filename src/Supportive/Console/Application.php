@@ -24,7 +24,7 @@ use const DIRECTORY_SEPARATOR;
 
 final class Application extends BaseApplication
 {
-    public const VERSION = '@git-version@';
+    private const VERSION = '@git-version@';
 
     public function __construct()
     {
