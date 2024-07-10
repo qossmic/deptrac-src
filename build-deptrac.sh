@@ -33,10 +33,12 @@ info "Dump Composer Autoloader"
 $PHP /usr/bin/composer dump-autoload --working-dir $BUILD_TMP -a --no-dev
 
 info "Copy package templates"
-cp -R $BUILD_DIR/template/* *.md mkdocs.yml docs -t $BUILD_TMP
+cp -r $BUILD_DIR/template/* *.md mkdocs.yml docs -t $BUILD_TMP
+cp -r $BUILD_DIR/template/.* -t $BUILD_TMP
 
 info "Copy build into deptrac distrubtion repository"
-cp -a $BUILD_TMP/. $DEPTRAC_DIR 
+cp -r $BUILD_TMP/* $DEPTRAC_DIR 
+cp -rv $BUILD_TMP/.* $DEPTRAC_DIR 
 
 # info "Git commit changes"
 # echo "Update $(date)" > git_commit_message.txt
