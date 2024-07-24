@@ -31,5 +31,6 @@ return (new PhpCsFixer\Config())
         'self_static_accessor' => true,
         'static_lambda' => true,
         'strict_param' => true,
+        'multiline_whitespace_before_semicolons' => ['strategy' => 'new_line_for_chained_calls'],
     ])
     ->setFinder($finder);
