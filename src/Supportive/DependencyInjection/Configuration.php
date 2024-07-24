@@ -55,7 +55,8 @@ class Configuration implements ConfigurationInterface
                         ->defaultValue('src/')
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendExcludePatterns(ArrayNodeDefinition $node): void
@@ -70,7 +71,8 @@ class Configuration implements ConfigurationInterface
                         ->cannotBeEmpty()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendLayers(ArrayNodeDefinition $node): void
@@ -105,7 +107,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendRuleset(ArrayNodeDefinition $node): void
@@ -118,7 +121,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarPrototype()->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendSkippedViolations(ArrayNodeDefinition $node): void
@@ -133,7 +137,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarPrototype()->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     /**
@@ -209,7 +214,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     /**
@@ -240,7 +246,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendIgnoreUncoveredInternalClasses(ArrayNodeDefinition $node): void
@@ -250,7 +257,8 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('ignore_uncovered_internal_classes')
                     ->defaultTrue()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     private function appendCacheFile(ArrayNodeDefinition $node): void
@@ -260,6 +268,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('cache_file')
                     ->defaultValue('.deptrac.cache')
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

@@ -33,16 +33,19 @@ final class InheritanceLevelCollectorTest extends TestCase
     {
         $classInherit = $this->createMock(AstInherit::class);
         $classInherit->method('getPath')
-            ->willReturn(array_fill(0, $pathLevel, 1));
+            ->willReturn(array_fill(0, $pathLevel, 1))
+        ;
 
         $astMap = $this->createMock(AstMap::class);
         $astMap->method('getClassInherits')
             ->with(ClassLikeToken::fromFQCN(AstInherit::class))
-            ->willReturn([$classInherit]);
+            ->willReturn([$classInherit])
+        ;
 
         $astMapExtractor = $this->createMock(AstMapExtractor::class);
         $astMapExtractor->method('extract')
-            ->willReturn($astMap);
+            ->willReturn($astMap)
+        ;
 
         $collector = new InheritanceLevelCollector($astMapExtractor);
         $actual = $collector->satisfy(

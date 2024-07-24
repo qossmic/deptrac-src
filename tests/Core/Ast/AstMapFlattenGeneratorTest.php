@@ -275,7 +275,8 @@ final class AstMapFlattenGeneratorTest extends TestCase
             ->expects(self::atLeastOnce())
             ->method('parseFile')
             ->with(__DIR__.'/Fixtures/BasicInheritance/FixtureBasicInheritanceWithNoise.php')
-            ->willThrowException(new CouldNotParseFileException('Syntax Error'));
+            ->willThrowException(new CouldNotParseFileException('Syntax Error'))
+        ;
 
         $astLoader->createAstMap([__DIR__.'/Fixtures/BasicInheritance/FixtureBasicInheritanceWithNoise.php']);
 
@@ -292,7 +293,8 @@ final class AstMapFlattenGeneratorTest extends TestCase
             ->expects(self::atLeastOnce())
             ->method('parseFile')
             ->with(__DIR__.'/Fixtures/BasicInheritance/FixtureBasicInheritanceWithNoise.php')
-            ->willThrowException(new LogicException('Uncaught exception'));
+            ->willThrowException(new LogicException('Uncaught exception'))
+        ;
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Uncaught exception');

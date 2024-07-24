@@ -44,7 +44,8 @@ final class AttributeCollectorTest extends TestCase
             ->newClass('App\Foo', [], [])
             ->attribute('App\MyAttribute', 2)
             ->attribute('MyAttribute', 3)
-            ->build();
+            ->build()
+        ;
         $actual = $this->collector->satisfy($config, $classLikeReference);
 
         self::assertSame($expected, $actual);

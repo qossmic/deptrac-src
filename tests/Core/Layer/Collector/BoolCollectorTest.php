@@ -25,13 +25,15 @@ final class BoolCollectorTest extends TestCase
         $collector
             ->method('satisfy')
             ->with($this->callback(static fn (array $config): bool => 'custom' === $config['type']))
-            ->willReturnCallback(static fn (array $config): bool => (bool) $config['satisfy'] ?? false);
+            ->willReturnCallback(static fn (array $config): bool => (bool) $config['satisfy'] ?? false)
+        ;
 
         $resolver = $this->createMock(CollectorResolverInterface::class);
         $resolver
             ->method('resolve')
             ->with($this->callback(static fn (array $config): bool => 'custom' === $config['type']))
-            ->willReturnCallback(static fn (array $config): Collectable => new Collectable($collector, $config));
+            ->willReturnCallback(static fn (array $config): Collectable => new Collectable($collector, $config))
+        ;
 
         $this->collector = new BoolCollector($resolver);
     }

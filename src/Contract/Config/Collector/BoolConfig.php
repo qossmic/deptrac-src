@@ -25,7 +25,8 @@ final class BoolConfig extends CollectorConfig
     {
         return (new self())
             ->must(...$must)
-            ->mustNot(...$mostNot);
+            ->mustNot(...$mostNot)
+        ;
     }
 
     public function mustNot(CollectorConfig ...$collectorConfigs): self

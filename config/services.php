@@ -122,7 +122,8 @@ return static function (ContainerConfigurator $container): void {
 
     $services
         ->defaults()
-        ->autowire();
+        ->autowire()
+    ;
 
     /*
      * Utilities
@@ -137,14 +138,16 @@ return static function (ContainerConfigurator $container): void {
             '$paths' => param('paths'),
             '$excludedFilePatterns' => param('exclude_files'),
             '$basePath' => param('projectDirectory'),
-        ]);
+        ])
+    ;
     $services->alias(InputCollectorInterface::class, FileInputCollector::class);
     $services->set(YmlFileLoader::class);
     $services
         ->set(Dumper::class)
         ->args([
             '$templateFile' => __DIR__.'/deptrac_template.yaml',
-        ]);
+        ])
+    ;
 
     /*
      * AST
@@ -157,46 +160,58 @@ return static function (ContainerConfigurator $container): void {
         ->factory([service(ParserFactory::class), 'create'])
         ->args([
             '$kind' => ParserFactory::PREFER_PHP7,
-        ]);
+        ])
+    ;
     $services->set(AstFileReferenceInMemoryCache::class);
     $services->alias(AstFileReferenceCacheInterface::class, AstFileReferenceInMemoryCache::class);
     $services
         ->set(NikicPhpParser::class)
         ->args([
             '$extractors' => tagged_iterator('reference_extractors'),
-        ]);
+        ])
+    ;
     $services->alias(ParserInterface::class, NikicPhpParser::class);
     $services->set(TypeResolver::class);
     $services
         ->set(AnnotationReferenceExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(AnonymousClassExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(ClassConstantExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(FunctionLikeExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(PropertyExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(KeywordExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(StaticExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(FunctionLikeExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(VariableExtractor::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
     $services
         ->set(FunctionCallResolver::class)
-        ->tag('reference_extractors');
+        ->tag('reference_extractors')
+    ;
 
     /*
      * Dependency
@@ -206,30 +221,38 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             '$config' => param('analyser'),
             '$emitterLocator' => tagged_locator('dependency_emitter', 'key'),
-        ]);
+        ])
+    ;
     $services->set(TokenResolver::class);
     $services->set(InheritanceFlattener::class);
     $services
         ->set(ClassDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::CLASS_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::CLASS_TOKEN->value])
+    ;
     $services
         ->set(ClassSuperglobalDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::CLASS_SUPERGLOBAL_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::CLASS_SUPERGLOBAL_TOKEN->value])
+    ;
     $services
         ->set(FileDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::FILE_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::FILE_TOKEN->value])
+    ;
     $services
         ->set(FunctionDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_TOKEN->value])
+    ;
     $services
         ->set(FunctionCallDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_CALL->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_CALL->value])
+    ;
     $services
         ->set(FunctionSuperglobalDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_SUPERGLOBAL_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::FUNCTION_SUPERGLOBAL_TOKEN->value])
+    ;
     $services
         ->set(UsesDependencyEmitter::class)
-        ->tag('dependency_emitter', ['key' => EmitterType::USE_TOKEN->value]);
+        ->tag('dependency_emitter', ['key' => EmitterType::USE_TOKEN->value])
+    ;
 
     /*
      * Layer
@@ -238,81 +261,104 @@ return static function (ContainerConfigurator $container): void {
         ->set(LayerResolver::class)
         ->args([
             '$layersConfig' => param('layers'),
-        ]);
+        ])
+    ;
     $services->alias(LayerResolverInterface::class, LayerResolver::class);
     $services
         ->set(CollectorProvider::class)
         ->args([
             '$collectorLocator' => tagged_locator('collector', 'type'),
-        ]);
+        ])
+    ;
     $services->set(CollectorResolver::class);
     $services->alias(CollectorResolverInterface::class, CollectorResolver::class);
     $services
         ->set(AttributeCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_ATTRIBUTE->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_ATTRIBUTE->value])
+    ;
     $services
         ->set(BoolCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_BOOL->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_BOOL->value])
+    ;
     $services
         ->set(ClassCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_CLASS->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_CLASS->value])
+    ;
     $services
         ->set(ClassLikeCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_CLASSLIKE->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_CLASSLIKE->value])
+    ;
     $services
         ->set(ClassNameRegexCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_CLASS_NAME_REGEX->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_CLASS_NAME_REGEX->value])
+    ;
     $services
         ->set(TagValueRegexCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_TAG_VALUE_REGEX->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_TAG_VALUE_REGEX->value])
+    ;
     $services
         ->set(DirectoryCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_DIRECTORY->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_DIRECTORY->value])
+    ;
     $services
         ->set(ExtendsCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_EXTENDS->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_EXTENDS->value])
+    ;
     $services
         ->set(FunctionNameCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_FUNCTION_NAME->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_FUNCTION_NAME->value])
+    ;
     $services
         ->set(GlobCollector::class)
         ->args([
             '$basePath' => param('projectDirectory'),
         ])
-        ->tag('collector', ['type' => CollectorType::TYPE_GLOB->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_GLOB->value])
+    ;
     $services
         ->set(ImplementsCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_IMPLEMENTS->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_IMPLEMENTS->value])
+    ;
     $services
         ->set(InheritanceLevelCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_INHERITANCE->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_INHERITANCE->value])
+    ;
     $services
         ->set(InterfaceCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_INTERFACE->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_INTERFACE->value])
+    ;
     $services
         ->set(InheritsCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_INHERITS->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_INHERITS->value])
+    ;
     $services
         ->set(LayerCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_LAYER->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_LAYER->value])
+    ;
     $services
         ->set(MethodCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_METHOD->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_METHOD->value])
+    ;
     $services
         ->set(SuperglobalCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_SUPERGLOBAL->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_SUPERGLOBAL->value])
+    ;
     $services
         ->set(TraitCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_TRAIT->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_TRAIT->value])
+    ;
     $services
         ->set(UsesCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_USES->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_USES->value])
+    ;
     $services
         ->set(PhpInternalCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_PHP_INTERNAL->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_PHP_INTERNAL->value])
+    ;
     $services
         ->set(ComposerCollector::class)
-        ->tag('collector', ['type' => CollectorType::TYPE_COMPOSER->value]);
+        ->tag('collector', ['type' => CollectorType::TYPE_COMPOSER->value])
+    ;
 
     /*
      * Analyser
@@ -323,53 +369,66 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             '$ignoreUncoveredInternalClasses' => param('ignore_uncovered_internal_classes'),
         ])
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services
         ->set(MatchingLayersHandler::class)
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services
         ->set(LayerProvider::class)
         ->args([
             '$allowedLayers' => param('ruleset'),
-        ]);
+        ])
+    ;
     $services
         ->set(AllowDependencyHandler::class)
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services
         ->set(DependsOnDisallowedLayer::class)
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services
         ->set(DependsOnPrivateLayer::class)
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services
         ->set(DependsOnInternalToken::class)
         ->tag('kernel.event_subscriber')
         ->args([
             '$config' => param('analyser'),
-        ]);
+        ])
+    ;
     $services
         ->set(UnmatchedSkippedViolations::class)
-        ->tag('kernel.event_subscriber');
+        ->tag('kernel.event_subscriber')
+    ;
     $services->set(EventHelper::class)
         ->args([
             '$skippedViolations' => param('skip_violations'),
-        ]);
+        ])
+    ;
     $services
-        ->set(DependencyLayersAnalyser::class);
+        ->set(DependencyLayersAnalyser::class)
+    ;
     $services->set(TokenInLayerAnalyser::class)
         ->args([
             '$config' => param('analyser'),
-        ]);
+        ])
+    ;
     $services->set(LayerForTokenAnalyser::class);
     $services->set(UnassignedTokenAnalyser::class)
         ->args([
             '$config' => param('analyser'),
-        ]);
+        ])
+    ;
     $services->set(LayerDependenciesAnalyser::class);
     $services->set(RulesetUsageAnalyser::class)
         ->args([
             '$layers' => param('layers'),
-        ]);
+        ])
+    ;
 
     /*
      * OutputFormatter
@@ -378,51 +437,66 @@ return static function (ContainerConfigurator $container): void {
         ->set(FormatterConfiguration::class)
         ->args([
             '$config' => param('formatters'),
-        ]);
+        ])
+    ;
     $services
         ->set(FormatterProvider::class)
         ->args([
             '$formatterLocator' => tagged_locator('output_formatter', null, 'getName'),
-        ]);
+        ])
+    ;
     $services
         ->set(ConsoleOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(GithubActionsOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(JUnitOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(TableOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(XMLOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(BaselineOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(JsonOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(GraphVizOutputDisplayFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(GraphVizOutputImageFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(GraphVizOutputDotFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(GraphVizOutputHtmlFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(CodeclimateOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
     $services
         ->set(MermaidJSOutputFormatter::class)
-        ->tag('output_formatter');
+        ->tag('output_formatter')
+    ;
 
     /*
      * Console
@@ -430,57 +504,72 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->set(InitCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(AnalyseRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(AnalyseCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(ChangedFilesRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(ChangedFilesCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(DebugLayerRunner::class)
         ->autowire()
         ->args([
             '$layers' => param('layers'),
-        ]);
+        ])
+    ;
     $services
         ->set(DebugLayerCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(DebugTokenRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(DebugTokenCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(DebugUnassignedRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(DebugUnassignedCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(DebugDependenciesRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(DebugDependenciesCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
     $services
         ->set(DebugUnusedRunner::class)
-        ->autowire();
+        ->autowire()
+    ;
     $services
         ->set(DebugUnusedCommand::class)
         ->autowire()
-        ->tag('console.command');
+        ->tag('console.command')
+    ;
 };

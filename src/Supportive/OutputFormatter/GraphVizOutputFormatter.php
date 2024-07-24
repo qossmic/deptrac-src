@@ -185,7 +185,8 @@ abstract class GraphVizOutputFormatter implements OutputFormatterInterface
     {
         foreach ($outputConfig->groupsLayerMap as $groupName => $groupLayerNames) {
             $subgraph = Graph::create($this->getSubgraphName($groupName))
-                ->setAttribute('label', $groupName);
+                ->setAttribute('label', $groupName)
+            ;
             $graph->addGraph($subgraph);
 
             foreach ($groupLayerNames as $groupLayerName) {

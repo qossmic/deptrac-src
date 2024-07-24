@@ -43,7 +43,8 @@ final class LayerCollectorTest extends TestCase
             ->expects($this->once())
             ->method('has')
             ->with('test')
-            ->willReturn(false);
+            ->willReturn(false)
+        ;
 
         $this->expectException(InvalidCollectorDefinitionException::class);
         $this->expectExceptionMessage('Unknown layer "test" specified in collector.');
@@ -60,13 +61,15 @@ final class LayerCollectorTest extends TestCase
         $this->resolver
             ->method('has')
             ->with('FooLayer')
-            ->willReturn(true);
+            ->willReturn(true)
+        ;
         $this->resolver
             ->method('isReferenceInLayer')
             ->with('FooLayer', $reference)
             ->willReturnCallback(function (string $layerName, ClassLikeReference $reference) {
                 return $this->collector->satisfy(['value' => 'FooLayer'], $reference);
-            });
+            })
+        ;
 
         $this->expectException(InvalidLayerDefinitionException::class);
         $this->expectExceptionMessage('Circular dependency between layers detected. Token "App\Foo" could not be resolved.');
@@ -83,11 +86,13 @@ final class LayerCollectorTest extends TestCase
         $this->resolver
             ->method('has')
             ->with('AppLayer')
-            ->willReturn(true);
+            ->willReturn(true)
+        ;
         $this->resolver
             ->method('isReferenceInLayer')
             ->with('AppLayer', $reference)
-            ->willReturn(true);
+            ->willReturn(true)
+        ;
 
         $actual = $this->collector->satisfy(
             ['value' => 'AppLayer'],
@@ -103,11 +108,13 @@ final class LayerCollectorTest extends TestCase
         $this->resolver
             ->method('has')
             ->with('AppLayer')
-            ->willReturn(true);
+            ->willReturn(true)
+        ;
         $this->resolver
             ->method('isReferenceInLayer')
             ->with('AppLayer', $reference)
-            ->willReturn(false);
+            ->willReturn(false)
+        ;
 
         $actual = $this->collector->satisfy(
             ['value' => 'AppLayer'],

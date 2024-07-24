@@ -70,7 +70,8 @@ final class MethodCollectorTest extends TestCase
         $this->astParser
             ->method('getNodeForClassLikeReference')
             ->with($astClassReference)
-            ->willReturn($classLike);
+            ->willReturn($classLike)
+        ;
 
         $actual = $this->collector->satisfy(
             $configuration,
@@ -86,7 +87,8 @@ final class MethodCollectorTest extends TestCase
         $this->astParser
             ->method('getNodeForClassLikeReference')
             ->with($astClassReference)
-            ->willReturn(null);
+            ->willReturn(null)
+        ;
 
         $actual = $this->collector->satisfy(
             ['value' => 'abc'],

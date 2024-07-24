@@ -64,7 +64,8 @@ final class FileInputCollector implements InputCollectorInterface
                 ->ignoreUnreadableDirs()
                 ->ignoreVCS(true)
                 ->notPath($this->excludedFilePatterns)
-                ->sortByName();
+                ->sortByName()
+            ;
 
             $customFilterIterator = $finder->getIterator();
         } catch (LogicException|DirectoryNotFoundException $exception) {

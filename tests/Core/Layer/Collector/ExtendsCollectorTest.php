@@ -29,13 +29,15 @@ final class ExtendsCollectorTest extends TestCase
         $fooFileReferenceBuilder = FileReferenceBuilder::create('foo.php');
         $fooFileReferenceBuilder
             ->newClassLike('App\Foo', [], [])
-            ->implements('App\Bar', 2);
+            ->implements('App\Bar', 2)
+        ;
         $fooFileReference = $fooFileReferenceBuilder->build();
 
         $barFileReferenceBuilder = FileReferenceBuilder::create('bar.php');
         $barFileReferenceBuilder
             ->newClassLike('App\Bar', [], [])
-            ->implements('App\Baz', 2);
+            ->implements('App\Baz', 2)
+        ;
         $barFileReference = $barFileReferenceBuilder->build();
 
         $bazFileReferenceBuilder = FileReferenceBuilder::create('baz.php');
@@ -44,20 +46,23 @@ final class ExtendsCollectorTest extends TestCase
 
         $fizTraitFileReferenceBuilder = FileReferenceBuilder::create('fiztrait.php');
         $fizTraitFileReferenceBuilder
-            ->newClassLike('App\FizTrait', [], []);
+            ->newClassLike('App\FizTrait', [], [])
+        ;
         $fizTraitFileReference = $fizTraitFileReferenceBuilder->build();
 
         $fooBarFileReferenceBuilder = FileReferenceBuilder::create('foobar.php');
         $fooBarFileReferenceBuilder
             ->newClassLike('App\FooBar', [], [])
             ->extends('App\Foo', 2)
-            ->trait('App\FizTrait', 4);
+            ->trait('App\FizTrait', 4)
+        ;
         $fooBarFileReference = $fooBarFileReferenceBuilder->build();
 
         $astMap = new AstMap([$fooFileReference, $barFileReference, $bazFileReference, $fooBarFileReference, $fizTraitFileReference]);
         $astMapExtractor = $this->createMock(AstMapExtractor::class);
         $astMapExtractor->method('extract')
-                ->willReturn($astMap);
+                ->willReturn($astMap)
+        ;
 
         $collector = new ExtendsCollector($astMapExtractor);
         $actual = $collector->satisfy(
