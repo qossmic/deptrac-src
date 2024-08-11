@@ -13,7 +13,6 @@ use Qossmic\Deptrac\Contract\Ast\DependencyType;
 use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
 use Qossmic\Deptrac\Contract\Layer\LayerProvider;
 use Qossmic\Deptrac\Contract\Result\Violation;
-use Qossmic\Deptrac\Core\Analyser\EventHandler\DependsOnInternalToken;
 use Qossmic\Deptrac\Core\Analyser\EventHandler\DependsOnPrivateLayer;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
@@ -60,17 +59,17 @@ final class DependsOnPrivateLayerTest extends TestCase
         $handler->invoke($event);
 
         $this->assertCount(
-            0, 
+            0,
             $event->getResult()->rules(),
             'No violations should be added when dependent layer is public'
         );
-        
+
         $this->assertFalse(
             $event->isPropagationStopped(),
             'Propagation should continue if dependent layer is public'
         );
     }
-    
+
     public function testPropagationContinuesWhenPrivateLayerDependsOnItself(): void
     {
         $helper = new EventHelper([], new LayerProvider([]));
@@ -125,7 +124,7 @@ final class DependsOnPrivateLayerTest extends TestCase
             $violations,
             'Violation should be added when depending on private layer'
         );
-        
+
         $rule = array_values($violations)[0];
         $this->assertSame(
             'DependerLayer',
