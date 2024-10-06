@@ -5,3 +5,8 @@ RUN pecl install xdebug \
     && pecl clear-cache
 WORKDIR /var/www/deptrac
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN git config --global --add safe.directory /var/www/deptrac
+COPY ./docker/php/overrides.ini "$PHP_INI_DIR/conf.d/90-dev-overrides.ini"
+
+CMD ["bash"]
