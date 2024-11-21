@@ -13,8 +13,7 @@
         },
         {
             "name": "Denis Brumann",
-            "email": "denis.brumann@qossmic.com",
-            "role": "maintainer"
+            "email": "denis.brumann@qossmic.com"
         }
     ],
     "bin": [

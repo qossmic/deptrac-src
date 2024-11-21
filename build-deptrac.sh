@@ -4,8 +4,7 @@ DEPTRAC_DIR="${DEPTRAC_DIR:-../deptrac-scoped}"
 BUILD_DIR=build
 BUILD_TMP=${BUILD_DIR}/deptrac-build
 PHP='docker compose exec -u 1000 deptrac php -d memory_limit=-1'
-CONTAINER=docker compose exec -u 1000 deptrac bash
-# PHP='php'
+CONTAINER='docker compose exec -u 1000 deptrac bash'
 SCOPER=$BUILD_DIR/php-scoper.phar
 BOX=$BUILD_DIR/box.phar
 
@@ -43,10 +42,8 @@ $CONTAINER cp -rv $BUILD_DIR/template/* *.md mkdocs.yml docs -t $BUILD_TMP
 $CONTAINER cp -rv $BUILD_DIR/template/.github -t $BUILD_TMP
 $CONTAINER cp -rv $BUILD_DIR/template/.gitignore -t $BUILD_TMP
 
-# exit 1;
 info "Copy build into deptrac distrubtion repository"
 cp -rv $BUILD_TMP/* $DEPTRAC_DIR 
-# cp -rv $BUILD_TMP/.* $DEPTRAC_DIR 
 
 # info "Git commit changes"
 # echo "Update $(date)" > git_commit_message.txt
