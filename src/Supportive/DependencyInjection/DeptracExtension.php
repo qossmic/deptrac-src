@@ -57,7 +57,10 @@ class DeptracExtension extends Extension implements PrependExtensionInterface
             $container->setParameter('formatters', []);
         }
         if (!$container->hasParameter('analyser')) {
-            $container->setParameter('analyser', ['types' => [EmitterType::CLASS_TOKEN->value, EmitterType::FUNCTION_TOKEN->value]]);
+            $container->setParameter('analyser', [
+                'internal_tag' => null,
+                'types' => [EmitterType::CLASS_TOKEN->value, EmitterType::FUNCTION_TOKEN->value]
+            ]);
         }
         if (!$container->hasParameter('ignore_uncovered_internal_classes')) {
             $container->setParameter('ignore_uncovered_internal_classes', true);
