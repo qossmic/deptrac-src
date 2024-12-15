@@ -23,6 +23,7 @@
         "php": "^8.1",
         "ext-json": "*",
         "composer/xdebug-handler": "^3.0",
+        "ergebnis/composer-normalize": "^2.45",
         "jetbrains/phpstorm-stubs": "2024.1",
         "nikic/php-parser": "^4.19",
         "phpdocumentor/graphviz": "^2.1",
@@ -59,6 +60,7 @@
         },
         "sort-packages": true,
         "allow-plugins": {
+            "ergebnis/composer-normalize": true,
             "infection/extension-installer": true
         }
     },
