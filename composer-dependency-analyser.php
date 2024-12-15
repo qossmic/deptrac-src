@@ -7,4 +7,5 @@ $config = new Configuration();
 
 return $config
     ->addPathToScan(__DIR__ . '/bin/deptrac', isDev: false)
+    ->ignoreErrorsOnExtension('ext-dom', [ErrorType::SHADOW_DEPENDENCY])
     ->ignoreErrorsOnPath(__DIR__ . '/tests', [ErrorType::UNKNOWN_CLASS, ErrorType::UNKNOWN_FUNCTION]); // keep ability to test invalid symbols
