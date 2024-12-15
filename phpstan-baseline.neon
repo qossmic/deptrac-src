@@ -1,9 +1,34 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Property Qossmic\\\\Deptrac\\\\Contract\\\\Analyser\\\\EventHelper\\:\\:\\$unmatchedSkippedViolation \\(array\\<string, list\\<string\\>\\>\\) does not accept array\\<string, array\\<int\\<0, max\\>, string\\>\\>\\.$#"
+			count: 1
+			path: src/Contract/Analyser/EventHelper.php
+
+		-
 			message: "#^Method Qossmic\\\\Deptrac\\\\Contract\\\\Result\\\\OutputResult\\:\\:allOf\\(\\) should return list\\<T of Qossmic\\\\Deptrac\\\\Contract\\\\Result\\\\RuleInterface\\> but returns list\\<Qossmic\\\\Deptrac\\\\Contract\\\\Result\\\\RuleInterface\\>\\.$#"
 			count: 1
 			path: src/Contract/Result/OutputResult.php
+
+		-
+			message: "#^Method Qossmic\\\\Deptrac\\\\Core\\\\Analyser\\\\TokenInLayerAnalyser\\:\\:__construct\\(\\) throws checked exception TypeError but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: src/Core/Analyser/TokenInLayerAnalyser.php
+
+		-
+			message: "#^Method Qossmic\\\\Deptrac\\\\Core\\\\Analyser\\\\TokenInLayerAnalyser\\:\\:__construct\\(\\) throws checked exception ValueError but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: src/Core/Analyser/TokenInLayerAnalyser.php
+
+		-
+			message: "#^Method Qossmic\\\\Deptrac\\\\Core\\\\Analyser\\\\UnassignedTokenAnalyser\\:\\:__construct\\(\\) throws checked exception TypeError but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: src/Core/Analyser/UnassignedTokenAnalyser.php
+
+		-
+			message: "#^Method Qossmic\\\\Deptrac\\\\Core\\\\Analyser\\\\UnassignedTokenAnalyser\\:\\:__construct\\(\\) throws checked exception ValueError but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: src/Core/Analyser/UnassignedTokenAnalyser.php
 
 		-
 			message: "#^Method Qossmic\\\\Deptrac\\\\Core\\\\Ast\\\\AstMap\\\\ReferenceBuilder\\:\\:superglobal\\(\\) throws checked exception TypeError but it's missing from the PHPDoc @throws tag\\.$#"
@@ -16,6 +41,11 @@ parameters:
 			path: src/Core/Ast/AstMap/ReferenceBuilder.php
 
 		-
+			message: "#^Property Qossmic\\\\Deptrac\\\\Core\\\\Ast\\\\AstMap\\\\ReferenceBuilder\\:\\:\\$tokenTemplates \\(list\\<string\\>\\) does not accept array\\<int\\<0, max\\>, string\\>\\.$#"
+			count: 1
+			path: src/Core/Ast/AstMap/ReferenceBuilder.php
+
+		-
 			message: "#^Method Qossmic\\\\Deptrac\\\\Supportive\\\\Console\\\\Command\\\\DebugTokenCommand\\:\\:execute\\(\\) throws checked exception TypeError but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: src/Supportive/Console/Command/DebugTokenCommand.php
@@ -24,3 +54,8 @@ parameters:
 			message: "#^Method Qossmic\\\\Deptrac\\\\Supportive\\\\Console\\\\Command\\\\DebugTokenCommand\\:\\:execute\\(\\) throws checked exception ValueError but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: src/Supportive/Console/Command/DebugTokenCommand.php
+
+		-
+			message: "#^Possibly impure instantiation of class Qossmic\\\\Deptrac\\\\Supportive\\\\Time\\\\Period in pure method Qossmic\\\\Deptrac\\\\Supportive\\\\Time\\\\Period\\:\\:stop\\(\\)\\.$#"
+			count: 1
+			path: src/Supportive/Time/Period.php
