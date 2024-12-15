@@ -14,7 +14,7 @@ class AstMapExtractor
 
     public function __construct(
         private readonly InputCollectorInterface $inputCollector,
-        private readonly AstLoader $astLoader
+        private readonly AstLoader $astLoader,
     ) {}
 
     /**

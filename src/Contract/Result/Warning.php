@@ -21,7 +21,7 @@ final class Warning implements Stringable
      */
     public static function tokenIsInMoreThanOneLayer(
         string $tokenName,
-        array $layerNames
+        array $layerNames,
     ): self {
         return new self(sprintf(
             '%s is in more than one layer ["%s"]. It is recommended that one token should only be in one layer.',

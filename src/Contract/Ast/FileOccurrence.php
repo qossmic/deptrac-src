@@ -13,6 +13,6 @@ final class FileOccurrence
 {
     public function __construct(
         public readonly string $filepath,
-        public readonly int $line
+        public readonly int $line,
     ) {}
 }

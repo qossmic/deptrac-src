@@ -29,7 +29,7 @@ class DependencyLayersAnalyser
         private readonly DependencyResolver $dependencyResolver,
         private readonly TokenResolver $tokenResolver,
         private readonly LayerResolverInterface $layerResolver,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
     /**

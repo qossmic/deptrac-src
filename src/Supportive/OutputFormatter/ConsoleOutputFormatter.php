@@ -28,7 +28,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         foreach ($result->allOf(Violation::class) as $rule) {
             $this->printViolation($rule, $output);

@@ -387,7 +387,7 @@ final class CodeclimateOutputFormatterTest extends TestCase
         $expectedOutputFile,
         bool $reportSkipped = false,
         bool $reportUncovered = false,
-        array $inputConfig = []
+        array $inputConfig = [],
     ): void {
         $bufferedOutput = new BufferedOutput();
 
@@ -424,7 +424,7 @@ final class CodeclimateOutputFormatterTest extends TestCase
         $expectedOutputFile,
         bool $reportSkipped = false,
         bool $reportUncovered = false,
-        array $inputConfig = []
+        array $inputConfig = [],
     ): void {
         $bufferedOutput = new BufferedOutput();
 

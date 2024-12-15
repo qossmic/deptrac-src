@@ -17,7 +17,7 @@ class AstLoader
 {
     public function __construct(
         private readonly ParserInterface $parser,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
     /**

@@ -20,7 +20,7 @@ final class ChangedFilesRunner
 {
     public function __construct(
         private readonly LayerForTokenAnalyser $layerForTokenAnalyser,
-        private readonly DependencyLayersAnalyser $dependencyLayersAnalyser
+        private readonly DependencyLayersAnalyser $dependencyLayersAnalyser,
     ) {}
 
     /**

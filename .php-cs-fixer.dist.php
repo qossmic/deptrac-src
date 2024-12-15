@@ -1,11 +1,14 @@
 <?php
 
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
 $finder = (new PhpCsFixer\Finder())
     ->in([__DIR__.'/config', __DIR__.'/src', __DIR__.'/tests'])
     ->exclude('Fixtures')
     ->append([__DIR__.'/deptrac.php']);
 
 return (new PhpCsFixer\Config())
+    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setCacheFile('./.cache/php-cs-fixer.cache')
     ->setRules([

@@ -30,7 +30,7 @@ final class DependsOnInternalTokenTest extends TestCase
     }
 
     private function makeEvent(
-        array $dependerTags, array $dependentTags, $dependentLayer = 'DependentLayer'
+        array $dependerTags, array $dependentTags, $dependentLayer = 'DependentLayer',
     ): ProcessEvent {
         $dependerToken = ClassLikeToken::fromFQCN('DependerClass');
         $dependentToken = ClassLikeToken::fromFQCN('DependentClass');

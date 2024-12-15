@@ -43,7 +43,7 @@ class FileReferenceVisitor extends NodeVisitorAbstract
     public function __construct(
         private readonly FileReferenceBuilder $fileReferenceBuilder,
         private readonly TypeResolver $typeResolver,
-        ReferenceExtractorInterface ...$dependencyResolvers
+        ReferenceExtractorInterface ...$dependencyResolvers,
     ) {
         $this->currentTypeScope = new TypeScope('');
         $this->lexer = new Lexer();
@@ -81,7 +81,7 @@ class FileReferenceVisitor extends NodeVisitorAbstract
             $node instanceof Node\Stmt\Function_ => $this->enterFunction($node),
             $node instanceof ClassLike => $this->enterClassLike($node),
             $node instanceof Node\FunctionLike => $this->enterFunctionLike($node),
-            default => null
+            default => null,
         };
 
         return null;
@@ -100,7 +100,7 @@ class FileReferenceVisitor extends NodeVisitorAbstract
             $node instanceof ClassLike && null !== $this->getClassReferenceName($node) => $this->currentReference = $this->fileReferenceBuilder,
             $node instanceof Use_ && Use_::TYPE_NORMAL === $node->type => $this->leaveUse($node),
             $node instanceof GroupUse => $this->leaveGroupUse($node),
-            default => null
+            default => null,
         };
 
         foreach ($this->dependencyResolvers as $resolver) {
@@ -141,7 +141,7 @@ class FileReferenceVisitor extends NodeVisitorAbstract
                 $node instanceof Trait_ => $this->currentReference =
                     $this->fileReferenceBuilder->newTrait($name, $this->templatesFromDocs($node), $tags),
                 default => $this->currentReference =
-                    $this->fileReferenceBuilder->newClassLike($name, $this->templatesFromDocs($node), $tags)
+                    $this->fileReferenceBuilder->newClassLike($name, $this->templatesFromDocs($node), $tags),
             };
         }
 

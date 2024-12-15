@@ -18,7 +18,7 @@ final class FormatterProvider implements ContainerInterface
      * @param ServiceLocator<mixed> $formatterLocator
      */
     public function __construct(
-        private readonly ServiceLocator $formatterLocator
+        private readonly ServiceLocator $formatterLocator,
     ) {}
 
     public function get(string $id): OutputFormatterInterface

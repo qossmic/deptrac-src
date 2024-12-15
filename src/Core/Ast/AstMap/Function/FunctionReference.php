@@ -22,7 +22,7 @@ class FunctionReference extends TaggedTokenReference
         private readonly FunctionToken $functionName,
         public readonly array $dependencies = [],
         public readonly array $tags = [],
-        private readonly ?FileReference $fileReference = null
+        private readonly ?FileReference $fileReference = null,
     ) {
         parent::__construct($tags);
     }

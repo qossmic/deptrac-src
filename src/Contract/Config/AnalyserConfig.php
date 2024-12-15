@@ -9,7 +9,6 @@ final class AnalyserConfig
     /** @var array<string, EmitterType> */
     private array $types = [];
 
-    /** @var ?string */
     private ?string $internalTag = null;
 
     private function __construct() {}

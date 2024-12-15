@@ -40,7 +40,7 @@ class NikicPhpParser implements ParserInterface
         private readonly Parser $parser,
         private readonly AstFileReferenceCacheInterface $cache,
         private readonly TypeResolver $typeResolver,
-        private readonly iterable $extractors
+        private readonly iterable $extractors,
     ) {
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new NameResolver());

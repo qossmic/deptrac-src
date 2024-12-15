@@ -31,7 +31,7 @@ final class BaselineOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         $groupedViolations = $this->collectViolations($result);
 

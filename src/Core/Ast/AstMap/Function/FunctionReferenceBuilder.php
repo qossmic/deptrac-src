@@ -16,7 +16,7 @@ class FunctionReferenceBuilder extends ReferenceBuilder
         array $tokenTemplates,
         string $filepath,
         private readonly string $functionName,
-        private readonly array $tags
+        private readonly array $tags,
     ) {
         parent::__construct(
             $tokenTemplates,

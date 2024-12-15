@@ -15,6 +15,6 @@ final class DependencyContext
 {
     public function __construct(
         public readonly FileOccurrence $fileOccurrence,
-        public readonly DependencyType $dependencyType
+        public readonly DependencyType $dependencyType,
     ) {}
 }

@@ -16,7 +16,7 @@ final class Allowed implements CoveredRuleInterface
     public function __construct(
         private readonly DependencyInterface $dependency,
         private readonly string $dependerLayer,
-        private readonly string $dependentLayer
+        private readonly string $dependentLayer,
     ) {}
 
     public function getDependency(): DependencyInterface

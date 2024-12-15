@@ -31,7 +31,7 @@ final class DependsOnPrivateLayerTest extends TestCase
     }
 
     private function makeEvent(
-        string $dependerLayer, string $dependentLayer, bool $isPublic
+        string $dependerLayer, string $dependentLayer, bool $isPublic,
     ): ProcessEvent {
         $dependerToken = ClassLikeToken::fromFQCN('DependerClass');
         $dependentToken = ClassLikeToken::fromFQCN('DependentClass');

@@ -14,7 +14,7 @@ use Qossmic\Deptrac\Core\Analyser\RulesetUsageAnalyser;
 final class DebugUnusedRunner
 {
     public function __construct(
-        private readonly RulesetUsageAnalyser $analyser
+        private readonly RulesetUsageAnalyser $analyser,
     ) {}
 
     /**
@@ -43,7 +43,7 @@ final class DebugUnusedRunner
      */
     private function prepareOutputTable(
         array $layerNames,
-        int $limit
+        int $limit,
     ): array {
         $rows = [];
         foreach ($layerNames as $dependerLayerName => $dependentLayerNames) {

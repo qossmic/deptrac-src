@@ -23,7 +23,7 @@ final class OutputResult
     private function __construct(
         public readonly array $rules,
         public readonly array $errors,
-        public readonly array $warnings
+        public readonly array $warnings,
     ) {}
 
     public static function fromAnalysisResult(AnalysisResult $analysisResult): self

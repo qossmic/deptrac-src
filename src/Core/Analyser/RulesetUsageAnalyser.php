@@ -28,7 +28,7 @@ class RulesetUsageAnalyser
         private readonly AstMapExtractor $astMapExtractor,
         private readonly DependencyResolver $dependencyResolver,
         private readonly TokenResolver $tokenResolver,
-        private readonly array $layers
+        private readonly array $layers,
     ) {}
 
     /**

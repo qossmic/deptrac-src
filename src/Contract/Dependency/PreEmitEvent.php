@@ -12,6 +12,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class PreEmitEvent extends Event
 {
     public function __construct(
-        public readonly string $emitterName
+        public readonly string $emitterName,
     ) {}
 }
