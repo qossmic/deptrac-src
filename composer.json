@@ -40,16 +40,12 @@
         "symfony/yaml": "^6.0"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
         "ergebnis/composer-normalize": "^2.45",
-        "friendsofphp/php-cs-fixer": "^3.4",
-        "infection/infection": "^0.26.16",
-        "phpstan/phpstan": "^1.6.8",
-        "phpstan/phpstan-symfony": "^1.1",
         "phpunit/phpunit": "^10.2",
         "roave/infection-static-analysis-plugin": "^1.28",
         "shipmonk/composer-dependency-analyser": "^1.5",
-        "symfony/stopwatch": "^6.4",
-        "vimeo/psalm": "^5.13"
+        "symfony/stopwatch": "^6.4"
     },
     "suggest": {
         "ext-dom": "For using the JUnit output formatter"
@@ -70,6 +66,7 @@
     ],
     "config": {
         "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true
         },
@@ -77,5 +74,12 @@
             "php": "8.1"
         },
         "sort-packages": true
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": true,
+            "target-directory": "vendor-bin"
+        }
     }
 }
