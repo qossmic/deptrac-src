@@ -6,7 +6,7 @@ PHP_BIN := php
 PHP_CS_FIXER_BIN := ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
 PHPSTAN_BIN	:= ./tools/phpstan/bin/phpstan
 PSALM_BIN	:= ./tools/psalm/bin/psalm
-PHPUNIT_BIN	:= ./vendor/bin/phpunit
+PHPUNIT_BIN	:= ./tools/phpunit/bin/phpunit
 INFECTION_BIN	:= ./tools/infection/bin/roave-infection-static-analysis-plugin
 
 .PHONY: help
