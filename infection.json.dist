@@ -14,5 +14,8 @@
       "\\$output->writeLineFormatted.*"
     ],
     "CatchBlockRemoval": false
-  }
+  },
+  "phpUnit": {
+        "customPath": "./tools/phpunit/bin/phpunit"
+    }
 }
