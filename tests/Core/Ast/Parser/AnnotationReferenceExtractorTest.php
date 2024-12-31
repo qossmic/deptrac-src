@@ -19,7 +19,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
     {
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+            (new ParserFactory())->createForHostVersion(),
             new AstFileReferenceInMemoryCache(),
             new TypeResolver(),
             [
@@ -35,7 +35,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         $annotationDependency = $astClassReferences[0]->dependencies;
 
         self::assertCount(2, $astClassReferences);
-        self::assertCount(9, $annotationDependency);
+        self::assertCount(6, $annotationDependency);
         self::assertCount(0, $astClassReferences[1]->dependencies);
 
         self::assertSame(
@@ -47,43 +47,43 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertSame('variable', $annotationDependency[0]->context->dependencyType->value);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
+            'Symfony\Component\Finder\SplFileInfo',
             $annotationDependency[1]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[1]->context->fileOccurrence->filepath);
-        self::assertSame(23, $annotationDependency[1]->context->fileOccurrence->line);
-        self::assertSame('variable', $annotationDependency[1]->context->dependencyType->value);
+        self::assertSame(14, $annotationDependency[1]->context->fileOccurrence->line);
+        self::assertSame('parameter', $annotationDependency[1]->context->dependencyType->value);
 
         self::assertSame(
             'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[2]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[2]->context->fileOccurrence->filepath);
-        self::assertSame(26, $annotationDependency[2]->context->fileOccurrence->line);
-        self::assertSame('variable', $annotationDependency[2]->context->dependencyType->value);
+        self::assertSame(14, $annotationDependency[2]->context->fileOccurrence->line);
+        self::assertSame('returntype', $annotationDependency[2]->context->dependencyType->value);
 
         self::assertSame(
             'Symfony\Component\Console\Exception\RuntimeException',
             $annotationDependency[3]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[3]->context->fileOccurrence->filepath);
-        self::assertSame(29, $annotationDependency[3]->context->fileOccurrence->line);
-        self::assertSame('variable', $annotationDependency[3]->context->dependencyType->value);
+        self::assertSame(14, $annotationDependency[3]->context->fileOccurrence->line);
+        self::assertSame('throw', $annotationDependency[3]->context->dependencyType->value);
 
         self::assertSame(
-            'Symfony\Component\Finder\SplFileInfo',
+            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[4]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[4]->context->fileOccurrence->filepath);
-        self::assertSame(14, $annotationDependency[4]->context->fileOccurrence->line);
-        self::assertSame('parameter', $annotationDependency[4]->context->dependencyType->value);
+        self::assertSame(42, $annotationDependency[4]->context->fileOccurrence->line);
+        self::assertSame('new', $annotationDependency[4]->context->dependencyType->value);
 
         self::assertSame(
             'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[5]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[5]->context->fileOccurrence->filepath);
-        self::assertSame(14, $annotationDependency[5]->context->fileOccurrence->line);
+        self::assertSame(35, $annotationDependency[5]->context->fileOccurrence->line);
         self::assertSame('returntype', $annotationDependency[5]->context->dependencyType->value);
     }
 }
