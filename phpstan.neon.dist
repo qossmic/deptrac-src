@@ -1,7 +1,7 @@
 includes:
     - phpstan-baseline.neon
     - vendor/phpdocumentor/graphviz/extension.neon
-    - vendor-bin/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
+    - tools/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
     reportUnmatchedIgnoredErrors: true

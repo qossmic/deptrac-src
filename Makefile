@@ -3,11 +3,11 @@ COMPOSER_BIN := composer
 COMPOSER_DEPENDENCY_ANALYSER_BIN := ./vendor/bin/composer-dependency-analyser
 PHP_BIN := php
 
-PHP_CS_FIXER_BIN := ./vendor-bin/php-cs-fixer/vendor/bin/php-cs-fixer
-PHPSTAN_BIN	:= ./vendor-bin/phpstan/bin/phpstan
-PSALM_BIN	:= ./vendor-bin/psalm/bin/psalm
+PHP_CS_FIXER_BIN := ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
+PHPSTAN_BIN	:= ./tools/phpstan/bin/phpstan
+PSALM_BIN	:= ./tools/psalm/bin/psalm
 PHPUNIT_BIN	:= ./vendor/bin/phpunit
-INFECTION_BIN	:= ./vendor-bin/infection/bin/roave-infection-static-analysis-plugin
+INFECTION_BIN	:= ./tools/infection/bin/roave-infection-static-analysis-plugin
 
 .PHONY: help
 help: ## Displays list of available targets with their descriptions
