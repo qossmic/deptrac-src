@@ -78,7 +78,7 @@
         "bamarni-bin": {
             "bin-links": false,
             "forward-command": true,
-            "target-directory": "vendor-bin"
+            "target-directory": "tools"
         }
     }
 }
