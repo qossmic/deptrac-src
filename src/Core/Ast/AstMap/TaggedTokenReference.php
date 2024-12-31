@@ -17,7 +17,7 @@ abstract class TaggedTokenReference implements TaggedTokenReferenceInterface
      * @param array<string,list<string>> $tags
      */
     protected function __construct(
-        private readonly array $tags
+        private readonly array $tags,
     ) {}
 
     public function hasTag(string $name): bool

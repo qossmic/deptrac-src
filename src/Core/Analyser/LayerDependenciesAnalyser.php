@@ -22,7 +22,7 @@ class LayerDependenciesAnalyser
         private readonly AstMapExtractor $astMapExtractor,
         private readonly TokenResolver $tokenResolver,
         private readonly DependencyResolver $dependencyResolver,
-        private readonly LayerResolverInterface $layerResolver
+        private readonly LayerResolverInterface $layerResolver,
     ) {}
 
     /**

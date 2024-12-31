@@ -11,7 +11,7 @@ final class TagValueRegexConfig extends CollectorConfig
 
     public function __construct(
         private string $tag,
-        private ?string $value = null
+        private ?string $value = null,
     ) {}
 
     public static function create(string $tag, ?string $regexpr = null): self

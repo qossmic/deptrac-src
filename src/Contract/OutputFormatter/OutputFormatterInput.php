@@ -13,6 +13,6 @@ final class OutputFormatterInput
         public readonly ?string $outputPath,
         public readonly bool $reportSkipped,
         public readonly bool $reportUncovered,
-        public readonly bool $failOnUncovered
+        public readonly bool $failOnUncovered,
     ) {}
 }

@@ -28,7 +28,7 @@ class TokenResolver
             $token instanceof FunctionToken => $astMap->getFunctionReferenceForToken($token) ?? new FunctionReference($token),
             $token instanceof SuperGlobalToken => new VariableReference($token),
             $token instanceof FileToken => $astMap->getFileReferenceForToken($token) ?? new FileReference($token->path, [], [], []),
-            default => throw UnrecognizedTokenException::cannotCreateReference($token)
+            default => throw UnrecognizedTokenException::cannotCreateReference($token),
         };
     }
 }

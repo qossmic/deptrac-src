@@ -32,7 +32,7 @@ class AnalyseCommand extends Command
     public function __construct(
         private readonly AnalyseRunner $runner,
         private readonly EventDispatcherInterface $dispatcher,
-        private readonly FormatterProvider $formatterProvider
+        private readonly FormatterProvider $formatterProvider,
     ) {
         parent::__construct();
     }

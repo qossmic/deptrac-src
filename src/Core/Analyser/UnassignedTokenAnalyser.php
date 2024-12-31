@@ -31,7 +31,7 @@ class UnassignedTokenAnalyser
         private readonly AstMapExtractor $astMapExtractor,
         private readonly TokenResolver $tokenResolver,
         private readonly LayerResolverInterface $layerResolver,
-        array $config
+        array $config,
     ) {
         $this->tokenTypes = array_filter(
             array_map(

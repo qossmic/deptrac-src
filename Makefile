@@ -3,7 +3,7 @@ COMPOSER_BIN := composer
 COMPOSER_DEPENDENCY_ANALYSER_BIN := ./vendor/bin/composer-dependency-analyser
 PHP_BIN := php
 
-PHP_CS_FIXER_BIN := ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
+PHP_CS_FIXER_BIN := ./tools/php-cs-fixer/bin/php-cs-fixer
 PHPSTAN_BIN	:= ./tools/phpstan/bin/phpstan
 PSALM_BIN	:= ./tools/psalm/bin/psalm
 PHPUNIT_BIN	:= ./tools/phpunit/bin/phpunit

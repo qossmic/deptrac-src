@@ -28,7 +28,7 @@ final class TableOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         $groupedRules = [];
 

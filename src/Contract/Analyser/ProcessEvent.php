@@ -24,7 +24,7 @@ final class ProcessEvent extends Event
         public readonly string $dependerLayer,
         public readonly TokenReferenceInterface $dependentReference,
         public readonly array $dependentLayers,
-        private AnalysisResult $result = new AnalysisResult()
+        private AnalysisResult $result = new AnalysisResult(),
     ) {}
 
     public function getResult(): AnalysisResult

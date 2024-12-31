@@ -21,6 +21,6 @@ final class ConfigurationGraphViz
     private function __construct(
         public readonly array $hiddenLayers,
         public readonly array $groupsLayerMap,
-        public readonly bool $pointToGroups
+        public readonly bool $pointToGroups,
     ) {}
 }

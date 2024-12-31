@@ -23,7 +23,7 @@ final class ClassLikeReferenceBuilder extends ReferenceBuilder
         string $filepath,
         private readonly ClassLikeToken $classLikeToken,
         private readonly ClassLikeType $classLikeType,
-        private readonly array $tags
+        private readonly array $tags,
     ) {
         parent::__construct($tokenTemplates, $filepath);
     }

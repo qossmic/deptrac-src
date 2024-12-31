@@ -378,7 +378,7 @@ final class JsonOutputFormatterTest extends TestCase
         array $rules,
         $expectedOutputFile,
         bool $reportSkipped = false,
-        bool $reportUncovered = false
+        bool $reportUncovered = false,
     ): void {
         $bufferedOutput = new BufferedOutput();
 
@@ -412,7 +412,7 @@ final class JsonOutputFormatterTest extends TestCase
         array $rules,
         $expectedOutputFile,
         bool $reportSkipped = false,
-        bool $reportUncovered = false
+        bool $reportUncovered = false,
     ): void {
         $bufferedOutput = new BufferedOutput();
 

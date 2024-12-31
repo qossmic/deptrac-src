@@ -40,7 +40,7 @@ abstract class GraphVizOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         $layerViolations = $this->calculateViolations($result->violations());
         $layersDependOnLayers = $this->calculateLayerDependencies($result->allRules());
@@ -153,7 +153,7 @@ abstract class GraphVizOutputFormatter implements OutputFormatterInterface
         array $nodes,
         ConfigurationGraphViz $outputConfig,
         array $layersDependOnLayers,
-        array $layerViolations
+        array $layerViolations,
     ): void {
         foreach ($layersDependOnLayers as $layer => $layersDependOn) {
             if (in_array($layer, $outputConfig->hiddenLayers, true)) {

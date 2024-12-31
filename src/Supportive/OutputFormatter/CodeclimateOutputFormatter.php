@@ -52,7 +52,7 @@ final class CodeclimateOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         $formatterConfig = ConfigurationCodeclimate::fromArray($this->config);
 

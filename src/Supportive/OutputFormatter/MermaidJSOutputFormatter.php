@@ -40,7 +40,7 @@ final class MermaidJSOutputFormatter implements OutputFormatterInterface
     public function finish(
         OutputResult $result,
         OutputInterface $output,
-        OutputFormatterInput $outputFormatterInput
+        OutputFormatterInput $outputFormatterInput,
     ): void {
         $graph = $this->parseResults($result);
         $violations = $result->violations();

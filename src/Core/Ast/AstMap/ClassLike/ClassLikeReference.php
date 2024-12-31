@@ -27,7 +27,7 @@ class ClassLikeReference extends TaggedTokenReference
         public readonly array $inherits = [],
         public readonly array $dependencies = [],
         public readonly array $tags = [],
-        private readonly ?FileReference $fileReference = null
+        private readonly ?FileReference $fileReference = null,
     ) {
         parent::__construct($tags);
         $this->type = $classLikeType ?? ClassLikeType::TYPE_CLASSLIKE;

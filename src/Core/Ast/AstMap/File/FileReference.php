@@ -30,7 +30,7 @@ class FileReference implements TokenReferenceInterface
         public readonly string $filepath,
         array $classLikeReferences,
         array $functionReferences,
-        public readonly array $dependencies
+        public readonly array $dependencies,
     ) {
         /** @psalm-suppress ImpureFunctionCall */
         $this->classLikeReferences = array_map(

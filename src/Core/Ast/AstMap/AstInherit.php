@@ -24,7 +24,7 @@ class AstInherit implements Stringable
         public readonly ClassLikeToken $classLikeName,
         public readonly FileOccurrence $fileOccurrence,
         public readonly AstInheritType $type,
-        private readonly array $path = []
+        private readonly array $path = [],
     ) {}
 
     /**

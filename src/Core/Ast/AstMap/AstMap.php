@@ -105,7 +105,7 @@ class AstMap
     private function recursivelyResolveDependencies(
         AstInherit $inheritDependency,
         ?ArrayObject $alreadyResolved = null,
-        ?SplStack $pathStack = null
+        ?SplStack $pathStack = null,
     ): iterable {
         $alreadyResolved ??= new ArrayObject();
         /** @var ArrayObject<string, true> $alreadyResolved */

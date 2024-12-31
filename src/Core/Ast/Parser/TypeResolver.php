@@ -67,7 +67,7 @@ class TypeResolver
             $node instanceof NullableType => $this->resolvePHPParserType($typeScope, $node->type),
             $node instanceof UnionType => $this->resolvePHPParserTypes($typeScope, ...$node->types),
             $node instanceof IntersectionType => $this->resolvePHPParserTypes($typeScope, ...$node->types),
-            default => []
+            default => [],
         };
     }
 
@@ -87,7 +87,7 @@ class TypeResolver
             $type instanceof GenericTypeNode => $this->resolveGeneric($type, $typeScope, $templateTypes),
             $type instanceof ArrayShapeNode => $this->resolveArray($type, $typeScope, $templateTypes),
             $type instanceof CallableTypeNode => $this->resolveCallable($type, $typeScope, $templateTypes),
-            default => $this->resolveString((string) $type, $typeScope)
+            default => $this->resolveString((string) $type, $typeScope),
         };
     }
 
@@ -122,7 +122,7 @@ class TypeResolver
                     $type->types
                 )
             ),
-            default => []
+            default => [],
         };
     }
 
@@ -134,7 +134,7 @@ class TypeResolver
         return match (true) {
             $resolvedType instanceof Object_ => ($fqsen = $resolvedType->getFqsen()) ? [(string) $fqsen] : [],
             $resolvedType instanceof Compound => array_merge([], ...array_map(fn (Type $type) => $this->resolveReflectionType($type), iterator_to_array($resolvedType))),
-            default => []
+            default => [],
         };
     }
 
@@ -212,7 +212,7 @@ class TypeResolver
     private function resolveVariableType(
         UnionTypeNode|IntersectionTypeNode $type,
         TypeScope $typeScope,
-        array $templateTypes
+        array $templateTypes,
     ): array {
         return array_merge([],
             ...array_map(

@@ -25,7 +25,7 @@ class LayerForTokenAnalyser
     public function __construct(
         private readonly AstMapExtractor $astMapExtractor,
         private readonly TokenResolver $tokenResolver,
-        private readonly LayerResolverInterface $layerResolver
+        private readonly LayerResolverInterface $layerResolver,
     ) {}
 
     /**
@@ -49,7 +49,7 @@ class LayerForTokenAnalyser
                     $tokenName,
                     $astMap
                 ),
-                TokenType::FILE => $this->findLayersForReferences($astMap->getFileReferences(), $tokenName, $astMap)
+                TokenType::FILE => $this->findLayersForReferences($astMap->getFileReferences(), $tokenName, $astMap),
             };
         } catch (UnrecognizedTokenException $e) {
             throw AnalyserException::unrecognizedToken($e);

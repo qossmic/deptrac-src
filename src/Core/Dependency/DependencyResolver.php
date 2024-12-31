@@ -23,7 +23,7 @@ class DependencyResolver
         private readonly array $config,
         private readonly InheritanceFlattener $inheritanceFlattener,
         private readonly ContainerInterface $emitterLocator,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
     /**

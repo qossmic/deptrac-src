@@ -12,6 +12,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class PreCreateAstMapEvent extends Event
 {
     public function __construct(
-        public readonly int $expectedFileCount
+        public readonly int $expectedFileCount,
     ) {}
 }
