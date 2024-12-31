@@ -7,11 +7,11 @@ services:
     tty: true
     environment:
       - PHP_IDE_CONFIG=serverName=deptrac
-      - COMPOSER_CACHE_DIR=/var/www/deptrac/.composer
+      - COMPOSER_CACHE_DIR=/var/www/deptrac/cache/composer
     userns_mode: keep-id
     volumes:
-      - ./:/var/www/deptrac:z
-      - composer-data:/var/www/deptrac/.composer
+      - ./:/var/www/deptrac
+      - composer-data:/var/www/deptrac/cache/composer
     extra_hosts:
       - host.docker.internal:${HOST_IP:-172.17.0.1}
 

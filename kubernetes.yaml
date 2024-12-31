@@ -33,7 +33,7 @@ spec:
       volumeMounts:
         - mountPath: /var/www/deptrac
           name: home-gennadi-Code-deptrac-host-0
-        - mountPath: /var/www/deptrac/.composer
+        - mountPath: /var/www/deptrac/cache/composer
           name: deptrac_composer-data-pvc
   hostUsers: false
   volumes:

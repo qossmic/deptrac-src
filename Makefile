@@ -4,10 +4,10 @@ COMPOSER_DEPENDENCY_ANALYSER_BIN := ./vendor/bin/composer-dependency-analyser
 PHP_BIN := php
 
 PHP_CS_FIXER_BIN := ./vendor-bin/php-cs-fixer/vendor/bin/php-cs-fixer
-PHPSTAN_BIN	:= ./vendor-bin/phpstan/vendor/bin/phpstan
-PSALM_BIN	:= ./vendor-bin/psalm/vendor/bin/psalm
+PHPSTAN_BIN	:= ./vendor-bin/phpstan/bin/phpstan
+PSALM_BIN	:= ./vendor-bin/psalm/bin/psalm
 PHPUNIT_BIN	:= ./vendor/bin/phpunit
-INFECTION_BIN	:= ./vendor-bin/infection/vendor/bin/roave-infection-static-analysis-plugin
+INFECTION_BIN	:= ./vendor-bin/infection/bin/roave-infection-static-analysis-plugin
 
 .PHONY: help
 help: ## Displays list of available targets with their descriptions
@@ -53,7 +53,7 @@ php-cs-fix: ## Fixes any found code style violation
 
 .PHONY: phpstan
 phpstan: ## Performs static code analysis using phpstan
-	$(PHPSTAN_BIN) analyse --memory-limit=256M
+	$(PHPSTAN_BIN) analyse 
 
 .PHONY: psalm
 psalm: ## Performs static code analysis using psalm
