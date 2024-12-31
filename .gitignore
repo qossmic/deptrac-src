@@ -1,5 +1,6 @@
 vendor/*
 vendor-bin/**/vendor/*
+vendor-bin/**/bin/*
 coverage/*
 tools/
 .box_dump/

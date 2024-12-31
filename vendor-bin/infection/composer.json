@@ -4,6 +4,7 @@
         "theofidry/composer-inheritance-plugin": "^1.2"
     },
     "config": {
+        "bin-dir": "bin",
         "allow-plugins": {
             "infection/extension-installer": true,
             "wikimedia/composer-merge-plugin": true,
