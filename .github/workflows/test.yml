@@ -105,8 +105,5 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
-      - name: "Install dependencies with composer"
-        run: make composer-install
-
       - name: "Run deptrac"
         run: make deptrac

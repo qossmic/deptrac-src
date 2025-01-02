@@ -31,9 +31,6 @@ jobs:
           coverage: none
           tools: composer
 
-      - name: "Install dependencies with composer"
-        run: make composer-install
-
       - name: "Check cs"
         run: make php-cs-check
 
@@ -101,9 +98,6 @@ jobs:
             composer-${{ runner.os }}-${{ matrix.php-version }}-
             composer-${{ runner.os }}-
             composer-
-
-      - name: "Install dependencies with composer"
-        run: make composer-install
 
       - name: Psalm
         run: make psalm
