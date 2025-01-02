@@ -62,10 +62,7 @@ final class NikicPhpParserTest extends TestCase
     {
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->create(
-                ParserFactory::ONLY_PHP7,
-                new Lexer()
-            ),
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
             $typeResolver,
             [new AnnotationReferenceExtractor($typeResolver)]
@@ -128,10 +125,7 @@ final class NikicPhpParserTest extends TestCase
     {
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->create(
-                ParserFactory::ONLY_PHP7,
-                new Lexer()
-            ),
+            (new ParserFactory())->createForNewestSupportedVersion(), 
             new AstFileReferenceInMemoryCache(),
             $typeResolver,
             []

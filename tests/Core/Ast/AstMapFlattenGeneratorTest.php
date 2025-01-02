@@ -59,7 +59,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
         $this->astLoader = new AstLoader(
             new NikicPhpParser(
-                (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+                (new ParserFactory())->createForNewestSupportedVersion(),
                 new AstFileReferenceInMemoryCache(),
                 new TypeResolver(),
                 []

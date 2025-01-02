@@ -17,7 +17,7 @@ final class AnonymousClassExtractorTest extends TestCase
     public function testPropertyDependencyResolving(): void
     {
         $parser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
             new TypeResolver(),
             [

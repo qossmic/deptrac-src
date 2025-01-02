@@ -19,7 +19,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
     {
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->createForHostVersion(),
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
             new TypeResolver(),
             [

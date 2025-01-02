@@ -37,7 +37,7 @@ final class AstMapGeneratorTest extends TestCase
         $typeResolver = new TypeResolver();
         $astRunner = new AstLoader(
             new NikicPhpParser(
-                (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+                (new ParserFactory())->createForNewestSupportedVersion(),
                 new AstFileReferenceInMemoryCache(),
                 $typeResolver,
                 [
