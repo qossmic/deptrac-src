@@ -1,8 +1,8 @@
 BOX_BIN := build/box.phar
 COMPOSER_BIN := composer
-COMPOSER_DEPENDENCY_ANALYSER_BIN := ./vendor/bin/composer-dependency-analyser
 PHP_BIN := php
 
+COMPOSER_DEPENDENCY_ANALYSER_BIN := ./tools/dependency-analyser/bin/composer-dependency-analyser
 PHP_CS_FIXER_BIN := ./tools/php-cs-fixer/bin/php-cs-fixer
 PHPSTAN_BIN	:= ./tools/phpstan/bin/phpstan
 PSALM_BIN	:= ./tools/psalm/bin/psalm
