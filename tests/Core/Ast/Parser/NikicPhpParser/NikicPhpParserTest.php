@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser;
 
-use PhpParser\Lexer;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
@@ -125,7 +124,7 @@ final class NikicPhpParserTest extends TestCase
     {
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->createForNewestSupportedVersion(), 
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
             $typeResolver,
             []

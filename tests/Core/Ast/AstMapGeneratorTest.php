@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Ast;
 
-use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Core\Ast\AstLoader;
