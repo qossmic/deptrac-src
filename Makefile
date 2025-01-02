@@ -20,7 +20,7 @@ build: tests ## Runs tests and creates the phar-binary
 
 .PHONY: composer-install
 composer-install: ## Installs dependencies
-	$(COMPOSER_BIN) install --no-interaction --no-progress -a --ansi
+	$(COMPOSER_BIN) install --no-interaction --no-progress --ansi
 
 .PHONY: composer-dependency-analyser
 composer-dependency-analyser: ## Performs static code analysis using composer-dependency-analyser
