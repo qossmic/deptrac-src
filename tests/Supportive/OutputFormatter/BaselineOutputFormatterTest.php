@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use PHPUnit\Framework\TestCase;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 use Deptrac\Deptrac\Contract\Ast\DependencyContext;
 use Deptrac\Deptrac\Contract\Ast\DependencyType;
@@ -21,7 +22,7 @@ use Deptrac\Deptrac\Core\Dependency\InheritDependency;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use Deptrac\Deptrac\Supportive\OutputFormatter\BaselineOutputFormatter;
-use PHPUnit\Framework\TestCase;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -31,7 +32,7 @@ class BaselineOutputFormatterTest extends TestCase
 {
     public function testGetName(): void
     {
-        static::assertSame('baseline', (new BaselineOutputFormatter())->getName());
+        static::assertSame('baseline', (new BaselineOutputFormatter(new YamlBaselineMapper([])))->getName());
     }
 
     public static function basicDataProvider(): iterable
@@ -130,7 +131,7 @@ class BaselineOutputFormatterTest extends TestCase
         try {
             $output = new BufferedOutput();
 
-            $formatter = new BaselineOutputFormatter();
+            $formatter = new BaselineOutputFormatter(new YamlBaselineMapper([]));
             $formatter->finish(
                 OutputResult::fromAnalysisResult($analysisResult),
                 $this->createSymfonyOutput($output),

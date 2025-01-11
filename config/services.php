@@ -401,11 +401,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(UnmatchedSkippedViolations::class)
         ->tag('kernel.event_subscriber')
     ;
-    $services->set(EventHelper::class)
+    $services->set(YamlBaselineMapper::class)
         ->args([
             '$skippedViolations' => param('skip_violations'),
         ])
     ;
+    $services->alias(BaselineMapperInterface::class, YamlBaselineMapper::class);
+    $services->set(EventHelper::class);
     $services
         ->set(DependencyLayersAnalyser::class)
     ;

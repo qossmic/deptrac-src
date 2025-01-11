@@ -17,6 +17,7 @@ use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PHPUnit\Framework\TestCase;
 
 final class DependsOnPrivateLayerTest extends TestCase
@@ -52,7 +53,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testNoViolationsWhenDependentLayerIsPublic(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('DependerLayer', 'DependentLayer', true);
@@ -72,7 +73,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationContinuesWhenPrivateLayerDependsOnItself(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('LayerA', 'LayerA', false);
@@ -92,7 +93,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationContinuesWhenPublicLayerDependsOnItself(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('layerA', 'layerA', true);
@@ -112,7 +113,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationStoppedWhenDependingOnPrivateLayer(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('DependerLayer', 'DependentLayer', false);

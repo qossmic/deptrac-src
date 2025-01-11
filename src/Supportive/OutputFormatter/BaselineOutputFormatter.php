@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputInterface;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
 use Deptrac\Deptrac\Contract\Result\SkippedViolation;
 use Deptrac\Deptrac\Contract\Result\Violation;
-use Symfony\Component\Yaml\Yaml;
 
 use function array_values;
 use function ksort;
@@ -22,6 +22,10 @@ use function sort;
 final class BaselineOutputFormatter implements OutputFormatterInterface
 {
     private const DEFAULT_PATH = './deptrac.baseline.yaml';
+
+    public function __construct(
+        private readonly BaselineMapperInterface $baselineMapper,
+    ) {}
 
     public static function getName(): string
     {
@@ -49,15 +53,7 @@ final class BaselineOutputFormatter implements OutputFormatterInterface
         }
         file_put_contents(
             $baselineFile,
-            Yaml::dump(
-                [
-                    'deptrac' => [
-                        'skip_violations' => $groupedViolations,
-                    ],
-                ],
-                4,
-                2
-            )
+            $this->baselineMapper->fromPHPListToString($groupedViolations),
         );
         $output->writeLineFormatted('<info>Baseline dumped to '.realpath($baselineFile).'</info>');
     }
