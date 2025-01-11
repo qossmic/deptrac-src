@@ -6,10 +6,10 @@ namespace Deptrac\Deptrac\DefaultBehavior\Layer;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\TaggedTokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Layer\CollectorInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\DefaultBehavior\Layer\Helpers\RegexCollector;
 
-final class TagValueRegexCollector extends RegexCollector
+final class TagValueRegexCollector implements CollectorInterface
 {
     /**
      * @param array<string, bool|string|array<string, string>> $config
@@ -43,27 +43,45 @@ final class TagValueRegexCollector extends RegexCollector
      */
     protected function getTagName(array $config): string
     {
-        if (!isset($config['tag']) || !is_string($config['tag'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector needs the tag name.');
+        if (!isset($config['tag'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: Missing "tag" configuration.');
+        }
+        if (!is_string($config['tag'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: Configuration "tag" is not a string.');
         }
 
         if (!preg_match('/^@[-\w]+$/', $config['tag'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector needs a valid tag name.');
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: Invalid "tag" name.');
         }
 
         return $config['tag'];
     }
 
-    protected function getPattern(array $config): string
+    /**
+     * @param array<string, bool|string|array<string, string>> $config
+     *
+     * @throws InvalidCollectorDefinitionException
+     */
+    protected function getValidatedPattern(array $config): string
     {
         if (!isset($config['value'])) {
             return '/^.?/'; // any string
         }
 
-        if (!is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector regex value must be a string.');
+        $pattern = $config['value'];
+
+        if (!is_string($pattern)) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: "value" configuration is not a string.');
         }
 
-        return $config['value'];
+        if ('' === $pattern) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: "value" configuration is empty string.');
+        }
+
+        if (false === @preg_match($pattern, '')) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('TagValueRegexCollector: Invalid regex pattern '.$pattern);
+        }
+
+        return $pattern;
     }
 }

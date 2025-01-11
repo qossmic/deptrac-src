@@ -29,8 +29,11 @@ final class SuperglobalCollector implements CollectorInterface
      */
     private function getNames(array $config): array
     {
-        if (!isset($config['value']) || !is_array($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('SuperglobalCollector needs the names configuration.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('SuperglobalCollector: Missing configuration.');
+        }
+        if (!is_array($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('SuperglobalCollector: Configuration is not an array.');
         }
 
         return array_map(static fn ($name): string => '$'.$name, $config['value']);

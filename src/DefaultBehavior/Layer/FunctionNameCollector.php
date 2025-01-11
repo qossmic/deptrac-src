@@ -31,8 +31,11 @@ final class FunctionNameCollector implements CollectorInterface
      */
     private function getPattern(array $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('FunctionNameCollector needs the regex configuration.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('FunctionNameCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('FunctionNameCollector: Configuration is not a string.');
         }
 
         return '/'.$config['value'].'/i';

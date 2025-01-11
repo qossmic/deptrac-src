@@ -7,9 +7,6 @@ namespace Deptrac\Deptrac\DefaultBehavior\Layer\Helpers;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
-use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-
-use function is_string;
 
 abstract class AbstractTypeCollector extends RegexCollector
 {
@@ -27,12 +24,8 @@ abstract class AbstractTypeCollector extends RegexCollector
         return ($isClassLike || $isSameType) && $reference->getToken()->match($this->getValidatedPattern($config));
     }
 
-    protected function getPattern(array $config): string
+    protected function getPattern(string $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration(sprintf('Collector "%s" needs the regex configuration.', $this->getType()->toString()));
-        }
-
-        return '/'.$config['value'].'/i';
+        return '/'.$config.'/i';
     }
 }

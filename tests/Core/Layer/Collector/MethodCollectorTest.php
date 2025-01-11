@@ -112,7 +112,7 @@ final class MethodCollectorTest extends TestCase
         $astClassReference = new ClassLikeReference(ClassLikeToken::fromFQCN('foo'));
 
         $this->expectException(InvalidCollectorDefinitionException::class);
-        $this->expectExceptionMessage('MethodCollector needs the name configuration.');
+        $this->expectExceptionMessage('MethodCollector: Missing configuration.');
 
         $this->collector->satisfy(
             [],

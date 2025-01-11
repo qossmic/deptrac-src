@@ -49,8 +49,11 @@ final class AttributeCollector implements CollectorInterface
      */
     private function getSearchedSubstring(array $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('AttributeCollector needs the attribute name as a string.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('AttributeCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('AttributeCollector: Configuration is not a string.');
         }
 
         return $config['value'];

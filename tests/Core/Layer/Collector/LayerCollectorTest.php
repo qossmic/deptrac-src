@@ -29,7 +29,7 @@ final class LayerCollectorTest extends TestCase
     public function testConfig(): void
     {
         $this->expectException(InvalidCollectorDefinitionException::class);
-        $this->expectExceptionMessage('LayerCollector needs the layer configuration');
+        $this->expectExceptionMessage('LayerCollector: Missing configuration');
 
         $this->collector->satisfy(
             [],
@@ -47,7 +47,7 @@ final class LayerCollectorTest extends TestCase
         ;
 
         $this->expectException(InvalidCollectorDefinitionException::class);
-        $this->expectExceptionMessage('Unknown layer "test" specified in collector.');
+        $this->expectExceptionMessage('LayerCollector: Unknown layer "test" specified in collector.');
 
         $this->collector->satisfy(
             ['value' => 'test'],
@@ -72,7 +72,7 @@ final class LayerCollectorTest extends TestCase
         ;
 
         $this->expectException(InvalidLayerDefinitionException::class);
-        $this->expectExceptionMessage('Circular dependency between layers detected. Token "App\Foo" could not be resolved.');
+        $this->expectExceptionMessage('LayerCollector: Circular dependency between layers detected. Token "App\Foo" could not be resolved.');
 
         $this->collector->satisfy(
             ['value' => 'FooLayer'],

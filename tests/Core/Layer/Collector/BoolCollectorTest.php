@@ -226,7 +226,7 @@ final class BoolCollectorTest extends TestCase
         $reference = new ClassLikeReference(ClassLikeToken::fromFQCN('App\\Foo'));
 
         $this->expectException(InvalidCollectorDefinitionException::class);
-        $this->expectExceptionMessage('"bool" collector must have a "must" or a "must_not" attribute.');
+        $this->expectExceptionMessage('BoolCollector: Missing a "must" or a "must_not" attribute.');
 
         $this->collector->satisfy($config, $reference);
     }

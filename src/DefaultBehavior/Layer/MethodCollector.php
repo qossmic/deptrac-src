@@ -7,7 +7,6 @@ namespace Deptrac\Deptrac\DefaultBehavior\Layer;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
-use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\DefaultBehavior\Layer\Helpers\RegexCollector;
 
 final class MethodCollector extends RegexCollector
@@ -33,12 +32,8 @@ final class MethodCollector extends RegexCollector
         return false;
     }
 
-    protected function getPattern(array $config): string
+    protected function getPattern(string $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('MethodCollector needs the name configuration.');
-        }
-
-        return '/'.$config['value'].'/i';
+        return '/'.$config.'/i';
     }
 }

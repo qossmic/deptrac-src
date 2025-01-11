@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Deptrac\Deptrac\DefaultBehavior\Layer;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
-use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\DefaultBehavior\Layer\Helpers\RegexCollector;
 use Symfony\Component\Filesystem\Path;
 
@@ -25,12 +24,8 @@ final class DirectoryCollector extends RegexCollector
         return 1 === preg_match($validatedPattern, $normalizedPath);
     }
 
-    protected function getPattern(array $config): string
+    protected function getPattern(string $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('DirectoryCollector needs the regex configuration.');
-        }
-
-        return '#'.$config['value'].'#i';
+        return '#'.$config.'#i';
     }
 }
