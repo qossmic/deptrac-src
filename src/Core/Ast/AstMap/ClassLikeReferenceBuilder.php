@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\ClassLike;
+namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 
 final class ClassLikeReferenceBuilder extends ReferenceBuilder
 {

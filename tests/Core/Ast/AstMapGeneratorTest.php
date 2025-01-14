@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
 use Deptrac\Deptrac\Core\Ast\AstLoader;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Core\Layer\Collector\PhpInternalCollector;
 use PHPUnit\Framework\TestCase;
 

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\ClassLike;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
-
+/**
+ * @psalm-immutable
+ */
 final class ClassLikeToken implements TokenInterface
 {
     private function __construct(private readonly string $className) {}

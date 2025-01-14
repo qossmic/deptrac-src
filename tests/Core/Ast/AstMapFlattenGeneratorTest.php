@@ -6,15 +6,15 @@ namespace Tests\Deptrac\Deptrac\Core\Ast;
 
 use Deptrac\Deptrac\Contract\Ast\AstFileAnalysedEvent;
 use Deptrac\Deptrac\Contract\Ast\AstFileSyntaxErrorEvent;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
 use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
 use Deptrac\Deptrac\Core\Ast\AstLoader;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use LogicException;
 use PhpParser\ParserFactory;

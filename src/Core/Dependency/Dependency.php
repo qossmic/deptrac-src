@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
 
 class Dependency implements DependencyInterface

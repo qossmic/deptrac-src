@@ -8,12 +8,12 @@
       <code><![CDATA[list<T>]]></code>
     </InvalidReturnType>
   </file>
-  <file src="src/Core/Ast/AstMap/ClassLike/ClassLikeToken.php">
+  <file src="src/Contract/Ast/AstMap/ClassLikeToken.php">
     <ArgumentTypeCoercion>
       <code>$pattern</code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="src/Core/Ast/AstMap/Function/FunctionToken.php">
+  <file src="src/Contract/Ast/AstMap/FunctionToken.php">
     <ArgumentTypeCoercion>
       <code>$pattern</code>
     </ArgumentTypeCoercion>

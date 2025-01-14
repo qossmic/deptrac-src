@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Extractors;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLikeReferenceBuilder;
 use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeScope;

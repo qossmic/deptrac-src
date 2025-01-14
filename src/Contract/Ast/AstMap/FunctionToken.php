@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\Function;
-
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 final class FunctionToken implements TokenInterface
 {

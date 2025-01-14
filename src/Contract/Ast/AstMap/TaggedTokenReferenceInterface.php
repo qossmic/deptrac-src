@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Contract\Ast;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 /**
  * Represents the AST-Token, its location, and associated tags.

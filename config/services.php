@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Contract\Config\CollectorType;
 use Deptrac\Deptrac\Contract\Config\EmitterType;
 use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
 use Deptrac\Deptrac\Core\Analyser\DependencyLayersAnalyser;
 use Deptrac\Deptrac\Core\Analyser\EventHandler\AllowDependencyHandler;
 use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnDisallowedLayer;
@@ -33,7 +35,6 @@ use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
 use Deptrac\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
@@ -105,6 +106,7 @@ use Deptrac\Deptrac\Supportive\OutputFormatter\JUnitOutputFormatter;
 use Deptrac\Deptrac\Supportive\OutputFormatter\MermaidJSOutputFormatter;
 use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use Deptrac\Deptrac\Supportive\OutputFormatter\XMLOutputFormatter;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PhpParser\Lexer;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;

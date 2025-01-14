@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\Variable;
-
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 enum SuperGlobalToken: string implements TokenInterface
 {

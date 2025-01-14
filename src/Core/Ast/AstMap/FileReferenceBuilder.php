@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\File;
+namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReferenceBuilder;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReferenceBuilder;
-use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 
 final class FileReferenceBuilder extends ReferenceBuilder
 {

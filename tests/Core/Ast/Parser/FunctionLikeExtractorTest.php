@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;

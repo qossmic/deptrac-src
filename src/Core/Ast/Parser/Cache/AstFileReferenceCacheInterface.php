@@ -2,7 +2,7 @@
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Cache;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 
 interface AstFileReferenceCacheInterface
 {

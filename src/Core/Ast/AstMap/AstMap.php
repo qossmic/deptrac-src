@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
 use ArrayObject;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use SplStack;
 
 class AstMap

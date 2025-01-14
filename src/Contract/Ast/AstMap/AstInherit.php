@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Stringable;
 
 use function array_reverse;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Deptrac\Deptrac\Core\Layer\Collector\LayerCollector;
 use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
 use PHPUnit\Framework\TestCase;

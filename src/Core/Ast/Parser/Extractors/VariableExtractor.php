@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Extractors;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
 use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeScope;
 use PhpParser\Node;
 

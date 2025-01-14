@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;

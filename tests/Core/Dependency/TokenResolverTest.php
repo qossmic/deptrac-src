@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
 use Deptrac\Deptrac\Core\Dependency\TokenResolver;
 use PHPUnit\Framework\TestCase;
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
 use Deptrac\Deptrac\Core\Layer\Collector\SuperglobalCollector;
 use PHPUnit\Framework\TestCase;
 

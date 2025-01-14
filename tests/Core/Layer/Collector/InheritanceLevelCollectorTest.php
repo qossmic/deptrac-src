@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
 use Deptrac\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
 use PHPUnit\Framework\TestCase;

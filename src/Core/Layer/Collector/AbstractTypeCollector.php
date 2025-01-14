@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 
 use function is_string;
 

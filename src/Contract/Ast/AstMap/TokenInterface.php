@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Contract\Ast;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 /**
  * Represents an AST-Token, which can be referenced as dependency.

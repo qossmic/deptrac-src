@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Contract\Layer\CollectorInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
 
 final class SuperglobalCollector implements CollectorInterface
 {

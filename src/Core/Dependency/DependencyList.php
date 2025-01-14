@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 
 class DependencyList
 {

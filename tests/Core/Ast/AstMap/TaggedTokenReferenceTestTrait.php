@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TaggedTokenReferenceInterface;
 
 trait TaggedTokenReferenceTestTrait
 {

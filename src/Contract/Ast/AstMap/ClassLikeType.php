@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\ClassLike;
-
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 enum ClassLikeType: string implements TokenInterface
 {

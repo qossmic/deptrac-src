@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap;
-
-use Deptrac\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 /**
  * Helper trait for implementing TaggedTokenReferenceInterface.

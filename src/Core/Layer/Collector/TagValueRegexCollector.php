@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TaggedTokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 
 final class TagValueRegexCollector extends RegexCollector

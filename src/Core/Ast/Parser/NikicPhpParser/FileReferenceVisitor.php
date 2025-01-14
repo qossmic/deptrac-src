@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
 use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ReferenceExtractorInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;

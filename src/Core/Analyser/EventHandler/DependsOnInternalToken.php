@@ -7,7 +7,7 @@ namespace Deptrac\Deptrac\Core\Analyser\EventHandler;
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
 use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
 use Deptrac\Deptrac\Contract\Analyser\ViolationCreatingInterface;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 
 /**
  * @internal

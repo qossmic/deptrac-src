@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\Function;
+namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 
 class FunctionReferenceBuilder extends ReferenceBuilder
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 
 final class ClassNameRegexCollector extends RegexCollector
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
 use Deptrac\Deptrac\Contract\Layer\CollectorInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Core\Ast\AstException;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
 
 final class InheritanceLevelCollector implements CollectorInterface

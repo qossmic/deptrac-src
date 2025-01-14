@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap;
-
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 /**
  * @psalm-immutable
  */
-class DependencyToken
+final class DependencyToken
 {
     public function __construct(
         public readonly TokenInterface $token,

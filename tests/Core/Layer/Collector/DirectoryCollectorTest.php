@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
 use Deptrac\Deptrac\Core\Layer\Collector\DirectoryCollector;
 use PHPUnit\Framework\TestCase;
 

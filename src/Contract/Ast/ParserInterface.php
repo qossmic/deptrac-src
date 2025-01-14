@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Qossmic\Deptrac\Contract\Ast;
+
+use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Qossmic\Deptrac\Contract\Ast\AstMap\FileReference;
+
+interface ParserInterface
+{
+    /**
+     * @throws CouldNotParseFileException
+     */
+    public function parseFile(string $file): FileReference;
+
+    /**
+     * @return list<string> list of method names for a given class-like reference
+     *
+     * @throws CouldNotParseFileException
+     */
+    public function getMethodNamesForClassLikeReference(ClassLikeReference $classReference): array;
+}

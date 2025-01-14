@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
 use Deptrac\Deptrac\Core\Layer\Collector\ImplementsCollector;
 use PHPUnit\Framework\TestCase;

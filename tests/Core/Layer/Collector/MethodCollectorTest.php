@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
 use Deptrac\Deptrac\Core\Layer\Collector\MethodCollector;
-use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 final class MethodCollectorTest extends TestCase
 {
@@ -32,9 +30,9 @@ final class MethodCollectorTest extends TestCase
         yield [
             ['value' => 'abc'],
             [
-                self::getClassMethod('abc'),
-                self::getClassMethod('abcdef'),
-                self::getClassMethod('xyz'),
+                'abc',
+                'abcdef',
+                'xyz',
             ],
             true,
         ];
@@ -42,8 +40,8 @@ final class MethodCollectorTest extends TestCase
         yield [
             ['value' => 'abc'],
             [
-                self::getClassMethod('abc'),
-                self::getClassMethod('xyz'),
+                'abc',
+                'xyz',
             ],
             true,
         ];
@@ -51,7 +49,7 @@ final class MethodCollectorTest extends TestCase
         yield [
             ['value' => 'abc'],
             [
-                self::getClassMethod('xyz'),
+                'xyz',
             ],
             false,
         ];
@@ -64,13 +62,10 @@ final class MethodCollectorTest extends TestCase
     {
         $astClassReference = new ClassLikeReference(ClassLikeToken::fromFQCN('foo'));
 
-        $classLike = $this->createMock(Node\Stmt\ClassLike::class);
-        $classLike->method('getMethods')->willReturn($methods);
-
         $this->astParser
-            ->method('getNodeForClassLikeReference')
+            ->method('getMethodNamesForClassLikeReference')
             ->with($astClassReference)
-            ->willReturn($classLike)
+            ->willReturn($methods)
         ;
 
         $actual = $this->collector->satisfy(
@@ -85,9 +80,9 @@ final class MethodCollectorTest extends TestCase
     {
         $astClassReference = new ClassLikeReference(ClassLikeToken::fromFQCN('foo'));
         $this->astParser
-            ->method('getNodeForClassLikeReference')
+            ->method('getMethodNamesForClassLikeReference')
             ->with($astClassReference)
-            ->willReturn(null)
+            ->willReturn([])
         ;
 
         $actual = $this->collector->satisfy(
@@ -121,13 +116,5 @@ final class MethodCollectorTest extends TestCase
             ['value' => '/'],
             $astClassReference,
         );
-    }
-
-    private static function getClassMethod(string $name): stdClass
-    {
-        $classMethod = new stdClass();
-        $classMethod->name = $name;
-
-        return $classMethod;
     }
 }

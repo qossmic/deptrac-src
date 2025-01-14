@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Deptrac\Deptrac\Core\Analyser\EventHandler;
 
 use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Result\Uncovered;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

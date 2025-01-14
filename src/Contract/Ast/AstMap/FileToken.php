@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\AstMap\File;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\TokenInterface;
 use Symfony\Component\Filesystem\Path;
 
 final class FileToken implements TokenInterface

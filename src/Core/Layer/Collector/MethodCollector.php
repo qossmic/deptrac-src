@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
 
 final class MethodCollector extends RegexCollector
 {
-    public function __construct(private readonly NikicPhpParser $astParser) {}
+    public function __construct(private readonly ParserInterface $astParser) {}
 
     public function satisfy(array $config, TokenReferenceInterface $reference): bool
     {
@@ -21,14 +21,10 @@ final class MethodCollector extends RegexCollector
 
         $pattern = $this->getValidatedPattern($config);
 
-        $classLike = $this->astParser->getNodeForClassLikeReference($reference);
+        $classMethods = $this->astParser->getMethodNamesForClassLikeReference($reference);
 
-        if (null === $classLike) {
-            return false;
-        }
-
-        foreach ($classLike->getMethods() as $classMethod) {
-            if (1 === preg_match($pattern, (string) $classMethod->name)) {
+        foreach ($classMethods as $classMethod) {
+            if (1 === preg_match($pattern, $classMethod)) {
                 return true;
             }
         }

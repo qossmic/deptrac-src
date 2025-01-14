@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;

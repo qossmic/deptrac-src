@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency\Emitter;
 
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
 use Deptrac\Deptrac\Core\Dependency\Dependency;
 use Deptrac\Deptrac\Core\Dependency\DependencyList;
