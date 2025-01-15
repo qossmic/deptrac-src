@@ -40,8 +40,6 @@ return static function (DeptracConfig $config, ContainerConfigurator $containerC
             $ast = Layer::withName('Ast')->collectors(
                 DirectoryConfig::create('src/Core/Ast/.*'),
                 ComposerConfig::create()
-                    ->addPackage('phpstan/phpdoc-parser')
-                    ->addPackage('nikic/php-parser')
                     ->addPackage('phpdocumentor/type-resolver')
                     ->private(),
             ),
@@ -55,7 +53,10 @@ return static function (DeptracConfig $config, ContainerConfigurator $containerC
                 DirectoryConfig::create('src/Supportive/DependencyInjection/.*')
             ),
             $contract = Layer::withName('Contract')->collectors(
-                DirectoryConfig::create('src/Contract/.*')
+                DirectoryConfig::create('src/Contract/.*'),
+                ComposerConfig::create()
+                    ->addPackage('phpstan/phpdoc-parser')
+                    ->addPackage('nikic/php-parser'),
             ),
             $inputCollector = Layer::withName('InputCollector')->collectors(
                 DirectoryConfig::create('src/Core/InputCollector/.*')

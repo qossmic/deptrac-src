@@ -4,27 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Closure;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 
 final class AnonymousClassExtractorTest extends TestCase
 {
-    public function testPropertyDependencyResolving(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testPropertyDependencyResolving(Closure $parserBuilder): void
     {
-        $parser = new NikicPhpParser(
-            (new ParserFactory())->createForNewestSupportedVersion(),
-            new AstFileReferenceInMemoryCache(),
-            new TypeResolver(),
-            [
-                new AnonymousClassExtractor(),
-            ]
-        );
-
         $filePath = __DIR__.'/Fixtures/AnonymousClass.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         $astClassReferences = $astFileReference->classLikeReferences;
@@ -51,5 +47,27 @@ final class AnonymousClassExtractorTest extends TestCase
         self::assertSame($filePath, $dependencies[1]->context->fileOccurrence->filepath);
         self::assertSame(19, $dependencies[1]->context->fileOccurrence->line);
         self::assertSame('anonymous_class_implements', $dependencies[1]->context->dependencyType->value);
+    }
+
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
+    {
+        return [
+            'Nikic Parser' => [self::createNikicParser(...)],
+        ];
+    }
+
+    public static function createNikicParser(string $filePath): NikicPhpParser
+    {
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new AnonymousClassExtractor(),
+        ];
+
+        return new NikicPhpParser(
+            (new ParserFactory())->createForNewestSupportedVersion(), $cache, $extractors
+        );
     }
 }

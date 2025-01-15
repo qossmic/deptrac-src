@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.20.0@3f284e96c9d9be6fe6b15c79416e1d1903dcfef4">
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="src/Contract/Ast/AstMap/AstInherit.php">
+    <ImpureMethodCall>
+      <code><![CDATA[toString]]></code>
+    </ImpureMethodCall>
+  </file>
+  <file src="src/Contract/Ast/AstMap/ClassLikeToken.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$pattern]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Contract/Ast/AstMap/FunctionToken.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$pattern]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Contract/Ast/TypeScope.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$alias]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
   <file src="src/Contract/Result/OutputResult.php">
     <InvalidReturnStatement>
       <code><![CDATA[array_key_exists($type, $this->rules) ? array_values($this->rules[$type]) : []]]></code>
@@ -7,21 +27,6 @@
     <InvalidReturnType>
       <code><![CDATA[list<T>]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="src/Contract/Ast/AstMap/ClassLikeToken.php">
-    <ArgumentTypeCoercion>
-      <code>$pattern</code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="src/Contract/Ast/AstMap/FunctionToken.php">
-    <ArgumentTypeCoercion>
-      <code>$pattern</code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="src/Core/Ast/Parser/TypeScope.php">
-    <RiskyTruthyFalsyComparison>
-      <code>$alias</code>
-    </RiskyTruthyFalsyComparison>
   </file>
   <file src="src/Core/Layer/Collector/BoolCollector.php">
     <RiskyTruthyFalsyComparison>
@@ -31,7 +36,7 @@
   </file>
   <file src="src/Core/Layer/Collector/ComposerFilesParser.php">
     <InvalidReturnStatement>
-      <code>$lockedPackages</code>
+      <code><![CDATA[$lockedPackages]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[array<string, array{
@@ -42,32 +47,32 @@
   </file>
   <file src="src/Core/Layer/Collector/DirectoryCollector.php">
     <ArgumentTypeCoercion>
-      <code>$validatedPattern</code>
+      <code><![CDATA[$validatedPattern]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Core/Layer/Collector/GlobCollector.php">
     <ArgumentTypeCoercion>
-      <code>$validatedPattern</code>
+      <code><![CDATA[$validatedPattern]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Core/Layer/Collector/MethodCollector.php">
     <ArgumentTypeCoercion>
-      <code>$pattern</code>
+      <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Core/Layer/Collector/RegexCollector.php">
     <ArgumentTypeCoercion>
-      <code>$pattern</code>
+      <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Core/Layer/Collector/TagValueRegexCollector.php">
     <ArgumentTypeCoercion>
-      <code>$pattern</code>
+      <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Supportive/Console/Command/DebugLayerRunner.php">
     <RiskyTruthyFalsyComparison>
-      <code>$layer</code>
+      <code><![CDATA[$layer]]></code>
     </RiskyTruthyFalsyComparison>
   </file>
 </files>

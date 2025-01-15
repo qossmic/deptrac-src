@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
 use Deptrac\Deptrac\Core\Layer\Collector\AttributeCollector;
 use PHPUnit\Framework\TestCase;
@@ -42,8 +44,8 @@ final class AttributeCollectorTest extends TestCase
     {
         $classLikeReference = FileReferenceBuilder::create('Foo.php')
             ->newClass('App\Foo', [], [])
-            ->attribute('App\MyAttribute', 2)
-            ->attribute('MyAttribute', 3)
+            ->dependency(ClassLikeToken::fromFQCN('App\MyAttribute'), 2, DependencyType::ATTRIBUTE)
+            ->dependency(ClassLikeToken::fromFQCN('MyAttribute'), 3, DependencyType::ATTRIBUTE)
             ->build()
         ;
         $actual = $this->collector->satisfy($config, $classLikeReference);

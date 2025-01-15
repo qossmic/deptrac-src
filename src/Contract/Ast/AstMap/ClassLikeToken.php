@@ -26,8 +26,8 @@ final class ClassLikeToken implements TokenInterface
         return $this->className;
     }
 
-    public function equals(ClassLikeToken $classLikeName): bool
+    public function equals(TokenInterface $token): bool
     {
-        return $this->className === $classLikeName->className;
+        return $token instanceof self && $this->toString() === $token->toString();
     }
 }

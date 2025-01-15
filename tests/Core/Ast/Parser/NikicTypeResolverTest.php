@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeScope;
+use Deptrac\Deptrac\Contract\Ast\TypeScope;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use PHPUnit\Framework\TestCase;
 
-final class TypeResolverTest extends TestCase
+final class NikicTypeResolverTest extends TestCase
 {
     private Lexer $lexer;
     private TypeParser $typeParser;
@@ -33,7 +33,7 @@ final class TypeResolverTest extends TestCase
         $tokens = new TokenIterator($this->lexer->tokenize($doc));
         $typeNode = $this->typeParser->parse($tokens);
 
-        $typeResolver = new TypeResolver();
+        $typeResolver = new NikicTypeResolver();
         $resolvedTypes = $typeResolver->resolvePHPStanDocParserType($typeNode, new TypeScope('\\Test\\'), ['T']);
 
         self::assertSame($types, $resolvedTypes);

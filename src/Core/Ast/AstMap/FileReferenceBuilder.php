@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
-use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 
 final class FileReferenceBuilder extends ReferenceBuilder
@@ -20,16 +17,6 @@ final class FileReferenceBuilder extends ReferenceBuilder
     public static function create(string $filepath): self
     {
         return new self([], $filepath);
-    }
-
-    public function useStatement(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::USE),
-        );
-
-        return $this;
     }
 
     /**

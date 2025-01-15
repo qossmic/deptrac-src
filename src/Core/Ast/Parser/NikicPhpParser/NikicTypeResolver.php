@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Deptrac\Deptrac\Core\Ast\Parser;
+namespace Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser;
 
+use Deptrac\Deptrac\Contract\Ast\TypeResolverInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeScope;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Type;
@@ -34,7 +36,7 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Throwable;
 
-class TypeResolver
+class NikicTypeResolver implements TypeResolverInterface
 {
     private readonly phpDocumentorTypeResolver $typeResolver;
 
@@ -43,9 +45,6 @@ class TypeResolver
         $this->typeResolver = new phpDocumentorTypeResolver(new FqsenResolver());
     }
 
-    /**
-     * @return string[]
-     */
     public function resolvePHPParserTypes(TypeScope $typeScope, NodeAbstract ...$nodes): array
     {
         $types = [];
@@ -71,11 +70,6 @@ class TypeResolver
         };
     }
 
-    /**
-     * @param array<string> $templateTypes
-     *
-     * @return string[]
-     */
     public function resolvePHPStanDocParserType(TypeNode $type, TypeScope $typeScope, array $templateTypes): array
     {
         return match (true) {
@@ -107,9 +101,6 @@ class TypeResolver
         }
     }
 
-    /**
-     * @return string[]
-     */
     public function resolvePropertyType(Identifier|Name|ComplexType $type): array
     {
         return match (true) {

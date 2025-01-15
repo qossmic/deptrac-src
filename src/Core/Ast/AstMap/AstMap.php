@@ -6,12 +6,13 @@ namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
 use ArrayObject;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 use SplStack;
 
 class AstMap
@@ -65,7 +66,7 @@ class AstMap
         return $this->functionReferences;
     }
 
-    public function getClassReferenceForToken(ClassLikeToken $className): ?ClassLikeReference
+    public function getClassReferenceForToken(TokenInterface $className): ?ClassLikeReference
     {
         return $this->classReferences[$className->toString()] ?? null;
     }

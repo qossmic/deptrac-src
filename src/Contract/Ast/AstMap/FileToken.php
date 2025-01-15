@@ -29,4 +29,9 @@ final class FileToken implements TokenInterface
 
         return $this->path;
     }
+
+    public function equals(TokenInterface $token): bool
+    {
+        return $token instanceof self && $this->toString() === $token->toString();
+    }
 }

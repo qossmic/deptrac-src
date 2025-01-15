@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceCacheInterface;
+use Deptrac\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceDeferredCacheInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceFileCache;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\CacheableFileSubscriber;

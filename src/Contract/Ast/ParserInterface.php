@@ -7,6 +7,11 @@ namespace Qossmic\Deptrac\Contract\Ast;
 use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Qossmic\Deptrac\Contract\Ast\AstMap\FileReference;
 
+/**
+ * Interface for implementing custom Ast parsers. Useful if you need to extend
+ * the functionality of the existing Nikic PHP parser or want to replace
+ * the parser completely, for example with PHPStan parser.
+ */
 interface ParserInterface
 {
     /**

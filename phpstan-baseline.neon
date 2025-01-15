@@ -37,18 +37,6 @@ parameters:
 			path: src/Core/Analyser/UnassignedTokenAnalyser.php
 
 		-
-			message: '#^Method Deptrac\\Deptrac\\Core\\Ast\\AstMap\\ReferenceBuilder\:\:superglobal\(\) throws checked exception TypeError but it''s missing from the PHPDoc @throws tag\.$#'
-			identifier: missingType.checkedException
-			count: 1
-			path: src/Core/Ast/AstMap/ReferenceBuilder.php
-
-		-
-			message: '#^Method Deptrac\\Deptrac\\Core\\Ast\\AstMap\\ReferenceBuilder\:\:superglobal\(\) throws checked exception ValueError but it''s missing from the PHPDoc @throws tag\.$#'
-			identifier: missingType.checkedException
-			count: 1
-			path: src/Core/Ast/AstMap/ReferenceBuilder.php
-
-		-
 			message: '#^Property Deptrac\\Deptrac\\Core\\Ast\\AstMap\\ReferenceBuilder\:\:\$tokenTemplates \(list\<string\>\) does not accept array\<int\<0, max\>, string\>\.$#'
 			identifier: assign.propertyType
 			count: 1

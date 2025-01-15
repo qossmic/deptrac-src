@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
+use Deptrac\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeResolverInterface;
 use Deptrac\Deptrac\Contract\Config\CollectorType;
 use Deptrac\Deptrac\Contract\Config\EmitterType;
 use Deptrac\Deptrac\Contract\Layer\LayerProvider;
@@ -23,19 +25,27 @@ use Deptrac\Deptrac\Core\Analyser\TokenInLayerAnalyser;
 use Deptrac\Deptrac\Core\Analyser\UnassignedTokenAnalyser;
 use Deptrac\Deptrac\Core\Ast\AstLoader;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceCacheInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\CatchExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassLikeExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassMethodExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionCallExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\GroupUseExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\InstanceofExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\InterfaceExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\NewExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticCallExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticPropertyFetchExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\TraitUseExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\UseExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
 use Deptrac\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
 use Deptrac\Deptrac\Core\Dependency\Emitter\ClassSuperglobalDependencyEmitter;
@@ -170,13 +180,14 @@ return static function (ContainerConfigurator $container): void {
         ])
     ;
     $services->alias(ParserInterface::class, NikicPhpParser::class);
-    $services->set(TypeResolver::class);
+    $services->set(NikicTypeResolver::class);
+    $services->alias(TypeResolverInterface::class, NikicTypeResolver::class);
     $services
-        ->set(AnnotationReferenceExtractor::class)
+        ->set(AnonymousClassExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(AnonymousClassExtractor::class)
+        ->set(CatchExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
@@ -184,7 +195,39 @@ return static function (ContainerConfigurator $container): void {
         ->tag('reference_extractors')
     ;
     $services
+        ->set(ClassExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ClassLikeExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ClassMethodExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(FunctionCallExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
         ->set(FunctionLikeExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(GroupUseExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(InstanceofExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(InterfaceExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(NewExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
@@ -192,23 +235,23 @@ return static function (ContainerConfigurator $container): void {
         ->tag('reference_extractors')
     ;
     $services
-        ->set(KeywordExtractor::class)
+        ->set(StaticCallExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(StaticExtractor::class)
+        ->set(StaticPropertyFetchExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(FunctionLikeExtractor::class)
+        ->set(TraitUseExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(UseExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
         ->set(VariableExtractor::class)
-        ->tag('reference_extractors')
-    ;
-    $services
-        ->set(FunctionCallResolver::class)
         ->tag('reference_extractors')
     ;
 

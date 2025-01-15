@@ -4,40 +4,49 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Extractors;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeScope;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
+use Deptrac\Deptrac\Contract\Ast\ReferenceExtractorInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeResolverInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeScope;
 use PhpParser\Node;
 
+/**
+ * @implements ReferenceExtractorInterface<Node\FunctionLike>
+ */
 class FunctionLikeExtractor implements ReferenceExtractorInterface
 {
-    public function __construct(private readonly TypeResolver $typeResolver) {}
+    public function __construct(
+        private readonly TypeResolverInterface $typeResolver,
+    ) {}
 
-    public function processNode(Node $node, ReferenceBuilder $referenceBuilder, TypeScope $typeScope): void
+    public function processNode(Node $node, ReferenceBuilderInterface $referenceBuilder, TypeScope $typeScope): void
     {
-        if (!$node instanceof Node\FunctionLike) {
-            return;
-        }
-
         foreach ($node->getAttrGroups() as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
                 foreach ($this->typeResolver->resolvePHPParserTypes($typeScope, $attribute->name) as $classLikeName) {
-                    $referenceBuilder->attribute($classLikeName, $attribute->getLine());
+                    $referenceBuilder->dependency(ClassLikeToken::fromFQCN($classLikeName), $attribute->getLine(), DependencyType::ATTRIBUTE);
                 }
             }
         }
         foreach ($node->getParams() as $param) {
             if (null !== $param->type) {
                 foreach ($this->typeResolver->resolvePHPParserTypes($typeScope, $param->type) as $classLikeName) {
-                    $referenceBuilder->parameter($classLikeName, $param->type->getLine());
+                    $referenceBuilder->dependency(ClassLikeToken::fromFQCN($classLikeName), $param->type->getLine(), DependencyType::PARAMETER);
                 }
             }
         }
         $returnType = $node->getReturnType();
         if (null !== $returnType) {
             foreach ($this->typeResolver->resolvePHPParserTypes($typeScope, $returnType) as $classLikeName) {
-                $referenceBuilder->returnType($classLikeName, $returnType->getLine());
+                $referenceBuilder->dependency(ClassLikeToken::fromFQCN($classLikeName), $returnType->getLine(), DependencyType::RETURN_TYPE);
             }
         }
+    }
+
+    public function getNodeType(): string
+    {
+        return Node\FunctionLike::class;
     }
 }

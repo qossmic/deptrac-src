@@ -11,6 +11,11 @@ use function implode;
 use function sprintf;
 
 /**
+ * Represents forms of class inheritance within AST. Examples include:
+ * - Class extending another class
+ * - Class implementing an interface
+ * - Class using a trait
+ *
  * @psalm-immutable
  */
 class AstInherit implements Stringable
@@ -19,7 +24,7 @@ class AstInherit implements Stringable
      * @param AstInherit[] $path
      */
     public function __construct(
-        public readonly ClassLikeToken $classLikeName,
+        public readonly TokenInterface $classLikeName,
         public readonly FileOccurrence $fileOccurrence,
         public readonly AstInheritType $type,
         private readonly array $path = [],

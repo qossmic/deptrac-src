@@ -2,54 +2,51 @@
 
 declare(strict_types=1);
 
-namespace Tests\Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Closure;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassLikeExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\UseExtractor;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
-use PhpParser\Parser;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use TypeError;
 
-final class NikicPhpParserTest extends TestCase
+final class ParserTest extends TestCase
 {
-    private NikicPhpParser $parser;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testParseWithInvalidData(Closure $parserBuilder): void
     {
-        $this->parser = new NikicPhpParser(
-            $this->createMock(Parser::class),
-            new AstFileReferenceInMemoryCache(),
-            $this->createMock(TypeResolver::class),
-            []
-        );
-    }
-
-    public function testParseWithInvalidData(): void
-    {
+        $parser = $parserBuilder('');
         $this->expectException(TypeError::class);
-        $this->parser->parseFile(new stdClass());
+        $parser->parseFile(new stdClass());
     }
 
-    public function testParseDoesNotIgnoreUsesByDefault(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testParseDoesNotIgnoreUsesByDefault(Closure $parserBuilder): void
     {
-        $parser = $this->createParser();
-
         $filePath = __DIR__.'/Fixtures/CountingUseStatements.php';
+        $parser = $parserBuilder($filePath);
         self::assertCount(1, $parser->parseFile($filePath)->dependencies);
     }
 
     /**
      * @requires PHP >= 8.0
+     *
+     * @dataProvider createParser
      */
-    public function testParseAttributes(): void
+    public function testParseAttributes(Closure $parserBuilder): void
     {
-        $parser = $this->createParser();
-
         $filePath = __DIR__.'/Fixtures/Attributes.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
         $astClassReferences = $astFileReference->classLikeReferences;
         self::assertCount(7, $astClassReferences[0]->dependencies);
@@ -57,26 +54,25 @@ final class NikicPhpParserTest extends TestCase
         self::assertCount(1, $astClassReferences[2]->dependencies);
     }
 
-    public function testParseTemplateTypes(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testParseTemplateTypes(Closure $parserBuilder): void
     {
-        $typeResolver = new TypeResolver();
-        $parser = new NikicPhpParser(
-            (new ParserFactory())->createForNewestSupportedVersion(),
-            new AstFileReferenceInMemoryCache(),
-            $typeResolver,
-            [new AnnotationReferenceExtractor($typeResolver)]
-        );
-
         $filePath = __DIR__.'/Fixtures/TemplateTypes.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
         $astClassReferences = $astFileReference->classLikeReferences;
         self::assertCount(0, $astClassReferences[0]->dependencies);
     }
 
-    public function testParseClassDocTags(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testParseClassDocTags(Closure $parserBuilder): void
     {
-        $parser = $this->createParser();
         $filePath = __DIR__.'/Fixtures/DocTags.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         self::assertCount(2, $astFileReference->classLikeReferences);
@@ -92,10 +88,13 @@ final class NikicPhpParserTest extends TestCase
         $this->assertSame([], $classesByName['UntaggedThing']->tags);
     }
 
-    public function testParseFunctionDocTags(): void
+    /**
+     * @dataProvider createParser
+     */
+    public function testParseFunctionDocTags(Closure $parserBuilder): void
     {
-        $parser = $this->createParser();
         $filePath = __DIR__.'/Fixtures/Functions.php';
+        $parser = $parserBuilder($filePath);
         $astFileReference = $parser->parseFile($filePath);
 
         self::assertCount(2, $astFileReference->functionReferences);
@@ -120,12 +119,30 @@ final class NikicPhpParserTest extends TestCase
         return $refsByName;
     }
 
-    private function createParser(): NikicPhpParser
+    /**
+     * @return list<array{ParserInterface}>
+     */
+    public static function createParser(): array
     {
+        return [
+            'Nikic Parser' => [self::createNikicParser(...)],
+        ];
+    }
+
+    public static function createNikicParser(string $filePath): NikicPhpParser
+    {
+        $typeResolver = new NikicTypeResolver();
+
+        $cache = new AstFileReferenceInMemoryCache();
+        $extractors = [
+            new UseExtractor(),
+            new ClassLikeExtractor($typeResolver),
+        ];
+
         return new NikicPhpParser(
-            (new ParserFactory())->createForNewestSupportedVersion(),
-            new AstFileReferenceInMemoryCache(), new TypeResolver(),
-            []
+            (new ParserFactory())->createForNewestSupportedVersion(), $cache, $extractors
         );
+
+        return $parser;
     }
 }

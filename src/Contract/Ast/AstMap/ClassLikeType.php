@@ -15,4 +15,9 @@ enum ClassLikeType: string implements TokenInterface
     {
         return $this->value;
     }
+
+    public function equals(TokenInterface $token): bool
+    {
+        return $token instanceof self && $this->toString() === $token->toString();
+    }
 }

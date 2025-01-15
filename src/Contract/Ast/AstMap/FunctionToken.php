@@ -23,8 +23,8 @@ final class FunctionToken implements TokenInterface
         return $this->functionName.'()';
     }
 
-    public function equals(self $functionName): bool
+    public function equals(TokenInterface $token): bool
     {
-        return $this->functionName === $functionName->functionName;
+        return $token instanceof self && $this->toString() === $token->toString();
     }
 }

@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Qossmic\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
-use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
-use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 
-abstract class ReferenceBuilder
+abstract class ReferenceBuilder implements ReferenceBuilderInterface
 {
+    /** @var AstInherit[] */
+    protected array $inherits = [];
+
     /** @var DependencyToken[] */
     protected array $dependencies = [];
 
@@ -22,9 +26,6 @@ abstract class ReferenceBuilder
      */
     protected function __construct(protected array $tokenTemplates, protected string $filepath) {}
 
-    /**
-     * @return string[]
-     */
     final public function getTokenTemplates(): array
     {
         return $this->tokenTemplates;
@@ -35,159 +36,16 @@ abstract class ReferenceBuilder
         return new DependencyContext(new FileOccurrence($this->filepath, $occursAtLine), $type);
     }
 
-    /**
-     * Unqualified function and constant names inside a namespace cannot be
-     * statically resolved. Inside a namespace Foo, a call to strlen() may
-     * either refer to the namespaced \Foo\strlen(), or the global \strlen().
-     * Because PHP-Parser does not have the necessary context to decide this,
-     * such names are left unresolved.
-     */
-    public function unresolvedFunctionCall(string $functionName, int $occursAtLine): self
+    public function dependency(TokenInterface $token, int $occursAtLine, DependencyType $type): static
     {
-        $this->dependencies[] = new DependencyToken(
-            FunctionToken::fromFQCN($functionName),
-            $this->createContext($occursAtLine, DependencyType::UNRESOLVED_FUNCTION_CALL),
-        );
+        $this->dependencies[] = new DependencyToken($token, $this->createContext($occursAtLine, $type));
 
         return $this;
     }
 
-    public function variable(string $classLikeName, int $occursAtLine): self
+    public function astInherits(TokenInterface $token, int $occursAtLine, AstInheritType $type): static
     {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::VARIABLE),
-        );
-
-        return $this;
-    }
-
-    public function superglobal(string $superglobalName, int $occursAtLine): void
-    {
-        $this->dependencies[] = new DependencyToken(
-            SuperGlobalToken::from($superglobalName),
-            $this->createContext($occursAtLine, DependencyType::SUPERGLOBAL_VARIABLE),
-        );
-    }
-
-    public function returnType(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::RETURN_TYPE),
-        );
-
-        return $this;
-    }
-
-    public function throwStatement(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::THROW),
-        );
-
-        return $this;
-    }
-
-    public function anonymousClassExtends(string $classLikeName, int $occursAtLine): void
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::ANONYMOUS_CLASS_EXTENDS),
-        );
-    }
-
-    public function anonymousClassTrait(string $classLikeName, int $occursAtLine): void
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::ANONYMOUS_CLASS_TRAIT),
-        );
-    }
-
-    public function constFetch(string $classLikeName, int $occursAtLine): void
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::CONST),
-        );
-    }
-
-    public function anonymousClassImplements(string $classLikeName, int $occursAtLine): void
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::ANONYMOUS_CLASS_IMPLEMENTS),
-        );
-    }
-
-    public function parameter(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::PARAMETER),
-        );
-
-        return $this;
-    }
-
-    public function attribute(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::ATTRIBUTE),
-        );
-
-        return $this;
-    }
-
-    public function instanceof(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::INSTANCEOF),
-        );
-
-        return $this;
-    }
-
-    public function newStatement(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::NEW),
-        );
-
-        return $this;
-    }
-
-    public function staticProperty(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::STATIC_PROPERTY),
-        );
-
-        return $this;
-    }
-
-    public function staticMethod(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::STATIC_METHOD),
-        );
-
-        return $this;
-    }
-
-    public function catchStmt(string $classLikeName, int $occursAtLine): self
-    {
-        $this->dependencies[] = new DependencyToken(
-            ClassLikeToken::fromFQCN($classLikeName),
-            $this->createContext($occursAtLine, DependencyType::CATCH),
-        );
+        $this->inherits[] = new AstInherit($token, new FileOccurrence($this->filepath, $occursAtLine), $type);
 
         return $this;
     }

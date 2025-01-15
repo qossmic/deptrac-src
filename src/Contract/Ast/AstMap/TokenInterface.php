@@ -10,4 +10,6 @@ namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 interface TokenInterface
 {
     public function toString(): string;
+
+    public function equals(TokenInterface $token): bool;
 }

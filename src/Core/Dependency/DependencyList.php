@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
-use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
 
 class DependencyList
@@ -42,7 +42,7 @@ class DependencyList
     /**
      * @return Dependency[]
      */
-    public function getDependenciesByClass(ClassLikeToken $classLikeName): array
+    public function getDependenciesByClass(TokenInterface $classLikeName): array
     {
         return $this->dependencies[$classLikeName->toString()] ?? [];
     }
