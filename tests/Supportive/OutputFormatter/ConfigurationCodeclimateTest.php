@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\ConfigurationCodeclimate;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate
+ * @covers \Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\ConfigurationCodeclimate
  */
 final class ConfigurationCodeclimateTest extends TestCase
 {

@@ -7,7 +7,7 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassNameRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassNameRegexCollector;
 use PHPUnit\Framework\TestCase;
 
 final class ClassNameRegexCollectorTest extends TestCase

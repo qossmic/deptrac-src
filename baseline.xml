@@ -28,13 +28,32 @@
       <code><![CDATA[list<T>]]></code>
     </InvalidReturnType>
   </file>
-  <file src="src/Core/Layer/Collector/BoolCollector.php">
+  <file src="src/DefaultBehavior/Layer/BoolCollector.php">
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[!$configuration['must']]]></code>
       <code><![CDATA[!$configuration['must_not']]]></code>
     </RiskyTruthyFalsyComparison>
   </file>
-  <file src="src/Core/Layer/Collector/ComposerFilesParser.php">
+  <file src="src/DefaultBehavior/Layer/DirectoryCollector.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$validatedPattern]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/DefaultBehavior/Layer/ExtendsCollector.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$astMap]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->astMap]]></code>
+      <code><![CDATA[$this->astMapExtractor->extract()]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/DefaultBehavior/Layer/GlobCollector.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$validatedPattern]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/DefaultBehavior/Layer/Helpers/ComposerFilesParser.php">
     <InvalidReturnStatement>
       <code><![CDATA[$lockedPackages]]></code>
     </InvalidReturnStatement>
@@ -45,30 +64,56 @@
      * }>]]></code>
     </InvalidReturnType>
   </file>
-  <file src="src/Core/Layer/Collector/DirectoryCollector.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$validatedPattern]]></code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="src/Core/Layer/Collector/GlobCollector.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$validatedPattern]]></code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="src/Core/Layer/Collector/MethodCollector.php">
+  <file src="src/DefaultBehavior/Layer/Helpers/RegexCollector.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="src/Core/Layer/Collector/RegexCollector.php">
+  <file src="src/DefaultBehavior/Layer/ImplementsCollector.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$astMap]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->astMap]]></code>
+      <code><![CDATA[$this->astMapExtractor->extract()]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/DefaultBehavior/Layer/InheritanceLevelCollector.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$astMap]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->astMap]]></code>
+      <code><![CDATA[$this->astMapExtractor->extract()]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/DefaultBehavior/Layer/InheritsCollector.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$astMap]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->astMap]]></code>
+      <code><![CDATA[$this->astMapExtractor->extract()]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/DefaultBehavior/Layer/MethodCollector.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="src/Core/Layer/Collector/TagValueRegexCollector.php">
+  <file src="src/DefaultBehavior/Layer/TagValueRegexCollector.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$pattern]]></code>
     </ArgumentTypeCoercion>
+  </file>
+  <file src="src/DefaultBehavior/Layer/UsesCollector.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$astMap]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->astMap]]></code>
+      <code><![CDATA[$this->astMapExtractor->extract()]]></code>
+    </RedundantPropertyInitializationCheck>
   </file>
   <file src="src/Supportive/Console/Command/DebugLayerRunner.php">
     <RiskyTruthyFalsyComparison>

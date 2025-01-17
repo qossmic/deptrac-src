@@ -9,7 +9,7 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\ComposerCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ComposerCollector;
 
 final class ComposerCollectorTest extends TestCase
 {

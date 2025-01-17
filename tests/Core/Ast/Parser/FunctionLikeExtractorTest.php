@@ -9,9 +9,9 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyToken;
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionLikeExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 

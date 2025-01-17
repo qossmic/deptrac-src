@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Contract\Analyser;
 
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\Layer\LayerProviderInterface;
 use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
 use Deptrac\Deptrac\Contract\Result\SkippedViolation;
 use Deptrac\Deptrac\Contract\Result\Violation;
@@ -25,7 +25,7 @@ final class EventHelper
     private readonly array $skippedViolations;
 
     public function __construct(
-        public readonly LayerProvider $layerProvider,
+        public readonly LayerProviderInterface $layerProvider,
         private readonly BaselineMapperInterface $baselineMapper,
     ) {
         $this->skippedViolations = $this->baselineMapper->loadViolations();

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Analyser;
 
+use Deptrac\Deptrac\Contract\Ast\AstException;
 use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
+use Deptrac\Deptrac\Contract\Layer\LayerResolverInterface;
 use Deptrac\Deptrac\Contract\Result\Uncovered;
-use Deptrac\Deptrac\Core\Ast\AstException;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
 use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
 use Deptrac\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
 use Deptrac\Deptrac\Core\Dependency\TokenResolver;
 use Deptrac\Deptrac\Core\Dependency\UnrecognizedTokenException;
-use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
 
 class LayerDependenciesAnalyser
 {

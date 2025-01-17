@@ -9,7 +9,7 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
 use Deptrac\Deptrac\Contract\Config\Collector\TagValueRegexConfig;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\TagValueRegexCollector;
 use PHPUnit\Framework\TestCase;
 
 final class TagValueRegexCollectorTest extends TestCase

@@ -13,9 +13,9 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnInternalToken;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Core\Layer\LayerProvider;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\DependsOnInternalToken;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
 use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PHPUnit\Framework\TestCase;
 

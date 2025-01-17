@@ -10,7 +10,6 @@ use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
 use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class AstLoader

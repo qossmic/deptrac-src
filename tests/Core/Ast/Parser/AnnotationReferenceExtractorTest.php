@@ -6,12 +6,12 @@ namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassMethodExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\NewExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassMethodExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\NewExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\VariableExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 

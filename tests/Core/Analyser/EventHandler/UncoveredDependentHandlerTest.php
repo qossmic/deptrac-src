@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 
 use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\UncoveredDependentHandler;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\UncoveredDependentHandler;
 use PHPUnit\Framework\TestCase;
 
 class UncoveredDependentHandlerTest extends TestCase

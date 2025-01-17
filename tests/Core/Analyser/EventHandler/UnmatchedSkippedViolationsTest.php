@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 
 use Deptrac\Deptrac\Contract\Analyser\PostProcessEvent;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\UnmatchedSkippedViolations;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\UnmatchedSkippedViolations;
 use PHPUnit\Framework\TestCase;
 
 class UnmatchedSkippedViolationsTest extends TestCase
@@ -16,6 +16,6 @@ class UnmatchedSkippedViolationsTest extends TestCase
 
         self::assertCount(1, $subscribedEvents);
         self::assertArrayHasKey(PostProcessEvent::class, $subscribedEvents);
-        self::assertSame(['handleUnmatchedSkipped'], $subscribedEvents[PostProcessEvent::class]);
+        self::assertSame(['invoke'], $subscribedEvents[PostProcessEvent::class]);
     }
 }

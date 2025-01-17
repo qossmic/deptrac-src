@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\ConsoleOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\TableOutputFormatter;
 use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\InvalidServiceInLocatorException;
-use Deptrac\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
 use Deptrac\Deptrac\Supportive\OutputFormatter\FormatterProvider;
-use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;

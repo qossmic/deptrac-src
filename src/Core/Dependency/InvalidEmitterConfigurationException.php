@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Dependency\DependencyEmitterInterface;
 use Deptrac\Deptrac\Contract\ExceptionInterface;
-use Deptrac\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 use RuntimeException;
 
 class InvalidEmitterConfigurationException extends RuntimeException implements ExceptionInterface

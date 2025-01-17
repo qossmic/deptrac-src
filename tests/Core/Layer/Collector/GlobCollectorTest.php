@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
-use Deptrac\Deptrac\Core\Layer\Collector\GlobCollector;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers\FileReferenceBuilder;
+use Deptrac\Deptrac\DefaultBehavior\Layer\GlobCollector;
 use PHPUnit\Framework\TestCase;
 
 final class GlobCollectorTest extends TestCase

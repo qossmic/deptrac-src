@@ -6,10 +6,10 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
-use Deptrac\Deptrac\Core\Layer\Collector\ExtendsCollector;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers\FileReferenceBuilder;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ExtendsCollector;
 use PHPUnit\Framework\TestCase;
 
 final class ExtendsCollectorTest extends TestCase

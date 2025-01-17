@@ -10,8 +10,8 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
 use Deptrac\Deptrac\Core\Dependency\InheritDependency;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
 use PHPUnit\Framework\TestCase;
 
 final class InheritDependencyTest extends TestCase

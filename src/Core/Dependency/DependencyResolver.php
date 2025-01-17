@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Dependency\DependencyEmitterInterface;
 use Deptrac\Deptrac\Contract\Dependency\PostEmitEvent;
 use Deptrac\Deptrac\Contract\Dependency\PostFlattenEvent;
 use Deptrac\Deptrac\Contract\Dependency\PreEmitEvent;
 use Deptrac\Deptrac\Contract\Dependency\PreFlattenEvent;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
-use Deptrac\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
+use Deptrac\Deptrac\Core\Ast\AstMap;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -21,7 +21,6 @@ class DependencyResolver
      */
     public function __construct(
         private readonly array $config,
-        private readonly InheritanceFlattener $inheritanceFlattener,
         private readonly ContainerInterface $emitterLocator,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
@@ -49,9 +48,25 @@ class DependencyResolver
         }
 
         $this->eventDispatcher->dispatch(new PreFlattenEvent());
-        $this->inheritanceFlattener->flattenDependencies($astMap, $result);
+        self::flattenDependencies($astMap, $result);
         $this->eventDispatcher->dispatch(new PostFlattenEvent());
 
         return $result;
+    }
+
+    public static function flattenDependencies(AstMap $astMap, DependencyList $dependencyList): void
+    {
+        foreach ($astMap->getClassLikeReferences() as $classReference) {
+            $classLikeName = $classReference->getToken();
+            foreach ($astMap->getClassInherits($classLikeName) as $inherit) {
+                foreach ($dependencyList->getDependenciesByClass($inherit->classLikeName) as $dep) {
+                    $dependencyList->addInheritDependency(
+                        new InheritDependency(
+                            $classLikeName, $dep->getDependent(), $dep, $inherit
+                        )
+                    );
+                }
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
-use Deptrac\Deptrac\Core\Layer\Collector\PhpInternalCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\PhpInternalCollector;
 use PHPUnit\Framework\TestCase;
 
 final class PHPInternalCollectorTest extends TestCase

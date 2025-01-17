@@ -1,0 +1,5 @@
+deptrac:
+  skip_violations:
+    Qossmic\Deptrac\Supportive\Console\Command\AnalyseCommand:
+      - Qossmic\Deptrac\DefaultBehavior\OutputFormatter\GithubActionsOutputFormatter
+      - Qossmic\Deptrac\DefaultBehavior\OutputFormatter\TableOutputFormatter

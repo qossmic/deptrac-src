@@ -8,7 +8,7 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassCollector;
 use PHPUnit\Framework\TestCase;
 
 final class ClassCollectorTest extends TestCase

@@ -7,9 +7,9 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
-use Deptrac\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\InheritanceLevelCollector;
 use PHPUnit\Framework\TestCase;
 
 final class InheritanceLevelCollectorTest extends TestCase

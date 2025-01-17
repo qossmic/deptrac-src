@@ -12,7 +12,7 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap;
 use Deptrac\Deptrac\Core\Dependency\TokenResolver;
 use PHPUnit\Framework\TestCase;
 

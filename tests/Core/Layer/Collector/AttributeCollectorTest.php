@@ -6,8 +6,8 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
-use Deptrac\Deptrac\Core\Ast\AstMap\FileReferenceBuilder;
-use Deptrac\Deptrac\Core\Layer\Collector\AttributeCollector;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers\FileReferenceBuilder;
+use Deptrac\Deptrac\DefaultBehavior\Layer\AttributeCollector;
 use PHPUnit\Framework\TestCase;
 
 final class AttributeCollectorTest extends TestCase

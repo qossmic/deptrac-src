@@ -8,8 +8,8 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\LayerCollector;
-use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\Contract\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\DefaultBehavior\Layer\LayerCollector;
 use PHPUnit\Framework\TestCase;
 
 final class LayerCollectorTest extends TestCase

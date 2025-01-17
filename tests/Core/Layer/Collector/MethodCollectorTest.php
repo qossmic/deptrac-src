@@ -7,8 +7,8 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Layer\Collector\MethodCollector;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
+use Deptrac\Deptrac\DefaultBehavior\Layer\MethodCollector;
 use PHPUnit\Framework\TestCase;
 
 final class MethodCollectorTest extends TestCase

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Contract\Ast\AstException;
+use Deptrac\Deptrac\Contract\Ast\AstMapExtractorInterface;
 use Deptrac\Deptrac\Core\InputCollector\InputCollectorInterface;
 use Deptrac\Deptrac\Core\InputCollector\InputException;
 
-class AstMapExtractor
+class AstMapExtractor implements AstMapExtractorInterface
 {
     private ?AstMap $astMapCache = null;
 

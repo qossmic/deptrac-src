@@ -6,8 +6,8 @@ namespace Tests\Deptrac\Deptrac\Contract\Analyser;
 
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
 use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
+use Deptrac\Deptrac\Core\Layer\LayerProvider;
 use PHPUnit\Framework\TestCase;
 
 final class EventHelperTest extends TestCase

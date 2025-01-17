@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
 use Deptrac\Deptrac\Contract\Ast\TypeScope;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicTypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;

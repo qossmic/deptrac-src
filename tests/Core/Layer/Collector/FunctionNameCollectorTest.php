@@ -7,7 +7,7 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Layer\Collector\FunctionNameCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\FunctionNameCollector;
 use PHPUnit\Framework\TestCase;
 
 final class FunctionNameCollectorTest extends TestCase

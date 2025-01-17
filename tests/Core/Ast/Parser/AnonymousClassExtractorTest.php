@@ -6,8 +6,8 @@ namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
 use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use Closure;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
