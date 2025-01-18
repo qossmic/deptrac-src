@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstException;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
+use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Core\Ast\AstMap;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers\FileReferenceBuilder;
 use Deptrac\Deptrac\DefaultBehavior\Layer\ImplementsCollector;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 final class ImplementsCollectorTest extends TestCase
 {
@@ -75,5 +82,45 @@ final class ImplementsCollectorTest extends TestCase
         );
 
         self::assertSame($expected, $actual);
+    }
+
+    public function testInvalidRegexParam(): void
+    {
+        $this->expectException(InvalidCollectorDefinitionException::class);
+
+        $extractor = $this->createMock(AstMapExtractor::class);
+
+        (new ImplementsCollector($extractor))->satisfy(
+            ['regex' => '/'],
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+        );
+    }
+
+    public function testWrongTokenTypeDoesNotSatisfy(): void
+    {
+        $extractor = $this->createMock(AstMapExtractor::class);
+
+        $actual = (new ImplementsCollector($extractor))->satisfy(
+            ['value' => '/^Foo\\\\Bar$/i'],
+            new VariableReference(SuperGlobalToken::GET)
+        );
+
+        self::assertFalse($actual);
+    }
+
+    public function testFailedAstExtraction(): void
+    {
+        $this->expectException(CouldNotParseFileException::class);
+
+        $extractor = $this->createMock(AstMapExtractor::class);
+        $extractor
+            ->method('extract')
+            ->willThrowException(AstException::couldNotCollectFiles(new RuntimeException('')))
+        ;
+
+        (new ImplementsCollector($extractor))->satisfy(
+            ['value' => 'App\Bar'],
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+        );
     }
 }

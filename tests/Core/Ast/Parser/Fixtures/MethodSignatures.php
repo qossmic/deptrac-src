@@ -2,8 +2,11 @@
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures;
 
+#[\Attribute]
+class MethodAttribute {}
 class MethodSignaturesA
 {
+    #[MethodAttribute]
     public function foo() {}
 }
 

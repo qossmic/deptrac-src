@@ -6,6 +6,8 @@ namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use Deptrac\Deptrac\DefaultBehavior\Layer\MethodCollector;
@@ -84,6 +86,18 @@ final class MethodCollectorTest extends TestCase
             ->with($astClassReference)
             ->willReturn([])
         ;
+
+        $actual = $this->collector->satisfy(
+            ['value' => 'abc'],
+            $astClassReference,
+        );
+
+        self::assertFalse($actual);
+    }
+
+    public function testNonClassReferenceDoesNotSatisfy(): void
+    {
+        $astClassReference = new FunctionReference(FunctionToken::fromFQCN('foo'));
 
         $actual = $this->collector->satisfy(
             ['value' => 'abc'],

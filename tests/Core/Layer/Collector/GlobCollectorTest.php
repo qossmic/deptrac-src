@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers\FileReferenceBuilder;
 use Deptrac\Deptrac\DefaultBehavior\Layer\GlobCollector;
 use PHPUnit\Framework\TestCase;
@@ -43,5 +44,19 @@ final class GlobCollectorTest extends TestCase
         );
 
         self::assertSame($expected, $actual);
+    }
+
+    public function testWrongRegexParam(): void
+    {
+        $this->expectException(InvalidCollectorDefinitionException::class);
+
+        $fileReferenceBuilder = FileReferenceBuilder::create('foo/layer1/bar.php');
+        $fileReferenceBuilder->newClassLike('Test', [], []);
+        $fileReference = $fileReferenceBuilder->build();
+
+        $this->collector->satisfy(
+            ['Foo' => 'a'],
+            $fileReference->classLikeReferences[0],
+        );
     }
 }

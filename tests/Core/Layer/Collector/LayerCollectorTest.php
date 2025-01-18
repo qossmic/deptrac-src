@@ -100,6 +100,14 @@ final class LayerCollectorTest extends TestCase
         );
 
         self::assertTrue($actual);
+
+        // test resolution caching by code coverage
+        $actual = $this->collector->satisfy(
+            ['value' => 'AppLayer'],
+            $reference,
+        );
+
+        self::assertTrue($actual);
     }
 
     public function testSatisfyWhenReferenceIsNotInLayer(): void

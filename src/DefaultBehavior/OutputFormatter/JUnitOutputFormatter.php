@@ -50,7 +50,7 @@ final class JUnitOutputFormatter implements OutputFormatterInterface
     private function createXml(OutputResult $result): string
     {
         if (!class_exists(DOMDocument::class)) {
-            throw new Exception('Unable to create xml file (php-xml needs to be installed)');
+            throw new Exception('Unable to create xml file (php-xml needs to be installed)'); // @codeCoverageIgnore
         }
 
         $xmlDoc = new DOMDocument('1.0', 'UTF-8');

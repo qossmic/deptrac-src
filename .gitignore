@@ -13,5 +13,9 @@ junit-report.xml
 infection.log
 .cache/
 !.cache/.keep
-
+.idea
 build/deptrac-build
+.deptrac.cache
+deptrac-report.xml
+tests/Supportive/DependencyInjection/.deptrac.cache
+tests/Supportive/OutputFormatter/data/graphviz.dot

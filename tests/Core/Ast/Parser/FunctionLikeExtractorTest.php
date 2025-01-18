@@ -28,24 +28,26 @@ final class FunctionLikeExtractorTest extends TestCase
 
         $astClassReferences = $astFileReference->classLikeReferences;
 
-        self::assertCount(3, $astClassReferences);
-        [$classA, $classB, $classC] = $astClassReferences;
+        self::assertCount(4, $astClassReferences);
+        [$attribute, $classA, $classB, $classC] = $astClassReferences;
 
         self::assertEqualsCanonicalizing(
-            [],
+            [
+                'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\MethodAttribute::9 (attribute)',
+            ],
             $this->getDependenciesAsString($classA)
         );
 
         self::assertEqualsCanonicalizing(
             [
-                'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodSignaturesA::12 (returntype)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodSignaturesA::15 (returntype)',
             ],
             $this->getDependenciesAsString($classB)
         );
 
         self::assertEqualsCanonicalizing(
             [
-                'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodSignaturesB::21 (parameter)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodSignaturesB::24 (parameter)',
                 // NOTE: We are not yet tracking the call from MethodSignatureC::test()
                 // to MethodSignatureA::foo().
             ],

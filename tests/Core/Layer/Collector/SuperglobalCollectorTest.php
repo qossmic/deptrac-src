@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
 use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
@@ -48,5 +50,17 @@ final class SuperglobalCollectorTest extends TestCase
             ['Foo' => 'a'],
             new VariableReference(SuperGlobalToken::from('_POST'))
         );
+    }
+
+    public function testNonVariableReferenceDoesNotSatisfy(): void
+    {
+        $astClassReference = new FunctionReference(FunctionToken::fromFQCN('foo'));
+
+        $actual = $this->collector->satisfy(
+            ['value' => 'abc'],
+            $astClassReference,
+        );
+
+        self::assertFalse($actual);
     }
 }

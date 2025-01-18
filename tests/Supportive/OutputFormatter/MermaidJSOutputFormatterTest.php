@@ -41,9 +41,11 @@ final class MermaidJSOutputFormatterTest extends TestCase
 
         $analysisResult = new AnalysisResult();
         $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerB'));
+        $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerB'));
         $analysisResult->addRule(new Allowed($dependency, 'LayerC', 'LayerD'));
         $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerC'));
 
+        $analysisResult->addRule(new Violation($dependency, 'LayerA', 'LayerC', new DummyViolationCreatingRule()));
         $analysisResult->addRule(new Violation($dependency, 'LayerA', 'LayerC', new DummyViolationCreatingRule()));
         $analysisResult->addRule(new Violation($dependency, 'LayerB', 'LayerC', new DummyViolationCreatingRule()));
 

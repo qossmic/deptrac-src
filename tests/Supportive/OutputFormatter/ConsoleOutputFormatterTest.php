@@ -166,6 +166,35 @@ final class ConsoleOutputFormatterTest extends TestCase
                     new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('originalA.php', 12), DependencyType::PARAMETER)),
                     'LayerA'
                 ),
+                new Uncovered(
+                    new InheritDependency(
+                        ClassLikeToken::fromFQCN('ClassA'),
+                        ClassLikeToken::fromFQCN('ClassB'),
+                        new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('originalA.php', 12), DependencyType::PARAMETER)),
+                        (new AstInherit(
+                            ClassLikeToken::fromFQCN('ClassInheritA'), new FileOccurrence('originalA.php', 3),
+                            AstInheritType::EXTENDS
+                        ))
+                            ->replacePath([
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritB'),
+                                    new FileOccurrence('originalA.php', 4),
+                                    AstInheritType::EXTENDS
+                                ),
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritC'),
+                                    new FileOccurrence('originalA.php', 5),
+                                    AstInheritType::EXTENDS
+                                ),
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritD'),
+                                    new FileOccurrence('originalA.php', 6),
+                                    AstInheritType::EXTENDS
+                                ),
+                            ])
+                    ),
+                    'LayerA'
+                ),
             ],
             [],
             'warnings' => [],
@@ -173,10 +202,13 @@ final class ConsoleOutputFormatterTest extends TestCase
                 Uncovered dependencies:
                 OriginalA has uncovered dependency on OriginalB (LayerA)
                 originalA.php:12
+                ClassA has uncovered dependency on ClassB (LayerA)
+                originalA.php:12
+                ClassInheritD:6 -> ClassInheritC:5 -> ClassInheritB:4 -> ClassInheritA:3 -> OriginalB:12
                 Report:
                 Violations: 0
                 Skipped violations: 0
-                Uncovered: 1
+                Uncovered: 2
                 Allowed: 0
                 Warnings:0
                 Errors:0

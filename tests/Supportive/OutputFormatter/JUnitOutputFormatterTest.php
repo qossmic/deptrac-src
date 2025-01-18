@@ -15,6 +15,7 @@ use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\Result\Error;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
 use Deptrac\Deptrac\Contract\Result\SkippedViolation;
+use Deptrac\Deptrac\Contract\Result\Uncovered;
 use Deptrac\Deptrac\Contract\Result\Violation;
 use Deptrac\Deptrac\Core\Dependency\InheritDependency;
 use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
@@ -159,6 +160,16 @@ final class JUnitOutputFormatterTest extends TestCase
                 ),
             ],
             'expected-junit-report-with-skipped-violations.xml',
+        ];
+
+        yield [
+            [
+                new Uncovered(
+                    new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('foo.php', 12), DependencyType::PARAMETER)),
+                    'test'
+                ),
+            ],
+            'expected-junit-report-with-uncovered.xml',
         ];
     }
 
