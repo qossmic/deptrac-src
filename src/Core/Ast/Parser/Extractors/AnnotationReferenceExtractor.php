@@ -6,7 +6,6 @@ namespace Qossmic\Deptrac\Core\Ast\Parser\Extractors;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\TemplateTagValueNode;
@@ -33,10 +32,20 @@ class AnnotationReferenceExtractor implements ReferenceExtractorInterface
     public function processNode(Node $node, ReferenceBuilder $referenceBuilder, TypeScope $typeScope): void
     {
         if (!$node instanceof Property
-            && !$node instanceof Variable
+            && !$node instanceof Node\Stmt\Expression
             && !$node instanceof ClassMethod
         ) {
             return;
+        }
+
+        /**
+         * @see https://github.com/nikic/PHP-Parser/commit/4e27a17cd855b36abe0199efb81be143b144f40d#diff-4034fc485172f50147405c293a9d86685b0f333e69b666de5492da37406186afL44 for the change in nikic/php-parser
+         * @see https://github.com/patrickkusebauch/phpstan-src/commit/cc4bff635ebae19b010b81130360155692283ac6#diff-c4e3f0a39ea5d27cabb86159d23a29adbf4ba64b1931497f8a9bac2e720579d9R81 for the stolen implementation from PHPStan
+         */
+        if ($node instanceof Node\Stmt\Expression) {
+            if (!$node->expr instanceof Node\Expr\Assign && !$node->expr instanceof Node\Expr\AssignRef) {
+                return;
+            }
         }
 
         $docComment = $node->getDocComment();
@@ -48,7 +57,7 @@ class AnnotationReferenceExtractor implements ReferenceExtractorInterface
         $docNode = $this->docParser->parse($tokens);
         $templateTypes = array_merge(
             array_map(
-                static fn (TemplateTagValueNode $node): string => $node->name,
+                static fn (TemplateTagValueNode $templateNode): string => $templateNode->name,
                 $docNode->getTemplateTagValues()
             ),
             $referenceBuilder->getTokenTemplates()

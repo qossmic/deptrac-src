@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Qossmic\Deptrac\Core\Dependency\Emitter;
 
-use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
 use Qossmic\Deptrac\Core\Ast\AstLoader;
@@ -33,7 +32,7 @@ trait EmitterTrait
 
         $typeResolver = new TypeResolver();
         $parser = new NikicPhpParser(
-            (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
             $typeResolver,
             [

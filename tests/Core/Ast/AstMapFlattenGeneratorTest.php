@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Qossmic\Deptrac\Core\Ast;
 
 use LogicException;
-use PhpParser\Lexer;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 use Qossmic\Deptrac\Contract\Ast\AstFileAnalysedEvent;
@@ -59,7 +58,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
         $this->astLoader = new AstLoader(
             new NikicPhpParser(
-                (new ParserFactory())->create(ParserFactory::ONLY_PHP7, new Lexer()),
+                (new ParserFactory())->createForNewestSupportedVersion(),
                 new AstFileReferenceInMemoryCache(),
                 new TypeResolver(),
                 []

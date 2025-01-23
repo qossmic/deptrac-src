@@ -157,10 +157,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(Lexer::class);
     $services
         ->set(Parser::class)
-        ->factory([service(ParserFactory::class), 'create'])
-        ->args([
-            '$kind' => ParserFactory::PREFER_PHP7,
-        ])
+        ->factory([service(ParserFactory::class), 'createForNewestSupportedVersion'])
     ;
     $services->set(AstFileReferenceInMemoryCache::class);
     $services->alias(AstFileReferenceCacheInterface::class, AstFileReferenceInMemoryCache::class);
