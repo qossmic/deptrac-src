@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract;
+namespace Deptrac\Deptrac\Contract;
 
 use Throwable;
 

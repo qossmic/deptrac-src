@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\File;
+namespace Tests\Deptrac\Deptrac\Supportive\File;
 
+use Deptrac\Deptrac\Supportive\File\Dumper;
+use Deptrac\Deptrac\Supportive\File\Exception\FileAlreadyExistsException;
+use Deptrac\Deptrac\Supportive\File\Exception\FileNotWritableException;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\File\Dumper;
-use Qossmic\Deptrac\Supportive\File\Exception\FileAlreadyExistsException;
-use Qossmic\Deptrac\Supportive\File\Exception\FileNotWritableException;
 use SplFileInfo;
 
 use function file_exists;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Config;
+namespace Deptrac\Deptrac\Contract\Config;
 
-use Qossmic\Deptrac\Contract\Config\Formatter\FormatterConfigInterface;
+use Deptrac\Deptrac\Contract\Config\Formatter\FormatterConfigInterface;
 use Symfony\Component\Config\Builder\ConfigBuilderInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;

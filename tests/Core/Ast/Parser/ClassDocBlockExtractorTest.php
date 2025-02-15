@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 
 final class ClassDocBlockExtractorTest extends TestCase
 {
     private const EXPECTED = [
-        ['Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencySister', DependencyType::PARAMETER],
-        ['Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyBrother', DependencyType::RETURN_TYPE],
-        ['Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyChild', DependencyType::VARIABLE],
-        ['Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencySister', DependencyType::VARIABLE],
-        ['Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyBrother', DependencyType::VARIABLE],
+        ['Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencySister', DependencyType::PARAMETER],
+        ['Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyBrother', DependencyType::RETURN_TYPE],
+        ['Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyChild', DependencyType::VARIABLE],
+        ['Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencySister', DependencyType::VARIABLE],
+        ['Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassDocBlockDependencyBrother', DependencyType::VARIABLE],
     ];
 
     public function testMethodResolving(): void

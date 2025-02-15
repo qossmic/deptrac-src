@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\OutputFormatter;
+namespace Deptrac\Deptrac\Contract\OutputFormatter;
 
 /**
  * @psalm-immutable

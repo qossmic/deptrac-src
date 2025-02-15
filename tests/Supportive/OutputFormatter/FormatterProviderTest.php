@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\InvalidServiceInLocatorException;
+use Deptrac\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
+use Deptrac\Deptrac\Supportive\OutputFormatter\FormatterProvider;
+use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\DependencyInjection\Exception\InvalidServiceInLocatorException;
-use Qossmic\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
-use Qossmic\Deptrac\Supportive\OutputFormatter\FormatterProvider;
-use Qossmic\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use stdClass;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -35,7 +35,7 @@ final class FormatterProviderTest extends TestCase
     public function testContainerHasInvalidService(): void
     {
         $this->expectException(InvalidServiceInLocatorException::class);
-        $this->expectExceptionMessage('Trying to get unsupported service "formatter1" from locator (expected "Qossmic\\Deptrac\\Contract\\OutputFormatter\\OutputFormatterInterface", but is "stdClass").');
+        $this->expectExceptionMessage('Trying to get unsupported service "formatter1" from locator (expected "Deptrac\\Deptrac\\Contract\\OutputFormatter\\OutputFormatterInterface", but is "stdClass").');
 
         (new FormatterProvider(new ServiceLocator(['formatter1' => static fn () => new stdClass()])))->get('formatter1');
     }

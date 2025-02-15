@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Analyser;
+namespace Deptrac\Deptrac\Contract\Analyser;
 
-use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**

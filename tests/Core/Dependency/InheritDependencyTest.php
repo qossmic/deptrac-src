@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Dependency;
+namespace Tests\Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Ast\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Core\Dependency\InheritDependency;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\DependencyContext;
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Dependency\Dependency;
-use Qossmic\Deptrac\Core\Dependency\InheritDependency;
 
 final class InheritDependencyTest extends TestCase
 {

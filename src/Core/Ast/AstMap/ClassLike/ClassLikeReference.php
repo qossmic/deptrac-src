@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\AstMap\ClassLike;
+namespace Deptrac\Deptrac\Core\Ast\AstMap\ClassLike;
 
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Core\Ast\AstMap\DependencyToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\TaggedTokenReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\TaggedTokenReference;
 
 /**
  * @psalm-immutable

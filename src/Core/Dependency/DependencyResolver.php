@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Dependency;
+namespace Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Dependency\PostEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PostFlattenEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreFlattenEvent;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Qossmic\Deptrac\Contract\Dependency\PostEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PostFlattenEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreFlattenEvent;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 
 class DependencyResolver
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Qossmic\Deptrac\Contract\Config\Formatter;
+namespace Deptrac\Deptrac\Contract\Config\Formatter;
 
-use Qossmic\Deptrac\Contract\Config\CodeclimateLevelEnum;
+use Deptrac\Deptrac\Contract\Config\CodeclimateLevelEnum;
 
 final class CodeclimateConfig implements FormatterConfigInterface
 {

@@ -1,16 +1,16 @@
 <?php
 
-use Internal\Qossmic\Deptrac\IgnoreDependenciesOnContract;
-use Qossmic\Deptrac\Contract\Config\AnalyserConfig;
-use Qossmic\Deptrac\Contract\Config\Collector\BoolConfig;
-use Qossmic\Deptrac\Contract\Config\Collector\ComposerConfig;
-use Qossmic\Deptrac\Contract\Config\Collector\DirectoryConfig;
-use Qossmic\Deptrac\Contract\Config\DeptracConfig;
-use Qossmic\Deptrac\Contract\Config\EmitterType;
-use Qossmic\Deptrac\Contract\Config\Formatter\GraphvizConfig;
-use Qossmic\Deptrac\Contract\Config\Formatter\MermaidJsConfig;
-use Qossmic\Deptrac\Contract\Config\Layer;
-use Qossmic\Deptrac\Contract\Config\Ruleset;
+use Internal\Deptrac\Deptrac\IgnoreDependenciesOnContract;
+use Deptrac\Deptrac\Contract\Config\AnalyserConfig;
+use Deptrac\Deptrac\Contract\Config\Collector\BoolConfig;
+use Deptrac\Deptrac\Contract\Config\Collector\ComposerConfig;
+use Deptrac\Deptrac\Contract\Config\Collector\DirectoryConfig;
+use Deptrac\Deptrac\Contract\Config\DeptracConfig;
+use Deptrac\Deptrac\Contract\Config\EmitterType;
+use Deptrac\Deptrac\Contract\Config\Formatter\GraphvizConfig;
+use Deptrac\Deptrac\Contract\Config\Formatter\MermaidJsConfig;
+use Deptrac\Deptrac\Contract\Config\Layer;
+use Deptrac\Deptrac\Contract\Config\Ruleset;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (DeptracConfig $config, ContainerConfigurator $containerConfigurator): void {

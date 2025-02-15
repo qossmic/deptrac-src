@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Time;
+namespace Tests\Deptrac\Deptrac\Supportive\Time;
 
+use Deptrac\Deptrac\Supportive\Time\Stopwatch;
+use Deptrac\Deptrac\Supportive\Time\StopwatchException;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\Time\Stopwatch;
-use Qossmic\Deptrac\Supportive\Time\StopwatchException;
 
 class StopwatchTest extends TestCase
 {

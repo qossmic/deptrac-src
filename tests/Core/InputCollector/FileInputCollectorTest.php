@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\InputCollector;
+namespace Tests\Deptrac\Deptrac\Core\InputCollector;
 
+use Deptrac\Deptrac\Core\InputCollector\FileInputCollector;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\InputCollector\FileInputCollector;
 use Symfony\Component\Filesystem\Path;
 
 use function array_values;

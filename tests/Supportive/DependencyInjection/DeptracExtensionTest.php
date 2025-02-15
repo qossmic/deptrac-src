@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\DependencyInjection;
+namespace Tests\Deptrac\Deptrac\Supportive\DependencyInjection;
 
+use Deptrac\Deptrac\Contract\Config\EmitterType;
+use Deptrac\Deptrac\Supportive\DependencyInjection\DeptracExtension;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Config\EmitterType;
-use Qossmic\Deptrac\Supportive\DependencyInjection\DeptracExtension;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

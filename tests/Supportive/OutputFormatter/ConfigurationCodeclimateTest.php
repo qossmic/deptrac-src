@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate;
 
 /**
- * @covers \Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate
+ * @covers \Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationCodeclimate
  */
 final class ConfigurationCodeclimateTest extends TestCase
 {

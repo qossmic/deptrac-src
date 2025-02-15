@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Dependency;
+namespace Tests\Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Config\EmitterType;
+use Deptrac\Deptrac\Contract\Dependency\PostEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PostFlattenEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreFlattenEvent;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
+use Deptrac\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\Emitter\ClassSuperglobalDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\Emitter\FileDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\Emitter\FunctionDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\Emitter\FunctionSuperglobalDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\Emitter\UsesDependencyEmitter;
+use Deptrac\Deptrac\Core\Dependency\InheritanceFlattener;
+use Deptrac\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Qossmic\Deptrac\Contract\Config\EmitterType;
-use Qossmic\Deptrac\Contract\Dependency\PostEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PostFlattenEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreFlattenEvent;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Dependency\DependencyResolver;
-use Qossmic\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\Emitter\ClassSuperglobalDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\Emitter\FileDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\Emitter\FunctionDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\Emitter\FunctionSuperglobalDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\Emitter\UsesDependencyEmitter;
-use Qossmic\Deptrac\Core\Dependency\InheritanceFlattener;
-use Qossmic\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
+namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
+use Deptrac\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
-use Qossmic\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
 
 final class InheritanceLevelCollectorTest extends TestCase
 {

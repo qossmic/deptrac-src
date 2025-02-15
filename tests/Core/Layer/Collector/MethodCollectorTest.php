@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
+namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Layer\Collector\MethodCollector;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Layer\Collector\MethodCollector;
 use stdClass;
 
 final class MethodCollectorTest extends TestCase

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
+namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Layer\Collector\LayerCollector;
+use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Qossmic\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Layer\Collector\LayerCollector;
-use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
 
 final class LayerCollectorTest extends TestCase
 {

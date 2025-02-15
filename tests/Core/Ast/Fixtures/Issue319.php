@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Fixtures;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Fixtures;
 
 use Foo\{Exception, RuntimeException};
 use LogicException;

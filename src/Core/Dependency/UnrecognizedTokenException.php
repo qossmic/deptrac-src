@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Dependency;
+namespace Deptrac\Deptrac\Core\Dependency;
 
-use Qossmic\Deptrac\Contract\Ast\TokenInterface;
-use Qossmic\Deptrac\Contract\ExceptionInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+use Deptrac\Deptrac\Contract\ExceptionInterface;
 use RuntimeException;
 
 class UnrecognizedTokenException extends RuntimeException implements ExceptionInterface

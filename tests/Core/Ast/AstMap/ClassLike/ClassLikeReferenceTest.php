@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\AstMap\ClassLike;
+namespace Tests\Deptrac\Deptrac\Core\Ast\AstMap\ClassLike;
 
+use Deptrac\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
-use Tests\Qossmic\Deptrac\Core\Ast\AstMap\TaggedTokenReferenceTestTrait;
+use Tests\Deptrac\Deptrac\Core\Ast\AstMap\TaggedTokenReferenceTestTrait;
 
 final class ClassLikeReferenceTest extends TestCase
 {

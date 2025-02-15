@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Fixtures;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Fixtures;
 
 interface MultipleInteritanceA1 { } // []
 interface MultipleInteritanceA2 { } // []

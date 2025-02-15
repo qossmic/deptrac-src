@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\Parser;
+namespace Deptrac\Deptrac\Core\Ast\Parser;
 
 class TypeScope
 {

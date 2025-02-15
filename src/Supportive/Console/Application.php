@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Console;
+namespace Deptrac\Deptrac\Supportive\Console;
 
-use Qossmic\Deptrac\Supportive\DependencyInjection\Exception\CannotLoadConfiguration;
-use Qossmic\Deptrac\Supportive\DependencyInjection\ServiceContainerBuilder;
+use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\CannotLoadConfiguration;
+use Deptrac\Deptrac\Supportive\DependencyInjection\ServiceContainerBuilder;
 use RuntimeException;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;

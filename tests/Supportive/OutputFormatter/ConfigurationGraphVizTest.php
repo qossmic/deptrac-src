@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz;
 
 /**
- * @covers \Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz
+ * @covers \Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz
  */
 final class ConfigurationGraphVizTest extends TestCase
 {

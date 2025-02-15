@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast;
+namespace Tests\Deptrac\Deptrac\Core\Ast;
 
+use Deptrac\Deptrac\Core\Ast\AstLoader;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\AstLoader;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\DependencyToken;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassC;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitC;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitClass;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitD;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitClass;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitD;
 
 final class AstMapGeneratorTest extends TestCase
 {
@@ -58,16 +58,16 @@ final class AstMapGeneratorTest extends TestCase
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassA::9 (Extends)',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::9 (Implements)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassA::9 (Extends)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::9 (Implements)',
             ],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyClassB::class)))
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::13 (Implements)',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceB::13 (Implements)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceA::13 (Implements)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyClassInterfaceB::13 (Implements)',
             ],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyClassC::class)))
         );
@@ -88,20 +88,20 @@ final class AstMapGeneratorTest extends TestCase
         );
 
         self::assertArrayValuesEquals(
-            ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::7 (Uses)'],
+            ['Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::7 (Uses)'],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitC::class)))
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::10 (Uses)',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::11 (Uses)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::10 (Uses)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitB::11 (Uses)',
             ],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitD::class)))
         );
 
         self::assertArrayValuesEquals(
-            ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::15 (Uses)'],
+            ['Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency\BasicDependencyTraitA::15 (Uses)'],
             $this->getInheritsAsString($astMap->getClassReferenceForToken(ClassLikeToken::fromFQCN(BasicDependencyTraitClass::class)))
         );
     }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 
 final class AnnotationReferenceExtractorTest extends TestCase
 {
@@ -38,7 +38,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertCount(0, $astClassReferences[1]->dependencies);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[0]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[0]->context->fileOccurrence->filepath);
@@ -46,7 +46,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertSame('variable', $annotationDependency[0]->context->dependencyType->value);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[1]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[1]->context->fileOccurrence->filepath);
@@ -54,7 +54,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertSame('variable', $annotationDependency[1]->context->dependencyType->value);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[2]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[2]->context->fileOccurrence->filepath);
@@ -78,7 +78,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         self::assertSame('parameter', $annotationDependency[4]->context->dependencyType->value);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\AnnotationDependencyChild',
             $annotationDependency[5]->token->toString()
         );
         self::assertSame($filePath, $annotationDependency[5]->context->fileOccurrence->filepath);

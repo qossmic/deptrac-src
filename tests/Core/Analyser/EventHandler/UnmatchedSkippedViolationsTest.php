@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Analyser\EventHandler;
+namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 
+use Deptrac\Deptrac\Contract\Analyser\PostProcessEvent;
+use Deptrac\Deptrac\Core\Analyser\EventHandler\UnmatchedSkippedViolations;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Analyser\PostProcessEvent;
-use Qossmic\Deptrac\Core\Analyser\EventHandler\UnmatchedSkippedViolations;
 
 class UnmatchedSkippedViolationsTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Contract\Config;
+namespace Tests\Deptrac\Deptrac\Contract\Config;
 
+use Deptrac\Deptrac\Contract\Config\AnalyserConfig;
+use Deptrac\Deptrac\Contract\Config\DeptracConfig;
+use Deptrac\Deptrac\Contract\Config\EmitterType;
+use Deptrac\Deptrac\Supportive\DependencyInjection\Configuration;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Config\AnalyserConfig;
-use Qossmic\Deptrac\Contract\Config\DeptracConfig;
-use Qossmic\Deptrac\Contract\Config\EmitterType;
-use Qossmic\Deptrac\Supportive\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 
 final class DeptracConfigTest extends TestCase

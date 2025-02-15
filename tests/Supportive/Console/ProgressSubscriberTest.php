@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Console;
+namespace Tests\Deptrac\Deptrac\Supportive\Console;
 
+use Deptrac\Deptrac\Contract\Ast\AstFileAnalysedEvent;
+use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
+use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
+use Deptrac\Deptrac\Supportive\Console\Subscriber\ProgressSubscriber;
+use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
+use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\AstFileAnalysedEvent;
-use Qossmic\Deptrac\Contract\Ast\PostCreateAstMapEvent;
-use Qossmic\Deptrac\Contract\Ast\PreCreateAstMapEvent;
-use Qossmic\Deptrac\Supportive\Console\Subscriber\ProgressSubscriber;
-use Qossmic\Deptrac\Supportive\Console\Symfony\Style;
-use Qossmic\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;

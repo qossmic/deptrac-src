@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Analyser\EventHandler;
+namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 
+use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
+use Deptrac\Deptrac\Contract\Analyser\EventHelper;
+use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
+use Deptrac\Deptrac\Contract\Ast\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\Result\Violation;
+use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnPrivateLayer;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
+use Deptrac\Deptrac\Core\Dependency\Dependency;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Analyser\AnalysisResult;
-use Qossmic\Deptrac\Contract\Analyser\EventHelper;
-use Qossmic\Deptrac\Contract\Analyser\ProcessEvent;
-use Qossmic\Deptrac\Contract\Ast\DependencyContext;
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
-use Qossmic\Deptrac\Contract\Layer\LayerProvider;
-use Qossmic\Deptrac\Contract\Result\Violation;
-use Qossmic\Deptrac\Core\Analyser\EventHandler\DependsOnPrivateLayer;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
-use Qossmic\Deptrac\Core\Dependency\Dependency;
 
 final class DependsOnPrivateLayerTest extends TestCase
 {

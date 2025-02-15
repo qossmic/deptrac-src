@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Layer\Collector;
+namespace Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Psr\Container\ContainerExceptionInterface;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 
 use function array_key_exists;
 use function is_string;

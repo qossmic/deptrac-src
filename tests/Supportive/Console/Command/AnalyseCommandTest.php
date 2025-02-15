@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Console\Command;
+namespace Tests\Deptrac\Deptrac\Supportive\Console\Command;
 
+use Deptrac\Deptrac\Supportive\Console\Command\AnalyseCommand;
+use Deptrac\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\Console\Command\AnalyseCommand;
-use Qossmic\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
 
 class AnalyseCommandTest extends TestCase
 {

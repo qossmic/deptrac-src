@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Console;
+namespace Tests\Deptrac\Deptrac\Supportive\Console;
 
-use Qossmic\Deptrac\Supportive\Console\Env;
+use Deptrac\Deptrac\Supportive\Console\Env;
 
 final class EmptyEnv extends Env
 {

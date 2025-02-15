@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeScope;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeScope;
 
 final class TypeResolverTest extends TestCase
 {

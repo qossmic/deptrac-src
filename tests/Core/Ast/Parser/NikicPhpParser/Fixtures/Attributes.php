@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\Fixtures;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\Fixtures;
 
-use Tests\Qossmic\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute\MyAttribute;
-use Tests\Qossmic\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Tests;
+use Tests\Deptrac\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute\MyAttribute;
+use Tests\Deptrac\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Tests;
 
 #[MyAttribute]
-#[Tests\Qossmic\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute\MyAttribute]
+#[Tests\Deptrac\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute\MyAttribute]
 #[MyAttribute(1234)]
 #[MyAttribute(value: 1234)]
 #[MyAttribute(MyAttribute::VALUE)]
@@ -23,7 +23,7 @@ class AnotherThing
 {
 }
 
-namespace Tests\Qossmic\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute;
+namespace Tests\Deptrac\Deptrac\AstRunner\AstParser\NikicPhpParser\Fixtures\Attribute;
 
 use Attribute;
 

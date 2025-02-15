@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures;
 
 final class AnnotationDependency
 {

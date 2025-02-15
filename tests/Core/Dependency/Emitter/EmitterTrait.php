@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Dependency\Emitter;
+namespace Tests\Deptrac\Deptrac\Core\Dependency\Emitter;
 
+use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
+use Deptrac\Deptrac\Core\Ast\AstLoader;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Deptrac\Deptrac\Core\Dependency\DependencyList;
+use Deptrac\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 use PhpParser\ParserFactory;
-use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
-use Qossmic\Deptrac\Core\Ast\AstLoader;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
-use Qossmic\Deptrac\Core\Dependency\DependencyList;
-use Qossmic\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 trait EmitterTrait

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Console;
+namespace Deptrac\Deptrac\Supportive\Console;
 
-use Qossmic\Deptrac\Contract\ExceptionInterface;
+use Deptrac\Deptrac\Contract\ExceptionInterface;
 use RuntimeException;
 
 final class CannotGetCurrentWorkingDirectoryException extends RuntimeException implements ExceptionInterface

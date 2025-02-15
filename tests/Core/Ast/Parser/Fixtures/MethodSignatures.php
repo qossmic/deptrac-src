@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures;
 
 class MethodSignaturesA
 {

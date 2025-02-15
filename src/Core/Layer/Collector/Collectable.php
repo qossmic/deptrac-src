@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Layer\Collector;
+namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Qossmic\Deptrac\Contract\Layer\CollectorInterface;
+use Deptrac\Deptrac\Contract\Layer\CollectorInterface;
 
 /**
  * @psalm-immutable

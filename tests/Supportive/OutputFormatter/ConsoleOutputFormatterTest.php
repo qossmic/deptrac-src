@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
+use Deptrac\Deptrac\Contract\Ast\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
+use Deptrac\Deptrac\Contract\Result\Error;
+use Deptrac\Deptrac\Contract\Result\OutputResult;
+use Deptrac\Deptrac\Contract\Result\SkippedViolation;
+use Deptrac\Deptrac\Contract\Result\Uncovered;
+use Deptrac\Deptrac\Contract\Result\Violation;
+use Deptrac\Deptrac\Contract\Result\Warning;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Core\Dependency\InheritDependency;
+use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
+use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use Deptrac\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Analyser\AnalysisResult;
-use Qossmic\Deptrac\Contract\Ast\DependencyContext;
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
-use Qossmic\Deptrac\Contract\Result\Error;
-use Qossmic\Deptrac\Contract\Result\OutputResult;
-use Qossmic\Deptrac\Contract\Result\SkippedViolation;
-use Qossmic\Deptrac\Contract\Result\Uncovered;
-use Qossmic\Deptrac\Contract\Result\Violation;
-use Qossmic\Deptrac\Contract\Result\Warning;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Dependency\Dependency;
-use Qossmic\Deptrac\Core\Dependency\InheritDependency;
-use Qossmic\Deptrac\Supportive\Console\Symfony\Style;
-use Qossmic\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Qossmic\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Tests\Qossmic\Deptrac\Supportive\OutputFormatter\data\DummyViolationCreatingRule;
+use Tests\Deptrac\Deptrac\Supportive\OutputFormatter\data\DummyViolationCreatingRule;
 
 final class ConsoleOutputFormatterTest extends TestCase
 {

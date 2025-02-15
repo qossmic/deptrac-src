@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Layer\Collector;
+namespace Deptrac\Deptrac\Core\Layer\Collector;
 
-use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Glob;
 

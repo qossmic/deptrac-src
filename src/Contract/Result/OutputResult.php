@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Result;
+namespace Deptrac\Deptrac\Contract\Result;
 
-use Qossmic\Deptrac\Contract\Analyser\AnalysisResult;
+use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 
 use function count;
 

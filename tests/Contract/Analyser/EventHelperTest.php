@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Contract\Analyser;
+namespace Tests\Deptrac\Deptrac\Contract\Analyser;
 
+use Deptrac\Deptrac\Contract\Analyser\EventHelper;
+use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Analyser\EventHelper;
-use Qossmic\Deptrac\Contract\Layer\LayerProvider;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 
 final class EventHelperTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Layer;
+namespace Deptrac\Deptrac\Core\Layer;
 
-use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Qossmic\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Qossmic\Deptrac\Core\Layer\Collector\Collectable;
-use Qossmic\Deptrac\Core\Layer\Collector\CollectorResolverInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
+use Deptrac\Deptrac\Core\Layer\Collector\Collectable;
+use Deptrac\Deptrac\Core\Layer\Collector\CollectorResolverInterface;
 
 use function array_key_exists;
 
