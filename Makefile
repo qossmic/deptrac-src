@@ -1,4 +1,3 @@
-BOX_BIN := build/box.phar
 COMPOSER_BIN := composer
 
 COMPOSER_DEPENDENCY_ANALYSER_BIN := ./tools/dependency-analyser/bin/composer-dependency-analyser
@@ -12,10 +11,6 @@ INFECTION_BIN	:= ./tools/infection/bin/roave-infection-static-analysis-plugin
 help: ## Displays list of available targets with their descriptions
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
-
-build: tests ## Runs tests and creates the phar-binary
-	$(BOX_BIN) compile
-
 install: vendor ## Installs dependencies
 vendor: composer.json composer.lock
 	$(COMPOSER_BIN) install --no-interaction --no-progress --ansi
@@ -25,14 +20,6 @@ composer-dependency-analyser: ## Performs static code analysis using composer-de
 
 deptrac: vendor ## Analyses own architecture using the default config confile
 	bin/deptrac analyse -c deptrac.config.php --cache-file=./.cache/deptrac.cache --no-progress --ansi
-
-#generate-changelog: ## Generates a changelog file based on changes compared to remote origin
-#	gem install github_changelog_generator
-#	github_changelog_generator -u deptrac -p deptrac --no-issues --future-release <version>
-
-gpg: ## Signs release with local key
-	gpg --detach-sign --armor --local-user ${USER} --output deptrac.phar.asc deptrac.phar
-	gpg --verify deptrac.phar.asc deptrac.phar
 
 infection: vendor ## Runs mutation tests
 	$(INFECTION_BIN) --threads=$(shell nproc || sysctl -n hw.ncpu || 1) --test-framework-options='--testsuite=Tests' --only-covered --min-msi=85 --psalm-config=psalm.xml

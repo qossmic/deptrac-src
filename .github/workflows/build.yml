@@ -1,4 +1,4 @@
-name: "Build"
+name: "e2e"
 on:
   pull_request:
   push:
@@ -8,45 +8,8 @@ on:
       - "**"
 
 jobs:
-  build:
-    name: "Build"
-
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-24.04]
-        php-version: [8.1]
-
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: mbstring, xml, ctype, iconv
-          ini-values: phar.readonly=0
-          coverage: none
-          tools: composer
-
-      - uses: "ramsey/composer-install@v2"
-
-      - name: "Compile deptrac phar"
-        run: make build
-
-      - name: "Upload phar file artifact"
-        uses: actions/upload-artifact@v4
-        with:
-          name: deptrac.phar
-          path: build/deptrac-build/deptrac.phar
-
   e2e-tests:
     name: "Run e2e tests on PHP ${{ matrix.php-version }}"
-
-    needs: build
-
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -59,42 +22,39 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Download deptrac.phar"
-        uses: actions/download-artifact@v4
-        with:
-          name: deptrac.phar
-          path: .
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, xml, ctype, iconv
           coverage: none
+          tools: composer
 
-      - name: "Run deptrac phar without cache"
-        run: php deptrac.phar analyse --config-file=docs/examples/Fixture.depfile.yaml --no-cache
+      -   uses: "ramsey/composer-install@v2"
+
+      - name: "Run deptrac without cache"
+        run: php bin/deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml --no-cache
 
       - name: "Cache file should not exist"
         run: "[ ! -f '.deptrac.cache' ]"
 
-      - name: "Run deptrac phar with cache enabled"
-        run: php deptrac.phar analyse --config-file=docs/examples/Fixture.depfile.yaml
+      - name: "Run deptrac with cache enabled"
+        run: php bin/deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml
 
       - name: "Cache file should exist"
         run: "[ -f '.deptrac.cache' ]"
 
       - name: "Run deptrac phar again with cache enabled to be sure the cache file could be reused"
-        run: php deptrac.phar analyse --config-file=docs/examples/Fixture.depfile.yaml
+        run: php bin/deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml
 
-      - name: "Run deptrac phar with custom cache file output"
-        run: php deptrac.phar analyse --config-file=docs/examples/Fixture.depfile.yaml --cache-file=.deptrac.cache2
+      - name: "Run deptrac with custom cache file output"
+        run: php bin/deptrac analyse --config-file=docs/examples/Fixture.depfile.yaml --cache-file=.deptrac.cache2
 
       - name: "Custom cache file should exist"
         run: "[ -f '.deptrac.cache2' ]"
 
-      - name: "Run deptrac phar using transitive dependencies example"
-        run: php deptrac.phar analyse --config-file=docs/examples/Transitive.depfile.yaml
+      - name: "Run deptrac using transitive dependencies example"
+        run: php bin/deptrac analyse --config-file=docs/examples/Transitive.depfile.yaml
 
-      - name: "Run deptrac phar with --fail-on-uncovered"
+      - name: "Run deptrac with --fail-on-uncovered"
         run: sh .github/workflows/test-flag-fail-on-uncovered.sh

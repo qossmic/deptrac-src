@@ -10,8 +10,7 @@
         "ext-json": "*"
     },
     "bin": [
-        "bin/deptrac",
-        "deptrac.phar"
+        "bin/deptrac"
     ],
     "suggest": {
         "ext-dom": "For using the JUnit output formatter"
