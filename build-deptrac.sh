@@ -6,7 +6,6 @@ BUILD_TMP=${BUILD_DIR}/deptrac-build
 PHP='docker compose exec -u 1000 deptrac php -d memory_limit=-1'
 CONTAINER='docker compose exec -u 1000 deptrac bash'
 SCOPER=$BUILD_DIR/php-scoper.phar
-BOX=$BUILD_DIR/box.phar
 
 echo $DEPTRAC_DIR
 echo $BUILD_DIR
@@ -22,28 +21,31 @@ info "Start build deptrac"
 rm -rf $BUILD_TMP
 
 info "Install composer"
-$PHP /usr/bin/composer install -a --no-dev
+$PHP /usr/bin/composer install -a --no-dev --quiet
 
 info "Scope deptrac"
 $PHP $SCOPER add-prefix --force --config scoper.inc.php --working-dir . --output-dir $BUILD_TMP
 
 # info "build phar"
-$PHP $BOX compile
+# $PHP $BOX compile
 
 # info "sign phar"
-gpg --detach-sign --armor --local-user 974E9033414D7F2BC9FE1E6AD4F06E96D1BD037B --output $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
-gpg --verify $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
+# gpg --detach-sign --armor --local-user 974E9033414D7F2BC9FE1E6AD4F06E96D1BD037B --output $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
+# gpg --verify $BUILD_TMP/deptrac.phar.asc $BUILD_TMP/deptrac.phar
 
 info "Dump Composer Autoloader"
-$PHP /usr/bin/composer dump-autoload --working-dir $BUILD_TMP -a --no-dev
+$PHP /usr/bin/composer dump-autoload --working-dir $BUILD_TMP -a --no-dev --quiet
 
 info "Copy package templates"
-$CONTAINER cp -rv $BUILD_DIR/template/* *.md mkdocs.yml docs -t $BUILD_TMP
-$CONTAINER cp -rv $BUILD_DIR/template/.github -t $BUILD_TMP
-$CONTAINER cp -rv $BUILD_DIR/template/.gitignore -t $BUILD_TMP
+cp -f $BUILD_DIR/template/composer.json -t $BUILD_TMP
+cp -f $BUILD_DIR/template/bootstrap.php -t $BUILD_TMP
+
+cp -rf *.md mkdocs.yml docs -t $BUILD_TMP
+cp -rf $BUILD_DIR/template/.github -t $BUILD_TMP
+cp -rf $BUILD_DIR/template/.gitignore -t $BUILD_TMP
 
 info "Copy build into deptrac distrubtion repository"
-cp -rv $BUILD_TMP/* $DEPTRAC_DIR 
+cp -rf $BUILD_TMP/* $DEPTRAC_DIR 
 
 # info "Git commit changes"
 # echo "Update $(date)" > git_commit_message.txt
