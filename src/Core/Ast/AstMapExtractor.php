@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast;
+namespace Deptrac\Deptrac\Core\Ast;
 
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\InputCollector\InputCollectorInterface;
-use Qossmic\Deptrac\Core\InputCollector\InputException;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\InputCollector\InputCollectorInterface;
+use Deptrac\Deptrac\Core\InputCollector\InputException;
 
 class AstMapExtractor
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicDependency;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicDependency;
 
 final class BasicDependencyClassA {}
 interface BasicDependencyClassInterfaceA {}

@@ -1,10 +1,10 @@
 <?php
 
-namespace Qossmic\Deptrac\Supportive\File;
+namespace Deptrac\Deptrac\Supportive\File;
 
-use Qossmic\Deptrac\Supportive\File\Exception\CouldNotReadFileException;
-use Qossmic\Deptrac\Supportive\File\Exception\FileCannotBeParsedAsYamlException;
-use Qossmic\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException;
+use Deptrac\Deptrac\Supportive\File\Exception\CouldNotReadFileException;
+use Deptrac\Deptrac\Supportive\File\Exception\FileCannotBeParsedAsYamlException;
+use Deptrac\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 

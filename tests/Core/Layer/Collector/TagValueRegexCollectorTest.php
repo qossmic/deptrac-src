@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
+namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Config\Collector\TagValueRegexConfig;
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
+use Deptrac\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Config\Collector\TagValueRegexConfig;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
-use Qossmic\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
 
 final class TagValueRegexCollectorTest extends TestCase
 {

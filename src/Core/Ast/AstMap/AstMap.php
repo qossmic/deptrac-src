@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\AstMap;
+namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
 use ArrayObject;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
 use SplStack;
 
 class AstMap

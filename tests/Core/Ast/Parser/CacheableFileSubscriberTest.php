@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
+use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceFileCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\CacheableFileSubscriber;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\PostCreateAstMapEvent;
-use Qossmic\Deptrac\Contract\Ast\PreCreateAstMapEvent;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceFileCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\CacheableFileSubscriber;
 
 final class CacheableFileSubscriberTest extends TestCase
 {

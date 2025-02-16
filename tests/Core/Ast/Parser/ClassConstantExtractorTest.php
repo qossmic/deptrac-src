@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 
 final class ClassConstantExtractorTest extends TestCase
 {
@@ -35,7 +35,7 @@ final class ClassConstantExtractorTest extends TestCase
 
         $dependencies = $astClassReferences[1]->dependencies;
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassA',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassA',
             $dependencies[0]->token->toString()
         );
         self::assertSame($filePath, $dependencies[0]->context->fileOccurrence->filepath);

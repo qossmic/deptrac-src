@@ -55,7 +55,7 @@ return [
         iterator_to_array($polyfillsBootstrap)
     ),
     'exclude-namespaces' => [
-        'Qossmic\Deptrac',
+        'Deptrac\Deptrac',
         'Symfony\Polyfill',
     ],
     'expose-functions' => ['trigger_deprecation'],

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\Parser\Cache;
+namespace Deptrac\Deptrac\Core\Ast\Parser\Cache;
 
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
 
 final class AstFileReferenceInMemoryCache implements AstFileReferenceCacheInterface
 {

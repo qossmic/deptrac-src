@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Console\Command;
+namespace Deptrac\Deptrac\Supportive\Console\Command;
 
-use Qossmic\Deptrac\Supportive\Console\Symfony\Style;
-use Qossmic\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
+use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

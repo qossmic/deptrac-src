@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\AstMap;
+namespace Tests\Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Qossmic\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\TaggedTokenReferenceInterface;
 
 trait TaggedTokenReferenceTestTrait
 {

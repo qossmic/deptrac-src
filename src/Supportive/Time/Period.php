@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Time;
+namespace Deptrac\Deptrac\Supportive\Time;
 
 use function hrtime;
 

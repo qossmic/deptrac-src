@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputInterface;
-use Qossmic\Deptrac\Contract\Result\Error;
-use Qossmic\Deptrac\Contract\Result\OutputResult;
-use Qossmic\Deptrac\Contract\Result\SkippedViolation;
-use Qossmic\Deptrac\Contract\Result\Uncovered;
-use Qossmic\Deptrac\Contract\Result\Violation;
-use Qossmic\Deptrac\Contract\Result\Warning;
+use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputInterface;
+use Deptrac\Deptrac\Contract\Result\Error;
+use Deptrac\Deptrac\Contract\Result\OutputResult;
+use Deptrac\Deptrac\Contract\Result\SkippedViolation;
+use Deptrac\Deptrac\Contract\Result\Uncovered;
+use Deptrac\Deptrac\Contract\Result\Violation;
+use Deptrac\Deptrac\Contract\Result\Warning;
 use Symfony\Component\Console\Helper\TableSeparator;
 
 use function count;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Config\Formatter;
+namespace Deptrac\Deptrac\Contract\Config\Formatter;
 
-use Qossmic\Deptrac\Contract\Config\Layer;
+use Deptrac\Deptrac\Contract\Config\Layer;
 
 final class MermaidJsConfig implements FormatterConfigInterface
 {

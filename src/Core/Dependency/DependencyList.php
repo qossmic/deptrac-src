@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Dependency;
+namespace Deptrac\Deptrac\Core\Dependency;
 
-use Qossmic\Deptrac\Contract\Dependency\DependencyInterface;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
 
 class DependencyList
 {

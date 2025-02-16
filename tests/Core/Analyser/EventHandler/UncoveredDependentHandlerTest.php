@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Analyser\EventHandler;
+namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 
+use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
+use Deptrac\Deptrac\Core\Analyser\EventHandler\UncoveredDependentHandler;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Analyser\ProcessEvent;
-use Qossmic\Deptrac\Core\Analyser\EventHandler\UncoveredDependentHandler;
 
 class UncoveredDependentHandlerTest extends TestCase
 {

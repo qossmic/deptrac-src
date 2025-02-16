@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Analyser;
+namespace Deptrac\Deptrac\Core\Analyser;
 
-use Qossmic\Deptrac\Contract\Ast\CouldNotParseFileException;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Qossmic\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Qossmic\Deptrac\Contract\Result\Uncovered;
-use Qossmic\Deptrac\Core\Ast\AstException;
-use Qossmic\Deptrac\Core\Ast\AstMapExtractor;
-use Qossmic\Deptrac\Core\Dependency\DependencyResolver;
-use Qossmic\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
-use Qossmic\Deptrac\Core\Dependency\TokenResolver;
-use Qossmic\Deptrac\Core\Dependency\UnrecognizedTokenException;
-use Qossmic\Deptrac\Core\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
+use Deptrac\Deptrac\Contract\Result\Uncovered;
+use Deptrac\Deptrac\Core\Ast\AstException;
+use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
+use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
+use Deptrac\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
+use Deptrac\Deptrac\Core\Dependency\TokenResolver;
+use Deptrac\Deptrac\Core\Dependency\UnrecognizedTokenException;
+use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
 
 class LayerDependenciesAnalyser
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\DependencyInjection\Exception;
+namespace Deptrac\Deptrac\Supportive\DependencyInjection\Exception;
 
+use Deptrac\Deptrac\Contract\ExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
-use Qossmic\Deptrac\Contract\ExceptionInterface;
 use RuntimeException;
 
 use function implode;

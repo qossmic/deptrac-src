@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\AstMap;
+namespace Deptrac\Deptrac\Core\Ast\AstMap;
 
-use Qossmic\Deptrac\Contract\Ast\DependencyContext;
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
 
 abstract class ReferenceBuilder
 {

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Console;
+namespace Tests\Deptrac\Deptrac\Supportive\Console;
 
+use Deptrac\Deptrac\Contract\Ast\AstFileAnalysedEvent;
+use Deptrac\Deptrac\Contract\Ast\AstFileSyntaxErrorEvent;
+use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
+use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
+use Deptrac\Deptrac\Contract\Dependency\PostEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PostFlattenEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreEmitEvent;
+use Deptrac\Deptrac\Contract\Dependency\PreFlattenEvent;
+use Deptrac\Deptrac\Supportive\Console\Subscriber\ConsoleSubscriber;
+use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
+use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use Deptrac\Deptrac\Supportive\Time\Stopwatch;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\AstFileAnalysedEvent;
-use Qossmic\Deptrac\Contract\Ast\AstFileSyntaxErrorEvent;
-use Qossmic\Deptrac\Contract\Ast\PostCreateAstMapEvent;
-use Qossmic\Deptrac\Contract\Ast\PreCreateAstMapEvent;
-use Qossmic\Deptrac\Contract\Dependency\PostEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PostFlattenEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreEmitEvent;
-use Qossmic\Deptrac\Contract\Dependency\PreFlattenEvent;
-use Qossmic\Deptrac\Supportive\Console\Subscriber\ConsoleSubscriber;
-use Qossmic\Deptrac\Supportive\Console\Symfony\Style;
-use Qossmic\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Qossmic\Deptrac\Supportive\Time\Stopwatch;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;

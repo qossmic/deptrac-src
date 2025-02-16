@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\InputCollector;
+namespace Deptrac\Deptrac\Core\InputCollector;
 
+use Deptrac\Deptrac\Contract\ExceptionInterface;
 use Exception;
-use Qossmic\Deptrac\Contract\ExceptionInterface;
 use RuntimeException;
 
 class InputException extends RuntimeException implements ExceptionInterface

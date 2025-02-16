@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\OutputFormatter\data;
+namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter\data;
 
-use Qossmic\Deptrac\Contract\Analyser\ViolationCreatingInterface;
+use Deptrac\Deptrac\Contract\Analyser\ViolationCreatingInterface;
 
 class DummyViolationCreatingRule implements ViolationCreatingInterface
 {

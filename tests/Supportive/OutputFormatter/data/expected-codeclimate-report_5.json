@@ -6,7 +6,7 @@
         ],
         "check_name": "Dependency violation",
         "description": "ClassA should not depend on ClassB (LayerA on LayerB)",
-        "fingerprint": "8f3679f74dfabe02f1fc5693227d3d8835ef208b",
+        "fingerprint": "123648edf37b47a2a68a6c1ee29376d6d3a5fe84",
         "location": {
             "lines": {
                 "begin": 15
@@ -23,7 +23,7 @@
         ],
         "check_name": "Dependency violation",
         "description": "ClassC should not depend on ClassD (LayerA on LayerB)",
-        "fingerprint": "ac218020428e307ab893f42f56392879fc3a9856",
+        "fingerprint": "c0034602567ed515fa4499a76496d3ad67bc0230",
         "location": {
             "lines": {
                 "begin": 12
@@ -40,7 +40,7 @@
         ],
         "check_name": "Dependency violation",
         "description": "OriginalA has uncovered dependency on OriginalB (LayerA)",
-        "fingerprint": "5467e280ef828188fa20a99908518469f7595361",
+        "fingerprint": "a4913a259c35f45eedb0252e4c0bed11c5188f93",
         "location": {
             "lines": {
                 "begin": 12
@@ -57,7 +57,7 @@
         ],
         "check_name": "Dependency violation",
         "description": "ClassA must not depend on ClassB (LayerA on LayerB)",
-        "fingerprint": "c68d30f5693b2993a902e3554f0458c069bb001e",
+        "fingerprint": "dafb561c7399b285ee0d324e9de921da0864c73d",
         "location": {
             "lines": {
                 "begin": 12

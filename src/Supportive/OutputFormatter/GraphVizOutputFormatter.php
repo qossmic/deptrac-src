@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputException;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputInterface;
+use Deptrac\Deptrac\Contract\Result\CoveredRuleInterface;
+use Deptrac\Deptrac\Contract\Result\OutputResult;
+use Deptrac\Deptrac\Contract\Result\RuleInterface;
+use Deptrac\Deptrac\Contract\Result\Uncovered;
+use Deptrac\Deptrac\Contract\Result\Violation;
+use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz;
+use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\FormatterConfiguration;
 use phpDocumentor\GraphViz\Edge;
 use phpDocumentor\GraphViz\Exception;
 use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputException;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInterface;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputInterface;
-use Qossmic\Deptrac\Contract\Result\CoveredRuleInterface;
-use Qossmic\Deptrac\Contract\Result\OutputResult;
-use Qossmic\Deptrac\Contract\Result\RuleInterface;
-use Qossmic\Deptrac\Contract\Result\Uncovered;
-use Qossmic\Deptrac\Contract\Result\Violation;
-use Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz;
-use Qossmic\Deptrac\Supportive\OutputFormatter\Configuration\FormatterConfiguration;
 
 use function sys_get_temp_dir;
 use function tempnam;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Config;
+namespace Deptrac\Deptrac\Contract\Config;
 
 abstract class CollectorConfig
 {

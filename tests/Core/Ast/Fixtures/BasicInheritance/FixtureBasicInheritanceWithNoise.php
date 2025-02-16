@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance;
 
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceWithNoiseFoo1 as foo1;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceWithNoiseFoo1 as foo1;
 
 final class FixtureBasicInheritanceWithNoiseFoo1 {}
 final class FixtureBasicInheritanceWithNoiseFoo2 {}

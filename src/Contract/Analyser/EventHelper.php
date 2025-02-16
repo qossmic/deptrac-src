@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Analyser;
+namespace Deptrac\Deptrac\Contract\Analyser;
 
-use Qossmic\Deptrac\Contract\Layer\LayerProvider;
-use Qossmic\Deptrac\Contract\Result\SkippedViolation;
-use Qossmic\Deptrac\Contract\Result\Violation;
+use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\Result\SkippedViolation;
+use Deptrac\Deptrac\Contract\Result\Violation;
 
 /**
  * Utility class for managing adding violations that could be skipped.

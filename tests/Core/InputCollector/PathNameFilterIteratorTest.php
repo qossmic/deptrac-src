@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\InputCollector;
+namespace Tests\Deptrac\Deptrac\Core\InputCollector;
 
 use ArrayIterator;
+use Deptrac\Deptrac\Core\InputCollector\PathNameFilterIterator;
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\InputCollector\PathNameFilterIterator;
 use SplFileInfo;
 
 use const DIRECTORY_SEPARATOR;

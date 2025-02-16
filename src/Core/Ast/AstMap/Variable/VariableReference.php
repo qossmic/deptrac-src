@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\AstMap\Variable;
+namespace Deptrac\Deptrac\Core\Ast\AstMap\Variable;
 
-use Qossmic\Deptrac\Contract\Ast\TokenInterface;
-use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
 
 /**
  * @psalm-immutable

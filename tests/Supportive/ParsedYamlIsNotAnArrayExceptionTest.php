@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Utils;
+namespace Tests\Deptrac\Deptrac\Utils;
 
+use Deptrac\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException;
 use RuntimeException;
 
 /**
- * @covers \Qossmic\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException
+ * @covers \Deptrac\Deptrac\Supportive\File\Exception\ParsedYamlIsNotAnArrayException
  */
 final class ParsedYamlIsNotAnArrayExceptionTest extends TestCase
 {

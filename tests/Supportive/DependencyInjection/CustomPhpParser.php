@@ -1,7 +1,7 @@
 <?php
 
-namespace Tests\Qossmic\Deptrac\Supportive\DependencyInjection;
+namespace Tests\Deptrac\Deptrac\Supportive\DependencyInjection;
 
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
 
 class CustomPhpParser extends NikicPhpParser {}

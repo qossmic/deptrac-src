@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\DependencyInjection;
+namespace Deptrac\Deptrac\Supportive\DependencyInjection;
 
+use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\CacheFileException;
+use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\CannotLoadConfiguration;
 use Exception;
-use Qossmic\Deptrac\Supportive\DependencyInjection\Exception\CacheFileException;
-use Qossmic\Deptrac\Supportive\DependencyInjection\Exception\CannotLoadConfiguration;
 use SplFileInfo;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;

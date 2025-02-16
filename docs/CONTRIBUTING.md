@@ -38,7 +38,7 @@ You can install all tools needed for developing Deptrac using the Makefile by
 running the following command:
 
 ```console
-$ make composer-install
+$ make install
 ```
 
 ## Pipeline

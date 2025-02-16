@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Ast\AstMap\File;
+namespace Deptrac\Deptrac\Core\Ast\AstMap\File;
 
-use Qossmic\Deptrac\Contract\Ast\DependencyType;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReferenceBuilder;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\DependencyToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReferenceBuilder;
-use Qossmic\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
+use Deptrac\Deptrac\Contract\Ast\DependencyType;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\DependencyToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReferenceBuilder;
+use Deptrac\Deptrac\Core\Ast\AstMap\ReferenceBuilder;
 
 final class FileReferenceBuilder extends ReferenceBuilder
 {

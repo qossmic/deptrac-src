@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 
 final class AnonymousClassExtractorTest extends TestCase
 {
@@ -37,7 +37,7 @@ final class AnonymousClassExtractorTest extends TestCase
         $dependencies = $astClassReferences[2]->dependencies;
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassA',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassA',
             $dependencies[0]->token->toString()
         );
         self::assertSame($filePath, $dependencies[0]->context->fileOccurrence->filepath);
@@ -45,7 +45,7 @@ final class AnonymousClassExtractorTest extends TestCase
         self::assertSame('anonymous_class_extends', $dependencies[0]->context->dependencyType->value);
 
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\InterfaceC',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\InterfaceC',
             $dependencies[1]->token->toString()
         );
         self::assertSame($filePath, $dependencies[1]->context->fileOccurrence->filepath);

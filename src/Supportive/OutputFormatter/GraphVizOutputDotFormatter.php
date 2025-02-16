@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputException;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputInterface;
 use phpDocumentor\GraphViz\Graph;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputException;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputInterface;
 
 /**
  * @internal

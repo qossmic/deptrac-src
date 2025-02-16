@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Console\Command;
+namespace Deptrac\Deptrac\Supportive\Console\Command;
 
-use Qossmic\Deptrac\Supportive\Console\Env;
-use Qossmic\Deptrac\Supportive\Console\Subscriber\ConsoleSubscriber;
-use Qossmic\Deptrac\Supportive\Console\Subscriber\ProgressSubscriber;
-use Qossmic\Deptrac\Supportive\Console\Symfony\Style;
-use Qossmic\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Qossmic\Deptrac\Supportive\OutputFormatter\FormatterProvider;
-use Qossmic\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
-use Qossmic\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
-use Qossmic\Deptrac\Supportive\Time\Stopwatch;
+use Deptrac\Deptrac\Supportive\Console\Env;
+use Deptrac\Deptrac\Supportive\Console\Subscriber\ConsoleSubscriber;
+use Deptrac\Deptrac\Supportive\Console\Subscriber\ProgressSubscriber;
+use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
+use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use Deptrac\Deptrac\Supportive\OutputFormatter\FormatterProvider;
+use Deptrac\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
+use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
+use Deptrac\Deptrac\Supportive\Time\Stopwatch;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Dependency\Emitter;
+namespace Tests\Deptrac\Deptrac\Core\Dependency\Emitter;
 
+use Deptrac\Deptrac\Core\Dependency\Emitter\UsesDependencyEmitter;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Core\Dependency\Emitter\UsesDependencyEmitter;
 
 final class UsesDependencyEmitterTest extends TestCase
 {

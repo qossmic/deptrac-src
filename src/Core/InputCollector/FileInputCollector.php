@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\InputCollector;
+namespace Deptrac\Deptrac\Core\InputCollector;
 
+use Deptrac\Deptrac\Supportive\File\Exception\InvalidPathException;
 use LogicException;
-use Qossmic\Deptrac\Supportive\File\Exception\InvalidPathException;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;

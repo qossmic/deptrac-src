@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Analyser\EventHandler;
+namespace Deptrac\Deptrac\Core\Analyser\EventHandler;
 
-use Qossmic\Deptrac\Contract\Analyser\ProcessEvent;
-use Qossmic\Deptrac\Contract\Result\Allowed;
+use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
+use Deptrac\Deptrac\Contract\Result\Allowed;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

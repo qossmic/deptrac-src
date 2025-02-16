@@ -2,44 +2,44 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast;
+namespace Tests\Deptrac\Deptrac\Core\Ast;
 
+use Deptrac\Deptrac\Contract\Ast\AstFileAnalysedEvent;
+use Deptrac\Deptrac\Contract\Ast\AstFileSyntaxErrorEvent;
+use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
+use Deptrac\Deptrac\Contract\Ast\PostCreateAstMapEvent;
+use Deptrac\Deptrac\Contract\Ast\PreCreateAstMapEvent;
+use Deptrac\Deptrac\Core\Ast\AstLoader;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
+use Deptrac\Deptrac\Core\Ast\Parser\ParserInterface;
+use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
 use LogicException;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\AstFileAnalysedEvent;
-use Qossmic\Deptrac\Contract\Ast\AstFileSyntaxErrorEvent;
-use Qossmic\Deptrac\Contract\Ast\CouldNotParseFileException;
-use Qossmic\Deptrac\Contract\Ast\PostCreateAstMapEvent;
-use Qossmic\Deptrac\Contract\Ast\PreCreateAstMapEvent;
-use Qossmic\Deptrac\Core\Ast\AstLoader;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Qossmic\Deptrac\Core\Ast\Parser\ParserInterface;
-use Qossmic\Deptrac\Core\Ast\Parser\TypeResolver;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseA;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseC;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceE;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceE;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB;
-use Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseA;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceE;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceE;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB;
+use Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceC;
 
 final class AstMapFlattenGeneratorTest extends TestCase
 {
@@ -116,23 +116,23 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
 
         self::assertArrayValuesEquals(
-            ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))'],
+            ['Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))'],
             $this->getInheritedInherits(FixtureBasicInheritanceC::class, $astMap)
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
             ],
             $this->getInheritedInherits(FixtureBasicInheritanceD::class, $astMap)
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceA::6 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceB::7 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceC::8 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceD::9 (Extends))',
             ],
             $this->getInheritedInherits(FixtureBasicInheritanceE::class, $astMap)
         );
@@ -162,23 +162,23 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
 
         self::assertArrayValuesEquals(
-            ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))'],
+            ['Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))'],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceC::class, $astMap)
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
             ],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceD::class, $astMap)
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceA::6 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceB::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceC::8 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\FixtureBasicInheritanceInterfaceD::9 (Implements))',
             ],
             $this->getInheritedInherits(FixtureBasicInheritanceInterfaceE::class, $astMap)
         );
@@ -214,18 +214,18 @@ final class AstMapFlattenGeneratorTest extends TestCase
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
             ],
             $this->getInheritedInherits(MultipleInteritanceB::class, $astMap)
         );
 
         self::assertArrayValuesEquals(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::8 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2::7 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements) -> Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
-                'Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA1::8 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA2::7 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements) -> Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements))',
+                'Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceA::8 (Implements) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\MultipleInteritanceB::9 (Implements))',
             ],
             $this->getInheritedInherits(MultipleInteritanceC::class, $astMap)
         );
@@ -255,7 +255,7 @@ final class AstMapFlattenGeneratorTest extends TestCase
         );
 
         self::assertArrayValuesEquals(
-            ['Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseA::18 (Extends) (path: Tests\Qossmic\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseB::19 (Extends))'],
+            ['Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseA::18 (Extends) (path: Tests\Deptrac\Deptrac\Core\Ast\Fixtures\BasicInheritance\FixtureBasicInheritanceWithNoiseB::19 (Extends))'],
             $this->getInheritedInherits(FixtureBasicInheritanceWithNoiseC::class, $astMap)
         );
     }

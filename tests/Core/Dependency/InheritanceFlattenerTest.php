@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Dependency;
+namespace Tests\Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Core\Dependency\DependencyList;
+use Deptrac\Deptrac\Core\Dependency\InheritanceFlattener;
+use Deptrac\Deptrac\Core\Dependency\InheritDependency;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\FileOccurrence;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInherit;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Dependency\Dependency;
-use Qossmic\Deptrac\Core\Dependency\DependencyList;
-use Qossmic\Deptrac\Core\Dependency\InheritanceFlattener;
-use Qossmic\Deptrac\Core\Dependency\InheritDependency;
 
 final class InheritanceFlattenerTest extends TestCase
 {

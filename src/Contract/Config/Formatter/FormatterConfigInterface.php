@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Config\Formatter;
+namespace Deptrac\Deptrac\Contract\Config\Formatter;
 
 interface FormatterConfigInterface
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Supportive\Console;
+namespace Tests\Deptrac\Deptrac\Supportive\Console;
 
+use Deptrac\Deptrac\Supportive\Console\Env;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Supportive\Console\Env;
 
 class EnvTest extends TestCase
 {

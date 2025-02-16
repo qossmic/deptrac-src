@@ -28,7 +28,7 @@ deptrac: vendor ## Analyses own architecture using the default config confile
 
 #generate-changelog: ## Generates a changelog file based on changes compared to remote origin
 #	gem install github_changelog_generator
-#	github_changelog_generator -u qossmic -p deptrac --no-issues --future-release <version>
+#	github_changelog_generator -u deptrac -p deptrac --no-issues --future-release <version>
 
 gpg: ## Signs release with local key
 	gpg --detach-sign --armor --local-user ${USER} --output deptrac.phar.asc deptrac.phar

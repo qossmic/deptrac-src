@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Layer\Collector;
+namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
+use Deptrac\Deptrac\Core\Layer\Collector\SuperglobalCollector;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Qossmic\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
-use Qossmic\Deptrac\Core\Layer\Collector\SuperglobalCollector;
 
 final class SuperglobalCollectorTest extends TestCase
 {

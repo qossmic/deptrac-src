@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Core\Dependency;
+namespace Deptrac\Deptrac\Core\Dependency;
 
-use Qossmic\Deptrac\Contract\Ast\TokenInterface;
-use Qossmic\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Qossmic\Deptrac\Core\Ast\AstMap\AstMap;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\File\FileToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Qossmic\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
-use Qossmic\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
+use Deptrac\Deptrac\Contract\Ast\TokenInterface;
+use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
+use Deptrac\Deptrac\Core\Ast\AstMap\AstMap;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\File\FileToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
+use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Variable\SuperGlobalToken;
+use Deptrac\Deptrac\Core\Ast\AstMap\Variable\VariableReference;
 
 class TokenResolver
 {

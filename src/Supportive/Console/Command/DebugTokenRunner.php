@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\Console\Command;
+namespace Deptrac\Deptrac\Supportive\Console\Command;
 
-use Qossmic\Deptrac\Contract\OutputFormatter\OutputInterface;
-use Qossmic\Deptrac\Core\Analyser\AnalyserException;
-use Qossmic\Deptrac\Core\Analyser\LayerForTokenAnalyser;
-use Qossmic\Deptrac\Core\Analyser\TokenType;
+use Deptrac\Deptrac\Contract\OutputFormatter\OutputInterface;
+use Deptrac\Deptrac\Core\Analyser\AnalyserException;
+use Deptrac\Deptrac\Core\Analyser\LayerForTokenAnalyser;
+use Deptrac\Deptrac\Core\Analyser\TokenType;
 
 use function implode;
 use function sprintf;
