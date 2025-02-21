@@ -8,6 +8,7 @@ use Deptrac\Deptrac\Contract\Ast\ParserInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
 use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassMethodExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ExpressionExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\NewExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\VariableExtractor;
@@ -91,6 +92,7 @@ final class AnnotationReferenceExtractorTest extends TestCase
         $extractors = [
             new PropertyExtractor($typeResolver),
             new VariableExtractor($typeResolver),
+            new ExpressionExtractor($typeResolver),
             new ClassMethodExtractor($typeResolver),
             new NewExtractor($typeResolver),
         ];

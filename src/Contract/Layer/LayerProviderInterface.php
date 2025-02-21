@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Layer;
+namespace Deptrac\Deptrac\Contract\Layer;
 
 interface LayerProviderInterface
 {

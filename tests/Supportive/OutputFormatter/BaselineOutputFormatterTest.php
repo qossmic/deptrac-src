@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use PHPUnit\Framework\TestCase;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
@@ -23,6 +22,7 @@ use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\BaselineOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;

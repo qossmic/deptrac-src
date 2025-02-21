@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Ast\AstMap;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
-use Qossmic\Deptrac\Contract\Ast\ReferenceExtractorInterface;
+use Deptrac\Deptrac\Contract\Ast\ReferenceExtractorInterface;
 
 /**
  * Interface for defining deptrac dependencies inside "Reference Extractors".

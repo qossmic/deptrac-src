@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Ast\AstMap;
+namespace Deptrac\Deptrac\Contract\Ast\AstMap;
 
 interface AstMapInterface
 {

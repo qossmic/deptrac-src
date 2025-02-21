@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Supportive\OutputFormatter;
+namespace Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use Qossmic\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
+use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
 use Symfony\Component\Yaml\Yaml;
 
 final class YamlBaselineMapper implements BaselineMapperInterface

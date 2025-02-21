@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Ast;
+namespace Deptrac\Deptrac\Contract\Ast;
 
-use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
-use Qossmic\Deptrac\Contract\Ast\AstMap\FileReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 
 /**
  * Interface for implementing custom Ast parsers. Useful if you need to extend

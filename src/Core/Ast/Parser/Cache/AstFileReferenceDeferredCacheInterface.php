@@ -2,7 +2,7 @@
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Cache;
 
-use Qossmic\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
+use Deptrac\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
 
 interface AstFileReferenceDeferredCacheInterface extends AstFileReferenceCacheInterface
 {

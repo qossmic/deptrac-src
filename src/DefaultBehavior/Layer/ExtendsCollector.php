@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\DefaultBehavior\Layer;
 
-use Qossmic\Deptrac\Contract\Ast\AstException;
+use Deptrac\Deptrac\Contract\Ast\AstException;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstMapInterface;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;

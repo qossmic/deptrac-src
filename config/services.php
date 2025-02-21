@@ -44,6 +44,7 @@ use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassConstantExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassLikeExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassMethodExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ExpressionExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionCallExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionLikeExtractor;
 use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\GroupUseExtractor;
@@ -205,6 +206,10 @@ return static function (ContainerConfigurator $container): void {
     ;
     $services
         ->set(ClassMethodExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ExpressionExtractor::class)
         ->tag('reference_extractors')
     ;
     $services

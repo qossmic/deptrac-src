@@ -33,7 +33,7 @@ final class FunctionLikeExtractorTest extends TestCase
 
         self::assertEqualsCanonicalizing(
             [
-                'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\MethodAttribute::9 (attribute)',
+                'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodAttribute::9 (attribute)',
             ],
             $this->getDependenciesAsString($classA)
         );

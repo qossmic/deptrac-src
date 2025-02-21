@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\DefaultBehavior\Dependency;
 
-use Qossmic\Deptrac\Contract\Ast\AstMap\AstMapInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstMapInterface;
 use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;

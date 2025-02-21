@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\DefaultBehavior\Ast\Extractors;
+namespace Deptrac\Deptrac\DefaultBehavior\Ast\Extractors;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
+use Deptrac\Deptrac\Contract\Ast\ReferenceExtractorInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeResolverInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeScope;
 use PhpParser\Node;
-use Qossmic\Deptrac\Contract\Ast\AstMap\AstInheritType;
-use Qossmic\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
-use Qossmic\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
-use Qossmic\Deptrac\Contract\Ast\ReferenceExtractorInterface;
-use Qossmic\Deptrac\Contract\Ast\TypeResolverInterface;
-use Qossmic\Deptrac\Contract\Ast\TypeScope;
 
 /**
  * @implements ReferenceExtractorInterface<\PhpParser\Node\Stmt\TraitUse>

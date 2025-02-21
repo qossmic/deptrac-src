@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Qossmic\Deptrac\Core\Ast\Parser;
+namespace Tests\Deptrac\Deptrac\Core\Ast\Parser;
 
 use Closure;
-use PhpParser\Lexer;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
+use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\CatchExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Qossmic\Deptrac\Contract\Ast\AstMap\DependencyType;
-use Qossmic\Deptrac\Contract\Ast\ParserInterface;
-use Qossmic\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Qossmic\Deptrac\Core\Ast\Parser\NikicTypeResolver;
-use Qossmic\Deptrac\DefaultBehavior\Ast\Extractors\CatchExtractor;
-use Qossmic\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
-use Qossmic\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 
 final class ClassExtractorTest extends TestCase
 {
@@ -33,12 +32,12 @@ final class ClassExtractorTest extends TestCase
 
         $dependencies = $astClassReferences[1]->dependencies;
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassAttribute',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassAttribute',
             $dependencies[0]->token->toString()
         );
         self::assertSame(DependencyType::ATTRIBUTE, $dependencies[0]->context->dependencyType);
         self::assertSame(
-            'Tests\Qossmic\Deptrac\Core\Ast\Parser\Fixtures\ClassB',
+            'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\ClassB',
             $dependencies[1]->token->toString()
         );
         self::assertSame(DependencyType::VARIABLE, $dependencies[1]->context->dependencyType);
@@ -69,10 +68,7 @@ final class ClassExtractorTest extends TestCase
         ];
 
         return new NikicPhpParser(
-            (new ParserFactory())->create(
-                ParserFactory::ONLY_PHP7,
-                new Lexer()
-            ), $cache, $extractors
+            (new ParserFactory())->createForNewestSupportedVersion(), $cache, $extractors
         );
     }
 }

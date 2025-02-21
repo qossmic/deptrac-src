@@ -6,7 +6,7 @@ namespace Deptrac\Deptrac\Core\Dependency;
 
 use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
-use Qossmic\Deptrac\Contract\Dependency\DependencyListInterface;
+use Deptrac\Deptrac\Contract\Dependency\DependencyListInterface;
 
 class DependencyList implements DependencyListInterface
 {

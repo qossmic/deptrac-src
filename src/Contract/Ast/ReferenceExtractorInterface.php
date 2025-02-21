@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Ast;
+namespace Deptrac\Deptrac\Contract\Ast;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
 use PhpParser\Node;
-use Qossmic\Deptrac\Contract\Ast\AstMap\ReferenceBuilderInterface;
 
 /**
  * Interface for defining references between tokens. You can catch any Nikic PHP

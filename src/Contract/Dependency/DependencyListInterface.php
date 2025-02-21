@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Dependency;
+namespace Deptrac\Deptrac\Contract\Dependency;
 
 interface DependencyListInterface
 {

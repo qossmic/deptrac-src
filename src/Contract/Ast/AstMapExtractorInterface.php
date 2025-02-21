@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Qossmic\Deptrac\Contract\Ast;
+namespace Deptrac\Deptrac\Contract\Ast;
 
-use Qossmic\Deptrac\Contract\Ast\AstMap\AstMapInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstMapInterface;
 
 interface AstMapExtractorInterface
 {
