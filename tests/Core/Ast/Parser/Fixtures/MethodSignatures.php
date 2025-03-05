@@ -21,7 +21,7 @@ class MethodSignaturesB
 
 class MethodSignaturesC
 {
-    public function test( MethodSignaturesB $b )
+    public function test( #[\SensitiveParameter] MethodSignaturesB $b )
     {
         $a = $b->getA();
 
