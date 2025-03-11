@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Dependency\Emitter;
 
-use Deptrac\Deptrac\Core\Dependency\Emitter\FileDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\FileDependencyEmitter;
 use PHPUnit\Framework\TestCase;
 
 final class FileDependencyEmitterTest extends TestCase

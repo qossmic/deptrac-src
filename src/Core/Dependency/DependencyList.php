@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Dependency;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Dependency\DependencyListInterface;
 
-class DependencyList
+class DependencyList implements DependencyListInterface
 {
-    /** @var array<string, Dependency[]> */
+    /** @var array<string, DependencyInterface[]> */
     private array $dependencies = [];
 
     /** @var array<string, InheritDependency[]> */
     private array $inheritDependencies = [];
 
-    public function addDependency(Dependency $dependency): self
+    public function addDependency(DependencyInterface $dependency): void
     {
         $tokenName = $dependency->getDepender()->toString();
         if (!isset($this->dependencies[$tokenName])) {
@@ -23,26 +24,24 @@ class DependencyList
         }
 
         $this->dependencies[$tokenName][] = $dependency;
-
-        return $this;
     }
 
     public function addInheritDependency(InheritDependency $dependency): self
     {
-        $classLikeName = $dependency->getDepender()->toString();
-        if (!isset($this->inheritDependencies[$classLikeName])) {
-            $this->inheritDependencies[$classLikeName] = [];
+        $tokenName = $dependency->getDepender()->toString();
+        if (!isset($this->inheritDependencies[$tokenName])) {
+            $this->inheritDependencies[$tokenName] = [];
         }
 
-        $this->inheritDependencies[$classLikeName][] = $dependency;
+        $this->inheritDependencies[$tokenName][] = $dependency;
 
         return $this;
     }
 
     /**
-     * @return Dependency[]
+     * @return DependencyInterface[]
      */
-    public function getDependenciesByClass(ClassLikeToken $classLikeName): array
+    public function getDependenciesByClass(TokenInterface $classLikeName): array
     {
         return $this->dependencies[$classLikeName->toString()] ?? [];
     }

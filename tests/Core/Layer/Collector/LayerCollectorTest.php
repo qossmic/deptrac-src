@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Layer\Collector\LayerCollector;
-use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\Contract\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\DefaultBehavior\Layer\LayerCollector;
 use PHPUnit\Framework\TestCase;
 
 final class LayerCollectorTest extends TestCase
@@ -94,6 +94,14 @@ final class LayerCollectorTest extends TestCase
             ->willReturn(true)
         ;
 
+        $actual = $this->collector->satisfy(
+            ['value' => 'AppLayer'],
+            $reference,
+        );
+
+        self::assertTrue($actual);
+
+        // test resolution caching by code coverage
         $actual = $this->collector->satisfy(
             ['value' => 'AppLayer'],
             $reference,

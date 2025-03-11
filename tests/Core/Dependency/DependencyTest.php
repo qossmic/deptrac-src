@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Dependency;
 
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
 use PHPUnit\Framework\TestCase;
 
 final class DependencyTest extends TestCase

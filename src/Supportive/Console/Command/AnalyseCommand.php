@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Supportive\Console\Command;
 
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GithubActionsOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\TableOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Env;
 use Deptrac\Deptrac\Supportive\Console\Subscriber\ConsoleSubscriber;
 use Deptrac\Deptrac\Supportive\Console\Subscriber\ProgressSubscriber;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
 use Deptrac\Deptrac\Supportive\OutputFormatter\FormatterProvider;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
 use Deptrac\Deptrac\Supportive\Time\Stopwatch;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

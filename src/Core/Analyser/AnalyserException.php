@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Analyser;
 
+use Deptrac\Deptrac\Contract\Ast\AstException;
 use Deptrac\Deptrac\Contract\Ast\CouldNotParseFileException;
 use Deptrac\Deptrac\Contract\ExceptionInterface;
 use Deptrac\Deptrac\Contract\Layer\CircularReferenceException;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
 use Deptrac\Deptrac\Contract\Layer\InvalidLayerDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstException;
 use Deptrac\Deptrac\Core\Dependency\InvalidEmitterConfigurationException;
 use Deptrac\Deptrac\Core\Dependency\UnrecognizedTokenException;
 use RuntimeException;

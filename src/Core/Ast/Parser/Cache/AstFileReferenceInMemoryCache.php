@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Ast\Parser\Cache;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileReference;
+use Deptrac\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileReference;
 
 final class AstFileReferenceInMemoryCache implements AstFileReferenceCacheInterface
 {

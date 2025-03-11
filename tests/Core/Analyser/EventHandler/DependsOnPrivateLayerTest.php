@@ -7,16 +7,17 @@ namespace Tests\Deptrac\Deptrac\Core\Analyser\EventHandler;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
 use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\Result\Violation;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnPrivateLayer;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\Core\Layer\LayerProvider;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\DependsOnPrivateLayer;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PHPUnit\Framework\TestCase;
 
 final class DependsOnPrivateLayerTest extends TestCase
@@ -52,7 +53,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testNoViolationsWhenDependentLayerIsPublic(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('DependerLayer', 'DependentLayer', true);
@@ -72,7 +73,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationContinuesWhenPrivateLayerDependsOnItself(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('LayerA', 'LayerA', false);
@@ -92,7 +93,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationContinuesWhenPublicLayerDependsOnItself(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('layerA', 'layerA', true);
@@ -112,7 +113,7 @@ final class DependsOnPrivateLayerTest extends TestCase
 
     public function testPropagationStoppedWhenDependingOnPrivateLayer(): void
     {
-        $helper = new EventHelper([], new LayerProvider([]));
+        $helper = new EventHelper(new LayerProvider([]), new YamlBaselineMapper([]));
         $handler = new DependsOnPrivateLayer($helper);
 
         $event = $this->makeEvent('DependerLayer', 'DependentLayer', false);

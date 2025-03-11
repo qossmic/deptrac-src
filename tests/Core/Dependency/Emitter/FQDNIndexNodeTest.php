@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Dependency\Emitter;
 
-use Deptrac\Deptrac\Core\Dependency\Emitter\FQDNIndexNode;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\FQDNIndexNode;
 use PHPUnit\Framework\TestCase;
 
 use function array_slice;

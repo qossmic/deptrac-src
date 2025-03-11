@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Dependency\Emitter;
 
+use Deptrac\Deptrac\Contract\Dependency\DependencyEmitterInterface;
 use Deptrac\Deptrac\Contract\Dependency\DependencyInterface;
 use Deptrac\Deptrac\Core\Ast\AstLoader;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
 use Deptrac\Deptrac\Core\Dependency\DependencyList;
-use Deptrac\Deptrac\Core\Dependency\Emitter\DependencyEmitterInterface;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionCallExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionLikeExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\InstanceofExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\NewExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\StaticCallExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\StaticPropertyFetchExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\TraitUseExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\UseExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\VariableExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
 use PhpParser\ParserFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -30,19 +35,23 @@ trait EmitterTrait
     {
         $files = (array) $files;
 
-        $typeResolver = new TypeResolver();
+        $nikicTypeResolver = new NikicTypeResolver();
         $parser = new NikicPhpParser(
             (new ParserFactory())->createForNewestSupportedVersion(),
             new AstFileReferenceInMemoryCache(),
-            $typeResolver,
             [
                 new AnonymousClassExtractor(),
-                new FunctionLikeExtractor($typeResolver),
-                new PropertyExtractor($typeResolver),
-                new KeywordExtractor($typeResolver),
-                new StaticExtractor($typeResolver),
-                new FunctionCallResolver($typeResolver),
-                new VariableExtractor(),
+                new FunctionLikeExtractor($nikicTypeResolver),
+                new PropertyExtractor($nikicTypeResolver),
+                new FunctionCallExtractor($nikicTypeResolver),
+                new VariableExtractor($nikicTypeResolver),
+                new ClassExtractor(),
+                new UseExtractor(),
+                new InstanceofExtractor($nikicTypeResolver),
+                new StaticCallExtractor($nikicTypeResolver),
+                new StaticPropertyFetchExtractor($nikicTypeResolver),
+                new NewExtractor($nikicTypeResolver),
+                new TraitUseExtractor($nikicTypeResolver),
             ]
         );
         $astMap = (new AstLoader($parser, new EventDispatcher()))->createAstMap($files);

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\Result\Error;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
@@ -15,14 +18,11 @@ use Deptrac\Deptrac\Contract\Result\SkippedViolation;
 use Deptrac\Deptrac\Contract\Result\Uncovered;
 use Deptrac\Deptrac\Contract\Result\Violation;
 use Deptrac\Deptrac\Contract\Result\Warning;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
 use Deptrac\Deptrac\Core\Dependency\InheritDependency;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\ConsoleOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Deptrac\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -166,6 +166,35 @@ final class ConsoleOutputFormatterTest extends TestCase
                     new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('originalA.php', 12), DependencyType::PARAMETER)),
                     'LayerA'
                 ),
+                new Uncovered(
+                    new InheritDependency(
+                        ClassLikeToken::fromFQCN('ClassA'),
+                        ClassLikeToken::fromFQCN('ClassB'),
+                        new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('originalA.php', 12), DependencyType::PARAMETER)),
+                        (new AstInherit(
+                            ClassLikeToken::fromFQCN('ClassInheritA'), new FileOccurrence('originalA.php', 3),
+                            AstInheritType::EXTENDS
+                        ))
+                            ->replacePath([
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritB'),
+                                    new FileOccurrence('originalA.php', 4),
+                                    AstInheritType::EXTENDS
+                                ),
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritC'),
+                                    new FileOccurrence('originalA.php', 5),
+                                    AstInheritType::EXTENDS
+                                ),
+                                new AstInherit(
+                                    ClassLikeToken::fromFQCN('ClassInheritD'),
+                                    new FileOccurrence('originalA.php', 6),
+                                    AstInheritType::EXTENDS
+                                ),
+                            ])
+                    ),
+                    'LayerA'
+                ),
             ],
             [],
             'warnings' => [],
@@ -173,10 +202,13 @@ final class ConsoleOutputFormatterTest extends TestCase
                 Uncovered dependencies:
                 OriginalA has uncovered dependency on OriginalB (LayerA)
                 originalA.php:12
+                ClassA has uncovered dependency on ClassB (LayerA)
+                originalA.php:12
+                ClassInheritD:6 -> ClassInheritC:5 -> ClassInheritB:4 -> ClassInheritA:3 -> OriginalB:12
                 Report:
                 Violations: 0
                 Skipped violations: 0
-                Uncovered: 1
+                Uncovered: 2
                 Allowed: 0
                 Warnings:0
                 Errors:0

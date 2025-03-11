@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassNameRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassNameRegexCollector;
 use PHPUnit\Framework\TestCase;
 
 final class ClassNameRegexCollectorTest extends TestCase
@@ -58,5 +60,15 @@ final class ClassNameRegexCollectorTest extends TestCase
             ['regex' => '/'],
             new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
         );
+    }
+
+    public function testWrongTokenTypeDoesNotSatisfy(): void
+    {
+        $actual = $this->collector->satisfy(
+            ['value' => '/^Foo\\\\Bar$/i'],
+            new VariableReference(SuperGlobalToken::GET)
+        );
+
+        self::assertFalse($actual);
     }
 }

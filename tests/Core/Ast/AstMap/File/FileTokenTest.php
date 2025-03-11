@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Ast\AstMap\File;
 
-use Deptrac\Deptrac\Core\Ast\AstMap\File\FileToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileToken;
 use PHPUnit\Framework\TestCase;
 
 final class FileTokenTest extends TestCase

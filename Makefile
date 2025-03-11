@@ -31,7 +31,7 @@ cs: vendor ## Fixes any found code style violation
 	$(PHP_CS_FIXER_BIN) fix --allow-risky=yes
 
 phpstan: vendor ## Performs static code analysis using phpstan
-	$(PHPSTAN_BIN) analyse 
+	$(PHPSTAN_BIN) analyse
 
 psalm: vendor ## Performs static code analysis using psalm
 	$(PSALM_BIN)

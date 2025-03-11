@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
+use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
 use Deptrac\Deptrac\Contract\Result\SkippedViolation;
 use Deptrac\Deptrac\Contract\Result\Uncovered;
 use Deptrac\Deptrac\Contract\Result\Violation;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInherit;
-use Deptrac\Deptrac\Core\Ast\AstMap\AstInheritType;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
 use Deptrac\Deptrac\Core\Dependency\InheritDependency;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\BaselineOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Deptrac\Deptrac\Supportive\OutputFormatter\BaselineOutputFormatter;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -31,7 +32,7 @@ class BaselineOutputFormatterTest extends TestCase
 {
     public function testGetName(): void
     {
-        static::assertSame('baseline', (new BaselineOutputFormatter())->getName());
+        static::assertSame('baseline', (new BaselineOutputFormatter(new YamlBaselineMapper([])))->getName());
     }
 
     public static function basicDataProvider(): iterable
@@ -130,7 +131,7 @@ class BaselineOutputFormatterTest extends TestCase
         try {
             $output = new BufferedOutput();
 
-            $formatter = new BaselineOutputFormatter();
+            $formatter = new BaselineOutputFormatter(new YamlBaselineMapper([]));
             $formatter->finish(
                 OutputResult::fromAnalysisResult($analysisResult),
                 $this->createSymfonyOutput($output),

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Contract\Analyser;
 
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
+use Deptrac\Deptrac\Core\Layer\LayerProvider;
 use PHPUnit\Framework\TestCase;
 
 final class EventHelperTest extends TestCase
@@ -24,7 +25,22 @@ final class EventHelperTest extends TestCase
                 'DependencyClass2',
             ],
         ];
-        $helper = new EventHelper($configuration, new LayerProvider([]));
+
+        $baselineMapper = new class($configuration) implements BaselineMapperInterface {
+            public function __construct(private readonly array $violations) {}
+
+            public function fromPHPListToString(array $groupedViolations): string
+            {
+                return '';
+            }
+
+            public function loadViolations(): array
+            {
+                return $this->violations;
+            }
+        };
+
+        $helper = new EventHelper(new LayerProvider([]), $baselineMapper);
 
         self::assertTrue(
             $helper->shouldViolationBeSkipped(
@@ -78,7 +94,22 @@ final class EventHelperTest extends TestCase
                 'DependencyClass2',
             ],
         ];
-        $helper = new EventHelper($configuration, new LayerProvider([]));
+
+        $baselineMapper = new class($configuration) implements BaselineMapperInterface {
+            public function __construct(private readonly array $violations) {}
+
+            public function fromPHPListToString(array $groupedViolations): string
+            {
+                return '';
+            }
+
+            public function loadViolations(): array
+            {
+                return $this->violations;
+            }
+        };
+
+        $helper = new EventHelper(new LayerProvider([]), $baselineMapper);
 
         self::assertTrue(
             $helper->shouldViolationBeSkipped(

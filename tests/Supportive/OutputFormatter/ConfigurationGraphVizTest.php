@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
-use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\ConfigurationGraphViz;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\ConfigurationGraphViz
+ * @covers \Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\ConfigurationGraphViz
  */
 final class ConfigurationGraphVizTest extends TestCase
 {

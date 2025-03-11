@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 use Deptrac\Deptrac\Contract\Analyser\EventHelper;
+use Deptrac\Deptrac\Contract\Ast\AstFileReferenceCacheInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMapExtractorInterface;
+use Deptrac\Deptrac\Contract\Ast\ParserInterface;
+use Deptrac\Deptrac\Contract\Ast\TypeResolverInterface;
 use Deptrac\Deptrac\Contract\Config\CollectorType;
 use Deptrac\Deptrac\Contract\Config\EmitterType;
-use Deptrac\Deptrac\Contract\Layer\LayerProvider;
+use Deptrac\Deptrac\Contract\Layer\CollectorResolverInterface;
+use Deptrac\Deptrac\Contract\Layer\LayerProviderInterface;
+use Deptrac\Deptrac\Contract\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\Contract\OutputFormatter\BaselineMapperInterface;
 use Deptrac\Deptrac\Core\Analyser\DependencyLayersAnalyser;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\AllowDependencyHandler;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnDisallowedLayer;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnInternalToken;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\DependsOnPrivateLayer;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\MatchingLayersHandler;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\UncoveredDependentHandler;
-use Deptrac\Deptrac\Core\Analyser\EventHandler\UnmatchedSkippedViolations;
 use Deptrac\Deptrac\Core\Analyser\LayerDependenciesAnalyser;
 use Deptrac\Deptrac\Core\Analyser\LayerForTokenAnalyser;
 use Deptrac\Deptrac\Core\Analyser\RulesetUsageAnalyser;
@@ -21,58 +21,85 @@ use Deptrac\Deptrac\Core\Analyser\TokenInLayerAnalyser;
 use Deptrac\Deptrac\Core\Analyser\UnassignedTokenAnalyser;
 use Deptrac\Deptrac\Core\Ast\AstLoader;
 use Deptrac\Deptrac\Core\Ast\AstMapExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceCacheInterface;
 use Deptrac\Deptrac\Core\Ast\Parser\Cache\AstFileReferenceInMemoryCache;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnnotationReferenceExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\AnonymousClassExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\ClassConstantExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionCallResolver;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\FunctionLikeExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\KeywordExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\PropertyExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\StaticExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\Extractors\VariableExtractor;
-use Deptrac\Deptrac\Core\Ast\Parser\NikicPhpParser\NikicPhpParser;
-use Deptrac\Deptrac\Core\Ast\Parser\ParserInterface;
-use Deptrac\Deptrac\Core\Ast\Parser\TypeResolver;
+use Deptrac\Deptrac\Core\Ast\Parser\NikicTypeResolver;
 use Deptrac\Deptrac\Core\Dependency\DependencyResolver;
-use Deptrac\Deptrac\Core\Dependency\Emitter\ClassDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\ClassSuperglobalDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\FileDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\FunctionCallDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\FunctionDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\FunctionSuperglobalDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\Emitter\UsesDependencyEmitter;
-use Deptrac\Deptrac\Core\Dependency\InheritanceFlattener;
 use Deptrac\Deptrac\Core\Dependency\TokenResolver;
 use Deptrac\Deptrac\Core\InputCollector\FileInputCollector;
 use Deptrac\Deptrac\Core\InputCollector\InputCollectorInterface;
-use Deptrac\Deptrac\Core\Layer\Collector\AttributeCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\BoolCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassLikeCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\ClassNameRegexCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\CollectorProvider;
-use Deptrac\Deptrac\Core\Layer\Collector\CollectorResolver;
-use Deptrac\Deptrac\Core\Layer\Collector\CollectorResolverInterface;
-use Deptrac\Deptrac\Core\Layer\Collector\ComposerCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\DirectoryCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\ExtendsCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\FunctionNameCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\GlobCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\ImplementsCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\InheritanceLevelCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\InheritsCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\InterfaceCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\LayerCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\MethodCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\PhpInternalCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\SuperglobalCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\TraitCollector;
-use Deptrac\Deptrac\Core\Layer\Collector\UsesCollector;
+use Deptrac\Deptrac\Core\Layer\CollectorProvider;
+use Deptrac\Deptrac\Core\Layer\CollectorResolver;
+use Deptrac\Deptrac\Core\Layer\LayerProvider;
 use Deptrac\Deptrac\Core\Layer\LayerResolver;
-use Deptrac\Deptrac\Core\Layer\LayerResolverInterface;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\AllowDependencyHandler;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\DependsOnDisallowedLayer;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\DependsOnInternalToken;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\DependsOnPrivateLayer;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\MatchingLayersHandler;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\UncoveredDependentHandler;
+use Deptrac\Deptrac\DefaultBehavior\Analyser\UnmatchedSkippedViolations;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\AnonymousClassExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\CatchExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassConstantExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassLikeExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ClassMethodExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\ExpressionExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionCallExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\FunctionLikeExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\GroupUseExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\InstanceofExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\InterfaceExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\NewExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\PropertyExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\StaticCallExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\StaticPropertyFetchExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\TraitUseExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\UseExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Extractors\VariableExtractor;
+use Deptrac\Deptrac\DefaultBehavior\Ast\Parser\NikicPhpParser;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\ClassDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\ClassSuperglobalDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\FileDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\FunctionCallDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\FunctionDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\FunctionSuperglobalDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\UsesDependencyEmitter;
+use Deptrac\Deptrac\DefaultBehavior\Layer\AttributeCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\BoolCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassLikeCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ClassNameRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ComposerCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\DirectoryCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ExtendsCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\FunctionNameCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\GlobCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\ImplementsCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\InheritanceLevelCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\InheritsCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\InterfaceCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\LayerCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\MethodCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\PhpInternalCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\SuperglobalCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\TagValueRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\TraitCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\UsesCollector;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\BaselineOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\CodeclimateOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\ConsoleOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GithubActionsOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GraphVizOutputDisplayFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GraphVizOutputDotFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GraphVizOutputHtmlFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\GraphVizOutputImageFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\FormatterConfiguration;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\JsonOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\JUnitOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\MermaidJSOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\TableOutputFormatter;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\XMLOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Command\AnalyseCommand;
 use Deptrac\Deptrac\Supportive\Console\Command\AnalyseRunner;
 use Deptrac\Deptrac\Supportive\Console\Command\ChangedFilesCommand;
@@ -90,21 +117,8 @@ use Deptrac\Deptrac\Supportive\Console\Command\DebugUnusedRunner;
 use Deptrac\Deptrac\Supportive\Console\Command\InitCommand;
 use Deptrac\Deptrac\Supportive\File\Dumper;
 use Deptrac\Deptrac\Supportive\File\YmlFileLoader;
-use Deptrac\Deptrac\Supportive\OutputFormatter\BaselineOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\CodeclimateOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\FormatterConfiguration;
-use Deptrac\Deptrac\Supportive\OutputFormatter\ConsoleOutputFormatter;
 use Deptrac\Deptrac\Supportive\OutputFormatter\FormatterProvider;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GithubActionsOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GraphVizOutputDisplayFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GraphVizOutputDotFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GraphVizOutputHtmlFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\GraphVizOutputImageFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\JsonOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\JUnitOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\MermaidJSOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\TableOutputFormatter;
-use Deptrac\Deptrac\Supportive\OutputFormatter\XMLOutputFormatter;
+use Deptrac\Deptrac\Supportive\OutputFormatter\YamlBaselineMapper;
 use PhpParser\Lexer;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
@@ -168,13 +182,14 @@ return static function (ContainerConfigurator $container): void {
         ])
     ;
     $services->alias(ParserInterface::class, NikicPhpParser::class);
-    $services->set(TypeResolver::class);
+    $services->set(NikicTypeResolver::class);
+    $services->alias(TypeResolverInterface::class, NikicTypeResolver::class);
     $services
-        ->set(AnnotationReferenceExtractor::class)
+        ->set(AnonymousClassExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(AnonymousClassExtractor::class)
+        ->set(CatchExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
@@ -182,7 +197,43 @@ return static function (ContainerConfigurator $container): void {
         ->tag('reference_extractors')
     ;
     $services
+        ->set(ClassExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ClassLikeExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ClassMethodExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(ExpressionExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(FunctionCallExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
         ->set(FunctionLikeExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(GroupUseExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(InstanceofExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(InterfaceExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(NewExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
@@ -190,23 +241,23 @@ return static function (ContainerConfigurator $container): void {
         ->tag('reference_extractors')
     ;
     $services
-        ->set(KeywordExtractor::class)
+        ->set(StaticCallExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(StaticExtractor::class)
+        ->set(StaticPropertyFetchExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
-        ->set(FunctionLikeExtractor::class)
+        ->set(TraitUseExtractor::class)
+        ->tag('reference_extractors')
+    ;
+    $services
+        ->set(UseExtractor::class)
         ->tag('reference_extractors')
     ;
     $services
         ->set(VariableExtractor::class)
-        ->tag('reference_extractors')
-    ;
-    $services
-        ->set(FunctionCallResolver::class)
         ->tag('reference_extractors')
     ;
 
@@ -221,7 +272,6 @@ return static function (ContainerConfigurator $container): void {
         ])
     ;
     $services->set(TokenResolver::class);
-    $services->set(InheritanceFlattener::class);
     $services
         ->set(ClassDependencyEmitter::class)
         ->tag('dependency_emitter', ['key' => EmitterType::CLASS_TOKEN->value])
@@ -361,6 +411,7 @@ return static function (ContainerConfigurator $container): void {
      * Analyser
      */
     $services->set(AstMapExtractor::class);
+    $services->alias(AstMapExtractorInterface::class, AstMapExtractor::class);
     $services
         ->set(UncoveredDependentHandler::class)
         ->args([
@@ -378,6 +429,7 @@ return static function (ContainerConfigurator $container): void {
             '$allowedLayers' => param('ruleset'),
         ])
     ;
+    $services->alias(LayerProviderInterface::class, LayerProvider::class);
     $services
         ->set(AllowDependencyHandler::class)
         ->tag('kernel.event_subscriber')
@@ -401,11 +453,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(UnmatchedSkippedViolations::class)
         ->tag('kernel.event_subscriber')
     ;
-    $services->set(EventHelper::class)
+    $services->set(YamlBaselineMapper::class)
         ->args([
             '$skippedViolations' => param('skip_violations'),
         ])
     ;
+    $services->alias(BaselineMapperInterface::class, YamlBaselineMapper::class);
+    $services->set(EventHelper::class);
     $services
         ->set(DependencyLayersAnalyser::class)
     ;

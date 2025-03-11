@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
-use Deptrac\Deptrac\Contract\Ast\DependencyContext;
-use Deptrac\Deptrac\Contract\Ast\DependencyType;
-use Deptrac\Deptrac\Contract\Ast\FileOccurrence;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
+use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
 use Deptrac\Deptrac\Contract\Result\Allowed;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
 use Deptrac\Deptrac\Contract\Result\Violation;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Dependency\Dependency;
+use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\FormatterConfiguration;
+use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\MermaidJSOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
-use Deptrac\Deptrac\Supportive\OutputFormatter\Configuration\FormatterConfiguration;
-use Deptrac\Deptrac\Supportive\OutputFormatter\MermaidJSOutputFormatter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -41,9 +41,11 @@ final class MermaidJSOutputFormatterTest extends TestCase
 
         $analysisResult = new AnalysisResult();
         $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerB'));
+        $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerB'));
         $analysisResult->addRule(new Allowed($dependency, 'LayerC', 'LayerD'));
         $analysisResult->addRule(new Allowed($dependency, 'LayerA', 'LayerC'));
 
+        $analysisResult->addRule(new Violation($dependency, 'LayerA', 'LayerC', new DummyViolationCreatingRule()));
         $analysisResult->addRule(new Violation($dependency, 'LayerA', 'LayerC', new DummyViolationCreatingRule()));
         $analysisResult->addRule(new Violation($dependency, 'LayerB', 'LayerC', new DummyViolationCreatingRule()));
 

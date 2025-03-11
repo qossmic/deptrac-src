@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
-use Deptrac\Deptrac\Contract\Ast\TokenReferenceInterface;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\Function\FunctionToken;
-use Deptrac\Deptrac\Core\Layer\Collector\PhpInternalCollector;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FileToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\FunctionToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\TokenReferenceInterface;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
+use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
+use Deptrac\Deptrac\DefaultBehavior\Layer\PhpInternalCollector;
 use PHPUnit\Framework\TestCase;
 
 final class PHPInternalCollectorTest extends TestCase
@@ -39,5 +44,42 @@ final class PHPInternalCollectorTest extends TestCase
         );
 
         self::assertSame($expected, $actual);
+    }
+
+    public function testWrongTokenTypeDoesNotSatisfy(): void
+    {
+        $actual = (new PhpInternalCollector())->satisfy(
+            ['value' => '/^Foo\\\\Bar$/i'],
+            new class implements TokenReferenceInterface {
+                public function getFilepath(): ?string
+                {
+                    return 'foo';
+                }
+
+                public function getToken(): TokenInterface
+                {
+                    return new FileToken('foo');
+                }
+            }
+        );
+
+        self::assertFalse($actual);
+
+        $actual = (new PhpInternalCollector())->satisfy(
+            ['value' => '/^Foo\\\\Bar$/i'],
+            new VariableReference(SuperGlobalToken::GET)
+        );
+
+        self::assertFalse($actual);
+    }
+
+    public function testInvalidRegexParam(): void
+    {
+        $this->expectException(InvalidCollectorDefinitionException::class);
+
+        (new PhpInternalCollector())->satisfy(
+            ['regex' => '/'],
+            new ClassLikeReference(ClassLikeToken::fromFQCN('Foo')),
+        );
     }
 }

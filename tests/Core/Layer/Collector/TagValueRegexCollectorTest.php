@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Core\Layer\Collector;
 
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeReference;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\ClassLikeType;
+use Deptrac\Deptrac\Contract\Ast\AstMap\SuperGlobalToken;
+use Deptrac\Deptrac\Contract\Ast\AstMap\VariableReference;
 use Deptrac\Deptrac\Contract\Config\Collector\TagValueRegexConfig;
 use Deptrac\Deptrac\Contract\Layer\InvalidCollectorDefinitionException;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeReference;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeToken;
-use Deptrac\Deptrac\Core\Ast\AstMap\ClassLike\ClassLikeType;
-use Deptrac\Deptrac\Core\Layer\Collector\TagValueRegexCollector;
+use Deptrac\Deptrac\DefaultBehavior\Layer\TagValueRegexCollector;
 use PHPUnit\Framework\TestCase;
 
 final class TagValueRegexCollectorTest extends TestCase
@@ -119,5 +121,15 @@ final class TagValueRegexCollectorTest extends TestCase
             $config,
             new ClassLikeReference(ClassLikeToken::fromFQCN('Foo'))
         );
+    }
+
+    public function testNonTagTokenDoesNotSatisfy(): void
+    {
+        $actual = $this->collector->satisfy(
+            TagValueRegexConfig::create('@foo')->toArray(),
+            new VariableReference(SuperGlobalToken::GET)
+        );
+
+        self::assertFalse($actual);
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<testsuites>
+    <testsuite errors="0" failures="0" hostname="localhost" id="1" name="test" package="" skipped="0" tests="1" time="0">
+        <testcase classname="OriginalA" name="test - OriginalA" time="0">
+          <warning message="OriginalA:12 has uncovered dependency on OriginalB (test)" type="WARNING"/>
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -6,15 +6,15 @@ deptrac:
     - name: AstLoader
       collectors:
         - type: classLike
-          value: ^Qossmic\\Deptrac\\Ast\\AstLoader
+          value: ^Deptrac\\Deptrac\\Ast\\AstLoader
     - name: AstMap
       collectors:
         - type: classLike
-          value: ^Qossmic\\Deptrac\\Ast\\AstMap
+          value: ^Deptrac\\Deptrac\\Ast\\AstMap
     - name: Parser
       collectors:
         - type: classLike
-          value: ^Qossmic\\Deptrac\\Ast\\Parser
+          value: ^Deptrac\\Deptrac\\Ast\\Parser
     - name: PhpParser
       collectors:
         - type: bool
