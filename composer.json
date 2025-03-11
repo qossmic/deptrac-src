@@ -11,12 +11,10 @@
             "name": "Tim Glabisch"
         },
         {
-            "name": "Simon Mönch",
-            "email": "simon.moench@deptrac.com"
+            "name": "Simon Mönch"
         },
         {
-            "name": "Denis Brumann",
-            "email": "denis.brumann@deptrac.com"
+            "name": "Denis Brumann"
         }
     ],
     "require": {
