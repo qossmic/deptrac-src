@@ -19,7 +19,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "ext-json": "*",
         "composer/xdebug-handler": "^3.0",
         "jetbrains/phpstorm-stubs": "2024.1",
         "nikic/php-parser": "^5",
