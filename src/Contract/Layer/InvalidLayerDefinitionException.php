@@ -36,8 +36,8 @@ final class InvalidLayerDefinitionException extends RuntimeException implements 
         return new self('Layer configuration is empty. You need to define at least 1 layer.');
     }
 
-    public static function circularTokenReference(string $tokenName): self
+    public static function circularTokenReference(string $collectorName, string $tokenName): self
     {
-        return new self(sprintf('Circular dependency between layers detected. Token "%s" could not be resolved.', $tokenName));
+        return new self(sprintf('%s: Circular dependency between layers detected. Token "%s" could not be resolved.', $collectorName, $tokenName));
     }
 }

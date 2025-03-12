@@ -50,8 +50,11 @@ final class UsesCollector implements CollectorInterface
      */
     private function getTraitName(array $config): ClassLikeToken
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('UsesCollector needs the trait name as a string.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('UsesCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('UsesCollector: Configuration is not a string.');
         }
 
         return ClassLikeToken::fromFQCN($config['value']);

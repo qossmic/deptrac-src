@@ -52,7 +52,7 @@ final class DirectoryCollectorTest extends TestCase
         $fileReference = $fileReferenceBuilder->build();
 
         $this->expectException(InvalidCollectorDefinitionException::class);
-        $this->expectExceptionMessage('DirectoryCollector needs the regex configuration.');
+        $this->expectExceptionMessage('DirectoryCollector: Missing configuration.');
 
         $this->collector->satisfy(
             [],

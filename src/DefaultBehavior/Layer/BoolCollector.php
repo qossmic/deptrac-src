@@ -58,7 +58,7 @@ final class BoolCollector implements CollectorInterface
         }
 
         if (!$configuration['must'] && !$configuration['must_not']) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('"bool" collector must have a "must" or a "must_not" attribute.');
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('BoolCollector: Missing a "must" or a "must_not" attribute.');
         }
 
         return $configuration;

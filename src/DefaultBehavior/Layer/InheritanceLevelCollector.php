@@ -31,8 +31,12 @@ final class InheritanceLevelCollector implements CollectorInterface
             throw CouldNotParseFileException::because('Could not build Ast map', $exception);
         }
         $classInherits = $this->astMap->getClassInherits($reference->getToken());
-        if (!isset($config['value']) || !is_numeric($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritanceLevelCollector needs inheritance depth as int.');
+
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritanceLevelCollector: Missing configuration.');
+        }
+        if (!is_numeric($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritanceLevelCollector: Configuration is not a number.');
         }
 
         $depth = (int) $config['value'];

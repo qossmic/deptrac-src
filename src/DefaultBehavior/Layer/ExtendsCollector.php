@@ -50,8 +50,11 @@ final class ExtendsCollector implements CollectorInterface
      */
     private function getInterfaceName(array $config): ClassLikeToken
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('ExtendsCollector needs the interface or class name as a string.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('ExtendsCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('ExtendsCollector: Configuration is not a string.');
         }
 
         return ClassLikeToken::fromFQCN($config['value']);

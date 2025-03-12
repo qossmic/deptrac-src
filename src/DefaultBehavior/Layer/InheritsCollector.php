@@ -49,8 +49,11 @@ final class InheritsCollector implements CollectorInterface
      */
     private function getClassLikeName(array $config): ClassLikeToken
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritsCollector needs the interface, trait or class name as a string.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritsCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('InheritsCollector: Configuration is not a string.');
         }
 
         return ClassLikeToken::fromFQCN($config['value']);

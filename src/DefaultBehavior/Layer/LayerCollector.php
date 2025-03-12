@@ -25,19 +25,23 @@ final class LayerCollector implements CollectorInterface
 
     public function satisfy(array $config, TokenReferenceInterface $reference): bool
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('LayerCollector needs the layer configuration, expected \'value\' config is missing or invalid.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('LayerCollector: Missing configuration.');
         }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('LayerCollector: Configuration is not a string.');
+        }
+
         $layer = $config['value'];
 
         if (!$this->resolver->has($layer)) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration(sprintf('Unknown layer "%s" specified in collector.', $config['value']));
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration(sprintf('LayerCollector: Unknown layer "%s" specified in collector.', $layer));
         }
         $token = $reference->getToken()->toString();
 
         if (array_key_exists($token, $this->resolved) && array_key_exists($layer, $this->resolved[$token])) {
             if (null === $this->resolved[$token][$layer]) {
-                throw InvalidLayerDefinitionException::circularTokenReference($token);
+                throw InvalidLayerDefinitionException::circularTokenReference('LayerCollector', $token);
             }
 
             return $this->resolved[$token][$layer];

@@ -48,8 +48,11 @@ final class PhpInternalCollector implements CollectorInterface
      */
     private function getPattern(array $config): string
     {
-        if (!isset($config['value']) || !is_string($config['value'])) {
-            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('PhpInternalCollector needs configuration.');
+        if (!isset($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('PhpInternalCollector: Missing configuration.');
+        }
+        if (!is_string($config['value'])) {
+            throw InvalidCollectorDefinitionException::invalidCollectorConfiguration('PhpInternalCollector: Configuration is not a string.');
         }
 
         return '/'.$config['value'].'/i';
