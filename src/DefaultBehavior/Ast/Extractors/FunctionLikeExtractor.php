@@ -36,6 +36,13 @@ final class FunctionLikeExtractor implements ReferenceExtractorInterface
                     $referenceBuilder->dependency(ClassLikeToken::fromFQCN($classLikeName), $param->type->getLine(), DependencyType::PARAMETER);
                 }
             }
+            foreach ($param->attrGroups as $attrGroup) {
+                foreach ($attrGroup->attrs as $attribute) {
+                    foreach ($this->typeResolver->resolvePHPParserTypes($typeScope, $attribute->name) as $classLikeName) {
+                        $referenceBuilder->dependency(ClassLikeToken::fromFQCN($classLikeName), $attribute->getLine(), DependencyType::ATTRIBUTE);
+                    }
+                }
+            }
         }
         $returnType = $node->getReturnType();
         if (null !== $returnType) {

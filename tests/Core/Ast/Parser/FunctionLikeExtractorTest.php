@@ -47,6 +47,7 @@ final class FunctionLikeExtractorTest extends TestCase
 
         self::assertEqualsCanonicalizing(
             [
+                'SensitiveParameter::24 (attribute)',
                 'Tests\Deptrac\Deptrac\Core\Ast\Parser\Fixtures\MethodSignaturesB::24 (parameter)',
                 // NOTE: We are not yet tracking the call from MethodSignatureC::test()
                 // to MethodSignatureA::foo().
