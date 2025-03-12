@@ -14,7 +14,7 @@ services:
       - ./:/var/www/deptrac
       - user-data:/home/deptrac/
     extra_hosts:
-      - host.docker.internal:${HOST_IP:-host-gateway}
+      - host.docker.internal:${HOST:-host-gateway}
 
 volumes:
   user-data:

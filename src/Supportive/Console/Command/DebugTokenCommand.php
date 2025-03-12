@@ -7,17 +7,20 @@ namespace Deptrac\Deptrac\Supportive\Console\Command;
 use Deptrac\Deptrac\Core\Analyser\TokenType;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'debug:token',
+    description: 'Checks which layers the provided token belongs to',
+    aliases: ['debug:class-like'],
+)]
 class DebugTokenCommand extends Command
 {
-    public static $defaultName = 'debug:token|debug:class-like';
-    public static $defaultDescription = 'Checks which layers the provided token belongs to';
-
     public function __construct(private readonly DebugTokenRunner $runner)
     {
         parent::__construct();

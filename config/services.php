@@ -137,6 +137,7 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->defaults()
         ->autowire()
+        ->autoconfigure()
     ;
 
     /*
@@ -554,73 +555,58 @@ return static function (ContainerConfigurator $container): void {
      */
     $services
         ->set(InitCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(AnalyseRunner::class)
-        ->autowire()
     ;
     $services
         ->set(AnalyseCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(ChangedFilesRunner::class)
-        ->autowire()
     ;
     $services
         ->set(ChangedFilesCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(DebugLayerRunner::class)
-        ->autowire()
         ->args([
             '$layers' => param('layers'),
         ])
     ;
     $services
         ->set(DebugLayerCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(DebugTokenRunner::class)
-        ->autowire()
     ;
     $services
         ->set(DebugTokenCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(DebugUnassignedRunner::class)
-        ->autowire()
     ;
     $services
         ->set(DebugUnassignedCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(DebugDependenciesRunner::class)
-        ->autowire()
     ;
     $services
         ->set(DebugDependenciesCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
     $services
         ->set(DebugUnusedRunner::class)
-        ->autowire()
     ;
     $services
         ->set(DebugUnusedCommand::class)
-        ->autowire()
         ->tag('console.command')
     ;
 };

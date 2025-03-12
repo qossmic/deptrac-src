@@ -1,10 +1,14 @@
 vendor/*
 tools/**/vendor/*
 tools/**/bin/*
+
+composer.lock
+
 coverage/*
 .box_dump/
 /deptrac.phar
 /deptrac.phar.asc
+
 phpunit.xml
 box.json
 deptrac.version
@@ -17,5 +21,6 @@ infection.log
 build/deptrac-build
 .deptrac.cache
 deptrac-report.xml
+
 tests/Supportive/DependencyInjection/.deptrac.cache
 tests/Supportive/OutputFormatter/data/graphviz.dot

@@ -12,7 +12,7 @@ help: ## Displays list of available targets with their descriptions
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
 install: vendor ## Installs dependencies
-vendor: composer.json composer.lock
+vendor: composer.json
 	$(COMPOSER_BIN) install --no-interaction --no-progress --ansi
 
 composer-dependency-analyser: ## Performs static code analysis using composer-dependency-analyser
