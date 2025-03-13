@@ -25,10 +25,10 @@ infection: vendor ## Runs mutation tests
 	$(INFECTION_BIN) --threads=$(shell nproc || sysctl -n hw.ncpu || 1) --test-framework-options='--testsuite=Tests' --only-covered --min-msi=85 --psalm-config=psalm.xml
 
 php-cs-check: vendor ## Checks for code style violation
-	$(PHP_CS_FIXER_BIN) fix --allow-risky=yes --diff --using-cache=no --verbose --dry-run
+	$(PHP_CS_FIXER_BIN) fix --diff --using-cache=no --verbose --dry-run
 
 cs: vendor ## Fixes any found code style violation
-	$(PHP_CS_FIXER_BIN) fix --allow-risky=yes
+	$(PHP_CS_FIXER_BIN) fix
 
 phpstan: vendor ## Performs static code analysis using phpstan
 	$(PHPSTAN_BIN) analyse
