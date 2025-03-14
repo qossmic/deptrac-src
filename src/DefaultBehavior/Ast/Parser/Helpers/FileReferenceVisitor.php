@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\DefaultBehavior\Ast\Parser\Helpers;
 
-use Deptrac\Deptrac\Contract\Ast\ReferenceExtractorInterface;
+use Deptrac\Deptrac\Contract\Ast\NikicReferenceExtractorInterface;
 use Deptrac\Deptrac\Contract\Ast\TypeScope;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
@@ -25,7 +25,7 @@ use PHPStan\PhpDocParser\Parser\TypeParser;
 
 class FileReferenceVisitor extends NodeVisitorAbstract
 {
-    /** @var ReferenceExtractorInterface<Node>[] */
+    /** @var NikicReferenceExtractorInterface<Node>[] */
     private readonly array $dependencyResolvers;
 
     private TypeScope $currentTypeScope;
@@ -35,11 +35,11 @@ class FileReferenceVisitor extends NodeVisitorAbstract
     private ReferenceBuilder $currentReference;
 
     /**
-     * @param ReferenceExtractorInterface<Node> ...$dependencyResolvers
+     * @param NikicReferenceExtractorInterface<Node> ...$dependencyResolvers
      */
     public function __construct(
         private readonly FileReferenceBuilder $fileReferenceBuilder,
-        ReferenceExtractorInterface ...$dependencyResolvers,
+        NikicReferenceExtractorInterface ...$dependencyResolvers,
     ) {
         $this->currentTypeScope = new TypeScope('');
         $this->lexer = new Lexer();

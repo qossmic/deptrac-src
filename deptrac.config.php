@@ -1,5 +1,6 @@
 <?php
 
+use Deptrac\Deptrac\Contract\Config\FeatureFlagsConfig;
 use Internal\Deptrac\Deptrac\IgnoreDependenciesOnContract;
 use Deptrac\Deptrac\Contract\Config\AnalyserConfig;
 use Deptrac\Deptrac\Contract\Config\Collector\BoolConfig;
@@ -21,6 +22,7 @@ return static function (DeptracConfig $config, ContainerConfigurator $containerC
     $config
         ->paths('src')
         ->cacheFile('.cache/deptrac.cache')
+        ->featureFlags(FeatureFlagsConfig::create(phpstanParser: true))
         ->baseline('deptrac.baseline.yaml')
         ->analyser(
             AnalyserConfig::create()
