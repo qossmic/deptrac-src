@@ -17,7 +17,7 @@ add a layer? Do you have a large existing project that has similar structure acr
 
 For a long time, Deptrac was only supporting a `yaml` configuration. Thanks to the effort by [grennadi](https://github.com/gennadigennadigennadi) you can now use Symfony config builders to create a dynamic deptrac configuration using PHP. Let's take a look at how to do it.
 
-Start by creating a `deptrac.config.php` file in the root of the project:
+Start by creating a `deptrac.php` file in the root of the project:
 
 ```php
 <?php
@@ -102,7 +102,7 @@ Last, but not least, you can also plug in any extension you write like custom co
 To tie it all together, you have to specify that you want deptrac to you your php config file, for example like this:
 
 ```console
-$ php deptrac.php -c deptrac.config.php
+$ php deptrac.php -c deptrac.php
 ```
 
 As you can see this feature allows you to use the full expressive power of PHP to create dynamic configuration on the fly.

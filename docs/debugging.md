@@ -10,7 +10,7 @@ With the `debug:layer`-command you can list all tokens which are matched in
 a specific layer. This command only shows tokens that would be emitted by your analyser configuration.
 
 ```console
-$ php deptrac.phar debug:layer --config-file=deptrac.config.php Time
+$ php deptrac.phar debug:layer --config-file=deptrac.php Time
 
  ---------------------------------------------------- ------------
   Time                                                 Token Type
