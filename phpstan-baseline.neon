@@ -43,6 +43,12 @@ parameters:
 			path: src/DefaultBehavior/Ast/Parser/Helpers/ReferenceBuilder.php
 
 		-
+			message: '#^Parameter \#1 \$configFile of method Deptrac\\Deptrac\\Supportive\\DependencyInjection\\ServiceContainerBuilder\:\:withConfig\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Supportive/Console/Application.php
+
+		-
 			message: '#^Method Deptrac\\Deptrac\\Supportive\\Console\\Command\\DebugTokenCommand\:\:execute\(\) throws checked exception TypeError but it''s missing from the PHPDoc @throws tag\.$#'
 			identifier: missingType.checkedException
 			count: 1

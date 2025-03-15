@@ -6,6 +6,7 @@ namespace Deptrac\Deptrac\Supportive\Console;
 
 use Deptrac\Deptrac\Supportive\DependencyInjection\Exception\CannotLoadConfiguration;
 use Deptrac\Deptrac\Supportive\DependencyInjection\ServiceContainerBuilder;
+use Deptrac\Deptrac\Supportive\File\Exception\InvalidPathException;
 use RuntimeException;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
@@ -62,14 +63,12 @@ final class Application extends BaseApplication
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Location where cache file will be stored',
-                null
             ),
             new InputOption(
                 '--config-file',
                 '-c',
                 InputOption::VALUE_REQUIRED,
-                'Location of Depfile containing the configuration',
-                getcwd().DIRECTORY_SEPARATOR.'deptrac.yaml'
+                'Location of the configuration file',
             ),
         ]);
 
@@ -95,11 +94,12 @@ final class Application extends BaseApplication
             return parent::doRun($input, $output);
         }
 
-        /** @var string|numeric|null $configFile */
-        $configFile = $input->getOption('config-file');
-        $config = $input->hasOption('config-file')
-            ? (string) $configFile
-            : $currentWorkingDirectory.DIRECTORY_SEPARATOR.'deptrac.yaml';
+        $config = $input->getOption('config-file');
+
+        $config ??= file_exists($currentWorkingDirectory.DIRECTORY_SEPARATOR.'deptrac.php')
+            ? $currentWorkingDirectory.DIRECTORY_SEPARATOR.'deptrac.php'
+            : $currentWorkingDirectory.DIRECTORY_SEPARATOR.'deptrac.yaml'
+        ;
 
         /** @var ?string $cache */
         $cache = $input->getParameterOption('--cache-file', null);
