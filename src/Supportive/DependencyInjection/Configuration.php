@@ -273,7 +273,6 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-
     private function appendFeatureFlags(ArrayNodeDefinition $node): void
     {
         $node
@@ -286,6 +285,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

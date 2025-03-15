@@ -22,6 +22,7 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use PHPStan\PhpDocParser\ParserConfig;
 
 /**
  * @implements NikicReferenceExtractorInterface<ClassMethod>
@@ -36,8 +37,10 @@ final class ClassMethodExtractor implements NikicReferenceExtractorInterface, PH
         private readonly PhpStanContainerDecorator $phpStanContainer,
         private readonly TypeResolverInterface $typeResolver,
     ) {
-        $this->lexer = new Lexer();
-        $this->docParser = new PhpDocParser(new TypeParser(), new ConstExprParser());
+        $config = new ParserConfig(usedAttributes: ['lines' => true, 'indexes' => true]);
+        $this->lexer = new Lexer($config);
+        $constExprParser = new ConstExprParser($config);
+        $this->docParser = new PhpDocParser($config, new TypeParser($config, $constExprParser), $constExprParser);
     }
 
     public function processNode(Node $node, ReferenceBuilderInterface $referenceBuilder, TypeScope $typeScope): void
@@ -90,7 +93,7 @@ final class ClassMethodExtractor implements NikicReferenceExtractorInterface, PH
     public function processNodeWithPhpStanScope(
         Node $node,
         ReferenceBuilderInterface $referenceBuilder,
-        Scope $scope
+        Scope $scope,
     ): void {
         $docComment = $node->getDocComment();
         if (!$docComment instanceof Doc) {
@@ -114,7 +117,8 @@ final class ClassMethodExtractor implements NikicReferenceExtractorInterface, PH
 
         $methodVariant = $classReflection
             ->getMethod($node->name->name, $scope)
-            ->getVariants()[0];
+            ->getVariants()[0]
+        ;
 
         foreach ($methodVariant->getParameters() as $tag) {
             foreach ($tag->getType()->getReferencedClasses() as $referencedClass) {

@@ -22,6 +22,7 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use PHPStan\PhpDocParser\ParserConfig;
 
 /**
  * @implements NikicReferenceExtractorInterface<Node\Expr\Variable>
@@ -40,8 +41,10 @@ final class VariableExtractor implements NikicReferenceExtractorInterface, PHPSt
         private readonly PhpStanContainerDecorator $phpStanContainer,
         private readonly TypeResolverInterface $typeResolver,
     ) {
-        $this->lexer = new Lexer();
-        $this->docParser = new PhpDocParser(new TypeParser(), new ConstExprParser());
+        $config = new ParserConfig(usedAttributes: ['lines' => true, 'indexes' => true]);
+        $this->lexer = new Lexer($config);
+        $constExprParser = new ConstExprParser($config);
+        $this->docParser = new PhpDocParser($config, new TypeParser($config, $constExprParser), $constExprParser);
         $this->allowedNames = SuperGlobalToken::allowedNames();
     }
 
@@ -57,8 +60,8 @@ final class VariableExtractor implements NikicReferenceExtractorInterface, PHPSt
             return;
         }
 
-        $tokens        = new TokenIterator($this->lexer->tokenize($docComment->getText()));
-        $docNode       = $this->docParser->parse($tokens);
+        $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
+        $docNode = $this->docParser->parse($tokens);
         $templateTypes = array_merge(
             array_map(
                 static fn (TemplateTagValueNode $node): string => $node->name,
@@ -84,7 +87,7 @@ final class VariableExtractor implements NikicReferenceExtractorInterface, PHPSt
     public function processNodeWithPhpStanScope(
         Node $node,
         ReferenceBuilderInterface $referenceBuilder,
-        Scope $scope
+        Scope $scope,
     ): void {
         if (in_array($node->name, $this->allowedNames, true)) {
             /** @throws void */
