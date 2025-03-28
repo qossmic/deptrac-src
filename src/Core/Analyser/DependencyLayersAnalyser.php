@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Core\Analyser;
 
+use DateTimeImmutable;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 use Deptrac\Deptrac\Contract\Analyser\PostProcessEvent;
 use Deptrac\Deptrac\Contract\Analyser\ProcessEvent;
@@ -42,7 +43,7 @@ class DependencyLayersAnalyser
 
             $dependencies = $this->dependencyResolver->resolve($astMap);
 
-            $result = new AnalysisResult();
+            $result = new AnalysisResult(new DateTimeImmutable());
             $warnings = [];
 
             foreach ($dependencies->getDependenciesAndInheritDependencies() as $dependency) {
