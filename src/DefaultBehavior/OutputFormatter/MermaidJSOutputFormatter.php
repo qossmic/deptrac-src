@@ -12,7 +12,7 @@ use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\Helpers\FormatterConfigurati
 
 final class MermaidJSOutputFormatter implements OutputFormatterInterface
 {
-    /** @var array{direction: string, groups: array<string, string[]>} */
+    /** @var array{direction: string, groups: array<string, string[]>, default_node_options: array<string, string>} */
     private array $config;
     private const GRAPH_TYPE = 'flowchart %s;';
 
@@ -24,7 +24,7 @@ final class MermaidJSOutputFormatter implements OutputFormatterInterface
 
     public function __construct(FormatterConfiguration $config)
     {
-        /** @var array{direction: string, groups: array<string, string[]>}  $extractedConfig */
+        /** @var array{direction: string, groups: array<string, string[]>, default_node_options: array<string, string>}  $extractedConfig */
         $extractedConfig = $config->getConfigFor('mermaidjs');
         $this->config = $extractedConfig;
     }
@@ -67,9 +67,13 @@ final class MermaidJSOutputFormatter implements OutputFormatterInterface
             }
         }
 
+        $compiledNodeOptions = $this->compileDefaultNodeOptions();
+
         foreach ($violationsLinks as $dependerLayer => $layers) {
             foreach ($layers as $dependentLayer => $count) {
-                $buffer .= sprintf(self::GRAPH_NODE_FORMAT.PHP_EOL, $dependerLayer, $count, $dependentLayer);
+                $renderedDependerNode = self::renderNode($dependerLayer, $compiledNodeOptions);
+                $renderedDependentNode = self::renderNode($dependentLayer, $compiledNodeOptions);
+                $buffer .= sprintf(self::GRAPH_NODE_FORMAT.PHP_EOL, $renderedDependerNode, $count, $renderedDependentNode);
                 $violationGraphLinks[] = $linkCount;
                 ++$linkCount;
             }
@@ -78,7 +82,9 @@ final class MermaidJSOutputFormatter implements OutputFormatterInterface
         foreach ($graph as $dependerLayer => $layers) {
             foreach ($layers as $dependentLayer => $count) {
                 if (!isset($violationsLinks[$dependerLayer][$dependentLayer])) {
-                    $buffer .= sprintf(self::GRAPH_NODE_FORMAT.PHP_EOL, $dependerLayer, $count, $dependentLayer);
+                    $renderedDependerNode = self::renderNode($dependerLayer, $compiledNodeOptions);
+                    $renderedDependentNode = self::renderNode($dependentLayer, $compiledNodeOptions);
+                    $buffer .= sprintf(self::GRAPH_NODE_FORMAT.PHP_EOL, $renderedDependerNode, $count, $renderedDependentNode);
                 }
             }
         }
@@ -110,5 +116,22 @@ final class MermaidJSOutputFormatter implements OutputFormatterInterface
         }
 
         return $graph;
+    }
+
+    protected function compileDefaultNodeOptions(): string
+    {
+        return implode(
+            ', ',
+            array_map(
+                static fn ($key, $value): string => sprintf('%s: %s', $key, $value),
+                array_keys($this->config['default_node_options']),
+                $this->config['default_node_options'],
+            ),
+        );
+    }
+
+    protected static function renderNode(string $nodeId, string $compiledNodeOptions): string
+    {
+        return '' === $compiledNodeOptions ? $nodeId : sprintf('%s@{%s}', $nodeId, $compiledNodeOptions);
     }
 }

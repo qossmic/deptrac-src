@@ -15,6 +15,9 @@ final class MermaidJsConfig implements FormatterConfigInterface
     /** @var array<string, Layer[]> */
     private array $groups = [];
 
+    /** @var array<string, string> */
+    private array $defaultNodeOptions = [];
+
     public static function create(): self
     {
         return new self();
@@ -41,6 +44,13 @@ final class MermaidJsConfig implements FormatterConfigInterface
         return $this;
     }
 
+    public function setDefaultNodeShape(string $shape): self
+    {
+        $this->defaultNodeOptions['shape'] = $shape;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         $output = [];
@@ -53,6 +63,7 @@ final class MermaidJsConfig implements FormatterConfigInterface
         }
 
         $output['direction'] = $this->direction;
+        $output['default_node_options'] = $this->defaultNodeOptions;
 
         return $output;
     }

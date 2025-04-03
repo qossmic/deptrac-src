@@ -54,7 +54,7 @@ final class MermaidJSOutputFormatterTest extends TestCase
         $output = $this->createSymfonyOutput($bufferedOutput);
         $outputFormatterInput = new OutputFormatterInput(null, true, true, false);
 
-        $mermaidJSOutputFormatter = new MermaidJSOutputFormatter(new FormatterConfiguration([
+        $mermaidJsConfig = [
             'mermaidjs' => [
                 'direction' => 'TD',
                 'groups' => [
@@ -67,10 +67,23 @@ final class MermaidJSOutputFormatterTest extends TestCase
                         'LayerD',
                     ],
                 ],
+                'default_node_options' => [],
             ],
-        ]));
+        ];
+
+        $mermaidJSOutputFormatter = new MermaidJSOutputFormatter(new FormatterConfiguration($mermaidJsConfig));
         $mermaidJSOutputFormatter->finish(OutputResult::fromAnalysisResult($analysisResult), $output, $outputFormatterInput);
         $this->assertSame(file_get_contents(__DIR__.'/data/mermaidjs-expected.txt'), $bufferedOutput->fetch());
+
+        $mermaidJsConfig['mermaidjs']['default_node_options']['shape'] = 'circle';
+        $mermaidJSOutputFormatter = new MermaidJSOutputFormatter(new FormatterConfiguration($mermaidJsConfig));
+        $mermaidJSOutputFormatter->finish(OutputResult::fromAnalysisResult($analysisResult), $output, $outputFormatterInput);
+        $this->assertSame(file_get_contents(__DIR__.'/data/mermaidjs-shape-circle.txt'), $bufferedOutput->fetch());
+
+        $mermaidJsConfig['mermaidjs']['default_node_options']['shape'] = 'stadium';
+        $mermaidJSOutputFormatter = new MermaidJSOutputFormatter(new FormatterConfiguration($mermaidJsConfig));
+        $mermaidJSOutputFormatter->finish(OutputResult::fromAnalysisResult($analysisResult), $output, $outputFormatterInput);
+        $this->assertSame(file_get_contents(__DIR__.'/data/mermaidjs-shape-stadium.txt'), $bufferedOutput->fetch());
     }
 
     private function createSymfonyOutput(BufferedOutput $bufferedOutput): SymfonyOutput
