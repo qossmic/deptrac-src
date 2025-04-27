@@ -27,6 +27,7 @@ final class DeptracExtensionTest extends TestCase
         'mermaidjs' => [
             'direction' => 'TD',
             'groups' => [],
+            'default_node_options' => [],
         ],
         'codeclimate' => [
             'severity' => [
