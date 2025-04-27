@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Contract\Analyser;
 
+use DateTimeImmutable;
 use Deptrac\Deptrac\Contract\Result\Error;
 use Deptrac\Deptrac\Contract\Result\RuleInterface;
 use Deptrac\Deptrac\Contract\Result\Warning;
@@ -29,6 +30,13 @@ final class AnalysisResult
      * @var list<Error>
      */
     private array $errors = [];
+
+    public readonly DateTimeImmutable $analysisComplete;
+
+    public function __construct(?DateTimeImmutable $analysisComplete = null)
+    {
+        $this->analysisComplete = null === $analysisComplete ? new DateTimeImmutable() : $analysisComplete;
+    }
 
     public function addRule(RuleInterface $rule): void
     {

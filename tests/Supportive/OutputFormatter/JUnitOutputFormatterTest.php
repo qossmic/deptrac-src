@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Deptrac\Deptrac\Supportive\OutputFormatter;
 
+use DateTimeImmutable;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInherit;
 use Deptrac\Deptrac\Contract\Ast\AstMap\AstInheritType;
@@ -12,8 +13,10 @@ use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyContext;
 use Deptrac\Deptrac\Contract\Ast\AstMap\DependencyType;
 use Deptrac\Deptrac\Contract\Ast\AstMap\FileOccurrence;
 use Deptrac\Deptrac\Contract\OutputFormatter\OutputFormatterInput;
+use Deptrac\Deptrac\Contract\Result\Allowed;
 use Deptrac\Deptrac\Contract\Result\Error;
 use Deptrac\Deptrac\Contract\Result\OutputResult;
+use Deptrac\Deptrac\Contract\Result\RuleInterface;
 use Deptrac\Deptrac\Contract\Result\SkippedViolation;
 use Deptrac\Deptrac\Contract\Result\Uncovered;
 use Deptrac\Deptrac\Contract\Result\Violation;
@@ -22,6 +25,7 @@ use Deptrac\Deptrac\DefaultBehavior\Dependency\Helpers\Dependency;
 use Deptrac\Deptrac\DefaultBehavior\OutputFormatter\JUnitOutputFormatter;
 use Deptrac\Deptrac\Supportive\Console\Symfony\Style;
 use Deptrac\Deptrac\Supportive\Console\Symfony\SymfonyOutput;
+use DOMDocument;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -44,6 +48,9 @@ final class JUnitOutputFormatterTest extends TestCase
         self::assertSame('junit', (new JUnitOutputFormatter())->getName());
     }
 
+    /**
+     * @return iterable<array{list<RuleInterface|Error>, string}>
+     */
     public static function basicDataProvider(): iterable
     {
         $originalA = ClassLikeToken::fromFQCN('OriginalA');
@@ -99,7 +106,13 @@ final class JUnitOutputFormatterTest extends TestCase
         ];
 
         yield [
-            [],
+            [
+                new Allowed(
+                    new Dependency($originalA, $originalB, new DependencyContext(new FileOccurrence('foo.php', 12), DependencyType::PARAMETER)),
+                    'LayerA',
+                    'LayerB',
+                ),
+            ],
             'expected-junit-report_3.xml',
         ];
 
@@ -171,16 +184,29 @@ final class JUnitOutputFormatterTest extends TestCase
             ],
             'expected-junit-report-with-uncovered.xml',
         ];
+
+        yield [
+            [
+                new Error('Skipped violation "Class1" for "Class2" was not matched.'),
+            ],
+            'expected-junit-report-with-unmatched-violations.xml',
+        ];
     }
 
     /**
      * @dataProvider basicDataProvider
+     *
+     * @param list<RuleInterface|Error> $rules
      */
     public function testBasic(array $rules, string $expectedOutputFile): void
     {
-        $analysisResult = new AnalysisResult();
+        $analysisResult = new AnalysisResult(new DateTimeImmutable('2025-03-28T22:17:43'));
         foreach ($rules as $rule) {
-            $analysisResult->addRule($rule);
+            if ($rule instanceof RuleInterface) {
+                $analysisResult->addRule($rule);
+            } else {
+                $analysisResult->addError($rule);
+            }
         }
 
         $formatter = new JUnitOutputFormatter();
@@ -188,31 +214,25 @@ final class JUnitOutputFormatterTest extends TestCase
             OutputResult::fromAnalysisResult($analysisResult),
             $this->createSymfonyOutput(new BufferedOutput()),
             new OutputFormatterInput(__DIR__.'/data/'.self::$actual_junit_report_file,
-                false, false, false)
+                true, true, true)
         );
+
+        $reader = new DOMDocument();
+        $reader->load(__DIR__.'/data/'.self::$actual_junit_report_file);
+        libxml_use_internal_errors(true);
+
+        self::assertTrue($reader->schemaValidate(__DIR__.'/data/junit-schema-ant.xsd'),
+            implode(array_map(static fn ($e) => $e->line.': '.$e->message, libxml_get_errors())));
+        self::assertTrue($reader->schemaValidate(__DIR__.'/data/junit-schema-jenkins.xsd'),
+            implode(array_map(static fn ($e) => $e->message, libxml_get_errors())));
+        self::assertTrue($reader->schemaValidate(__DIR__.'/data/junit-schema-llg.xsd'),
+            implode(array_map(static fn ($e) => $e->message, libxml_get_errors())));
+        self::assertTrue($reader->schemaValidate(__DIR__.'/data/junit-schema-maven.xsd'),
+            implode(array_map(static fn ($e) => $e->message, libxml_get_errors())));
 
         self::assertXmlFileEqualsXmlFile(
             __DIR__.'/data/'.self::$actual_junit_report_file,
             __DIR__.'/data/'.$expectedOutputFile
-        );
-    }
-
-    public function testUnmatchedSkipped(): void
-    {
-        $formatter = new JUnitOutputFormatter();
-        $analysisResult = new AnalysisResult();
-        $analysisResult->addError(new Error('Skipped violation "Class1" for "Class2" was not matched.'));
-
-        $formatter->finish(
-            OutputResult::fromAnalysisResult($analysisResult),
-            $this->createSymfonyOutput(new BufferedOutput()),
-            new OutputFormatterInput(__DIR__.'/data/'.self::$actual_junit_report_file,
-                false, false, false)
-        );
-
-        self::assertXmlFileEqualsXmlFile(
-            __DIR__.'/data/'.self::$actual_junit_report_file,
-            __DIR__.'/data/expected-junit-report-with-unmatched-violations.xml'
         );
     }
 

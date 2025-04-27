@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deptrac\Deptrac\Contract\Result;
 
+use DateTimeImmutable;
 use Deptrac\Deptrac\Contract\Analyser\AnalysisResult;
 
 use function count;
@@ -24,11 +25,12 @@ final class OutputResult
         public readonly array $rules,
         public readonly array $errors,
         public readonly array $warnings,
+        public readonly DateTimeImmutable $analysisComplete,
     ) {}
 
     public static function fromAnalysisResult(AnalysisResult $analysisResult): self
     {
-        return new self($analysisResult->rules(), $analysisResult->errors(), $analysisResult->warnings());
+        return new self($analysisResult->rules(), $analysisResult->errors(), $analysisResult->warnings(), $analysisResult->analysisComplete);
     }
 
     /**
