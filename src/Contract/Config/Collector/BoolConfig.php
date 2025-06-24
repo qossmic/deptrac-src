@@ -19,7 +19,7 @@ final class BoolConfig extends CollectorConfig
 
     /**
      * @param array<CollectorConfig> $must
-     * @param array<CollectorConfig> $mostNot
+     * @param array<CollectorConfig> $mustNot
      */
     public static function create(array $must = [], array $mustNot = []): self
     {
